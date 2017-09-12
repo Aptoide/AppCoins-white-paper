@@ -1,3 +1,71 @@
 \section{Blockchain Overview}
+(maybe we should call this section as something like \textbf{Protocol Construction})\\
 
-(This is where we include the definition of the data structures and algorithms)
+\vfill
+\vfill
+
+
+Our solution solves the problems of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
+
+As it works today, advertising in App Stores is a flow composed by a campaign created by the developer, which is submitted to the several networks of campaigns. App Stores then connect to these networks and get the active campaigns, trying to have their users converting them. As it is now, the value is diluted through all the networks and the most relevant players, which are the developers and the App Stores, are the ones losing the most value, since the latter receive a small amount per conversion compared to the networks, and the former have to pay more than necessary in order to make it interesting for the App Stores to get their campaigns.
+
+The developers and the App Stores should be the players getting the most for their effort, since they are the creators of most of the value in the flow by either creating the apps or by distributing and making them available for the users.\\
+
+In IAB, developers provide content inside their apps, which can be exchanged for money. They integrate third-party SDKs that handle the payments and those third-parties (e.g. Google Play) receive a large amount of the payments, which is between 15\% to 30\% for the larger players in the market (Google Play \footnote{https://support.google.com/googleplay/android-developer/answer/1153481}, Apple \footnote{https://developer.apple.com/app-store/subscriptions/}).
+
+Once again, the players creating the most value, i.e. the developers, should be the ones actively rewarded for their effort and the players supporting them should, i.e. App Stores, not ask for so much in return.\\
+
+Moreover, in both the above scenarios, the OEMs that preload the App Stores in their devices are not included in the value chain of all these transactions. Our solution comprises incentives for OEMs to preload App Stores that add the most value to users as well as to them.\\
+
+The Developer Reputation problem is the one from the mentioned three that, when not addressed properly, can harm users the most. Malignant apps can harm users in several ways, ranging from the most extreme as theft of personal information and device inoperability, to the less harmful as apps containing (almost) only ads or non-working apps. For App Stores with already considerable reach, i.e. already with several millions of users, malignant apps can find their way to a significant amount of devices and thus need to be taken care of before reaching the users.
+
+Today this assessment of apps and developers is done in a centralised way, i.e. each App Store uses its own system, and there is no shared knowledge between App Stores. Our solution includes an approach for the categorisation of developers based on the usage of their apps by the users, and the ability to share knowledge between App Stores.\\
+
+In this section, we present the data structures and algorithms used to solve each of the aforementioned problems.
+
+\subsection{Advertising}
+
+Advertising campaigns in the context of a blockchain construction must be constructed in a way to overcome the following problems:
+\begin{itemize}
+\item \textit{Double attribution problem}: For all instances of the same bid (explained in \ref{sssec:ads_ds}) in different App Stores, a user can only be attributed once.
+\item \textit{Bid refutation}: A developer must not be able to state that he did not create a bid if it is not true.
+\item \textit{Bid validation}: A developer must be able to confirm that the attribution rules match the ones submitted at campaign (explained in \ref{sssec:ads_ds}) creation time.
+\end{itemize}
+
+\subsubsection{Data Structures} \label{sssec:ads_ds}
+
+\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...).\\
+
+\noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
+
+\noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store.\\
+
+\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}. Bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.\\
+
+
+
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{my-label}
+\begin{tabular}{cl}
+\hline
+\multicolumn{2}{|c|}{\textbf{Data Structures}} \\ \hline
+\textbf{Campaign} & \multicolumn{1}{c}{\textbf{Bid}} \\
+\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}campaign Cij := Di, APj\\ *funds Fij, the amount of tokens \\ the developer Di is willing to \\ spend for Cij in an app store APj\\ *duration delta tij, the duration of Cij\\  in APj\\ *tokens per attribution Tij, the amount\\  of tokens to be sent from Di and \\ distributed to the other parties per attribution\\ *filters, the specifics of Cij, as the app name, \\ app version, geolocation of Cij, and others \\ available to Di\end{tabular}} & \begin{tabular}[c]{@{}l@{}}bid Bi : ?D1 ? (U1..Un)?APj\\ *developer Di, developer that \\ submitted a bid Bi to the app\\ store APj\\ *user Ui, user matching the\\ filters of campaign Cij associated\\ with bid Bi in app store APj\end{tabular} \\
+\textbf{Inverted Bid} & \multicolumn{1}{c}{\textbf{Ledger}} \\
+\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}inverted bid IBi : ?U1 ? (B1..Bn), U2..?APj\\ *user Ui, user matching one or more bids \\ Bi..n in app store APj\\ *bid Bi, bids submitted to app store APj\end{tabular}} & \begin{tabular}[c]{@{}l@{}}ledger L : (A1t..Ant)\\ *attribution Ait, i-th attribution \\ in the ledger L, which is\\ composed as a mapping \\ Ait : ?BNj ? (UN1..UNn)?, \\ where BNi is the standardised \\ bid Bj across all the app stores \\ where it is defined and UNi is \\ the normalised user Ui across \\ all the app stores\end{tabular}
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
