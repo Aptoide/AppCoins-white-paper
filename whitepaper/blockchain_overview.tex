@@ -1,11 +1,7 @@
 \section{Blockchain Overview}
 (maybe we should call this section as something like \textbf{Protocol Construction})\\
 
-\vfill
-\vfill
-
-
-Our solution solves the problems of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
+Our solution solves the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
 
 As it works today, advertising in App Stores is a flow composed by a campaign created by the developer, which is submitted to the several networks of campaigns. App Stores then connect to these networks and get the active campaigns, trying to have their users converting them. As it is now, the value is diluted through all the networks and the most relevant players, which are the developers and the App Stores, are the ones losing the most value, since the latter receive a small amount per conversion compared to the networks, and the former have to pay more than necessary in order to make it interesting for the App Stores to get their campaigns.
 
@@ -21,7 +17,7 @@ The Developer Reputation problem is the one from the mentioned three that, when 
 
 Today this assessment of apps and developers is done in a centralised way, i.e. each App Store uses its own system, and there is no shared knowledge between App Stores. Our solution includes an approach for the categorisation of developers based on the usage of their apps by the users, and the ability to share knowledge between App Stores.\\
 
-In this section, we present the data structures and algorithms used to solve each of the aforementioned problems.
+In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each use case and subsections explaining the data structures and the algorithms.
 
 \subsection{Advertising}
 
@@ -38,26 +34,93 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
 
-\noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store.\\
+\noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures} for more details.\\
 
-\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}. Bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.\\
+\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}. Bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
-
-
-\begin{table}[]
+\begin{table}[H]
 \centering
-\caption{My caption}
-\label{my-label}
 \begin{tabular}{cl}
 \hline
-\multicolumn{2}{|c|}{\textbf{Data Structures}} \\ \hline
-\textbf{Campaign} & \multicolumn{1}{c}{\textbf{Bid}} \\
-\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}campaign Cij := Di, APj\\ *funds Fij, the amount of tokens \\ the developer Di is willing to \\ spend for Cij in an app store APj\\ *duration delta tij, the duration of Cij\\  in APj\\ *tokens per attribution Tij, the amount\\  of tokens to be sent from Di and \\ distributed to the other parties per attribution\\ *filters, the specifics of Cij, as the app name, \\ app version, geolocation of Cij, and others \\ available to Di\end{tabular}} & \begin{tabular}[c]{@{}l@{}}bid Bi : ?D1 ? (U1..Un)?APj\\ *developer Di, developer that \\ submitted a bid Bi to the app\\ store APj\\ *user Ui, user matching the\\ filters of campaign Cij associated\\ with bid Bi in app store APj\end{tabular} \\
-\textbf{Inverted Bid} & \multicolumn{1}{c}{\textbf{Ledger}} \\
-\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}inverted bid IBi : ?U1 ? (B1..Bn), U2..?APj\\ *user Ui, user matching one or more bids \\ Bi..n in app store APj\\ *bid Bi, bids submitted to app store APj\end{tabular}} & \begin{tabular}[c]{@{}l@{}}ledger L : (A1t..Ant)\\ *attribution Ait, i-th attribution \\ in the ledger L, which is\\ composed as a mapping \\ Ait : ?BNj ? (UN1..UNn)?, \\ where BNi is the standardised \\ bid Bj across all the app stores \\ where it is defined and UNi is \\ the normalised user Ui across \\ all the app stores\end{tabular}
+\multicolumn{2}{c}{\textbf{Data Structures}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
+\textbf{Campaign}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            & \multicolumn{1}{c}{\textbf{Bid}}                                                                                                                                                                                                                                                                                                                   \\
+\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$ \\
+\tabitem funds $F_{ij}$, the amount of tokens the \\ developer $D_{i}$ is willing to spend for $C_{ij}$ \\ in an app store $AP_{j}$ \\
+\\
+\tabitem duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$ \\
+\\
+\tabitem tokens per attribution $T_{ij}$, the amount of \\ tokens to be sent from $D_{i}$ and distributed \\ to the other parties per attribution \\
+\\
+\tabitem filters, the specifics of $C_{ij}$, as the app name, \\ app version, geolocation of $C_{ij}$, \\ and others available to $D_{i}$
+\end{tabular}} & \begin{tabular}[c]{@{}l@{}}bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$\\ 
+\tabitem developer $D_i$, developer that \\ submitted a bid $B_i$ to the app\\ store $AP_j$\\ 
+\tabitem user $U_i$, user matching the\\ filters of campaign $C_{ij}$ associated\\ with bid $B_i$ in app store $AP_j$\end{tabular} \\
+\\ 
+\textbf{Inverted Bid}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \multicolumn{1}{c}{\textbf{Ledger}}                                                                                                                                                                                                                                                                                                                \\
+\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$\\ 
+\tabitem user $U_i$, user matching one or more bids \\ $B_{i..n}$ in app store $AP_j$\\
+\tabitem bid $B_i$, bids submitted to app store $AP_j$\end{tabular}}                                                                                                                                                                                                                                                                                      & \begin{tabular}[c]{@{}l@{}}ledger $L : (A^{1}_{t}..A^{n}_{t})$\\
+\tabitem attribution $A^{i}_{t}$, $i$-th attribution \\ in the ledger $L$, which is\\ composed as a mapping \\ $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ \\ is the standardised bid $B_j$ across \\ all the app stores where it is defined \\ and $U_{N}^{i}$ is the normalised user $U_i$ across \\ all the app stores\end{tabular} \\
+\hline
 \end{tabular}
+\caption{Data Structures}
+\label{table: data_structures}
 \end{table}
 
+\vspace{0.2cm}
+
+%\pagebreak
+\subsubsection{Algorithm construction}
+
+\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the associated bid $B$ is created and inverted bids $IB_{i...n}$ are created/updated. \\
+
+\textbf{Ad.CreateTarget}
+\vspace{-0.35cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.35cm}
+	\begin{itemize}
+		\item Campaign parameters:
+		\begin{itemize}
+			\item Funds $F$
+			\item Duration $\Delta t$
+			\item Tokens per attribution $T$
+			\item Filters (geolocation, app name, app version,...)
+		\end{itemize}
+		\item Developer $D$
+		\item App Store $AP$
+	\end{itemize}
+	\item OUTPUTS: Bid $B$ and inverted bid $IB$
+\end{itemize}
+
+\noindent \textbf{Validate bid}. When a bid is to be shown to the user, that bid is validated in the blockchain to validate if it is a valid bid and if the user matches its filters. \\
+
+\textbf{Ad.ValidateBid}
+\vspace{-0.35cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.35cm}
+	\begin{itemize}
+		\item User $U$
+		\item Bid $B$
+		\item App Store $AP$
+	\end{itemize}
+	\item OUTPUTS: Result $R$ (0 or 1)
+\end{itemize}
+
+\noindent \textbf{Set attribution}. When a user has been attributed to a bid, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), the ledger is checked to make sure the user has not yet been attributed to the bid and, if so the attribution is written in the ledger. \\
+
+\textbf{Ad.SetAttribution}
+\vspace{-0.35cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.35cm}
+	\begin{itemize}
+		\item User $U$
+		\item Bid $B$
+	\end{itemize}
+	\item OUTPUTS: Result $R$ (0 or 1)
+\end{itemize}
 
 
 
@@ -69,3 +132,4 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 
 
+			
