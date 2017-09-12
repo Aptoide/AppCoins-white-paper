@@ -1,4 +1,5 @@
 \documentclass[12pt, a4paper, twoside, titlepage]{article}
+\usepackage{url}
 % font size could be 10pt (default), 11pt or 12 pt
 % paper size coulde be letterpaper (default), legalpaper, executivepaper,
 % a4paper, a5paper or b5paper
@@ -16,6 +17,23 @@
 %   leqno number on the left and equation centered 
 %   fleqn number on the rigth and  equation on the left side
 %
+\usepackage[
+  textwidth=16.5cm,
+  outer=1.5cm,
+  textheight=45\baselineskip,
+  headheight=\baselineskip,
+  includehead=false,% Default
+  heightrounded,
+]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\bibliographystyle{acm}
+\fancyhead{}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+
+
+
 \title{App Coins \\ Distributed and Trusted App-based Transactions Platform}
 \author{Paulo Trezentos  \\
   {\em ISCTE / Aptoide}  \\
@@ -36,59 +54,31 @@
 % BUT the \maketitle command MUST come AFTER the \begin{document} command! 
 \maketitle
 
-\tableofcontents
 
 \begin{abstract}
 App Coins is an open and distributed protocol for App Stores. Platform agnostic. 
 By redesigning the transactions inside an App Store - such as Advertising, In-App Billing and App approval, creates efficiencies by disintermediation and redistributes the value released in a way that create incentives for App Store dissemination.
-The protocol is being supported by Aptoide, an App Store wih 142 million unique users in 2016. 
+The protocol is being supported by Aptoide, an App Store wih 200 million unique users. 
 \end{abstract}
 
 %\tableofcontents % create a table of contens 
 
+\include{introduction}
 
+\include{design}
 
-\section{Introduction and Problem Statement}
+\include{overchain_overview}
 
-(Give a brief overview of App Store ecosystem and intermediaries.) 
+\include{limitations}
 
-(Explaining the problem for each of the 3 main flows. Problem of double attribution, problem of refutation,....)
+\include{related_work}
 
-\subsection{Paper organization}
-
-\section{Design of the Solution}
-
-\subsection{Elementary Components}
-
-(In-App Billing, Advertising, Reputation builder) 
-
-\subsection{Protocol Overview}
-
-(Include a diagram with the players. Could be a sequence diagram as in Filecoin diagram or a component diagram)
-
-\input{blockchain_overview.tex}
-
-\section{Limitations}
-
-(Where we explain he limitations of our protocol, what is out of scope and the limitations of todays technology: scalability, time processment, and processing fees)
-
-\section{Related Work}
-
-(Where we introduce BAT, and other white papers that we have inpired)
-
-(Also can mention enablers: omise go, NXT, plasma,....)
-
-\section{Future Work}
-
-(where we can include what is not yet addressed and how we see the evolution)
+\include{future_work}
 
 \section{Acknowledgements}
 
-(Where we give credit to other people in the team and externaly that contributed to the document)
+% (Where we give credit to other people in the team and externaly that contributed to the document)
 
-\begin{thebibliography}{9}
-\bibitem[Doe]{doe} \emph{First and last \LaTeX{} example.},
-John Doe 50 B.C. 
-\end{thebibliography}
+\bibliography{appcoins_whitepaper}
 
 \end{document}
