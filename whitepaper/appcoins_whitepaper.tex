@@ -1,4 +1,5 @@
 \documentclass[12pt, a4paper, twoside, titlepage]{article}
+\usepackage{url}
 % font size could be 10pt (default), 11pt or 12 pt
 % paper size coulde be letterpaper (default), legalpaper, executivepaper,
 % a4paper, a5paper or b5paper
@@ -16,6 +17,23 @@
 %   leqno number on the left and equation centered 
 %   fleqn number on the rigth and  equation on the left side
 %
+\usepackage[
+  textwidth=16.5cm,
+  outer=1.5cm,
+  textheight=45\baselineskip,
+  headheight=\baselineskip,
+  includehead=false,% Default
+  heightrounded,
+]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\bibliographystyle{acm}
+\fancyhead{}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+
+
+
 \title{App Coins \\ Distributed and Trusted App-based Transactions Platform}
 \author{Paulo Trezentos  \\
   {\em ISCTE / Aptoide}  \\
@@ -40,7 +58,7 @@
 \begin{abstract}
 App Coins is an open and distributed protocol for App Stores. Platform agnostic. 
 By redesigning the transactions inside an App Store - such as Advertising, In-App Billing and App approval, creates efficiencies by disintermediation and redistributes the value released in a way that create incentives for App Store dissemination.
-The protocol is being supported by Aptoide, an App Store wih 142 million unique users in 2016. 
+The protocol is being supported by Aptoide, an App Store wih 200 million unique users. 
 \end{abstract}
 
 %\tableofcontents % create a table of contens 
@@ -49,9 +67,26 @@ The protocol is being supported by Aptoide, an App Store wih 142 million unique 
 
 \section{Introduction and Problem Statement}
 
-(Give a brief overview of App Store ecosystem and intermediaries.) 
+% (Give a brief overview of App Store ecosystem and intermediaries.) 
 
-(Explaining the problem for each of the 3 main flows. Problem of double attribution, problem of refutation,....)
+% (Explaining the problem for each of the 3 main flows. Problem of double attribution, problem of refutation,....)
+
+App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple App Store in July 2008, and with its pre-load in iPhone 3G.
+
+In the same year, but later in August 2008, Google announced the launch of Android Market\cite{wiki:market}, the App Store for Android.
+
+These initial app stores followed a centralized model where one entity is responsible for assuring the core features of software distribution: files delivery, app discovery, financial transactions, and app approval. As the smartphone userbase grew, the centralized model start to show severe flaws. The flaws and problems identified are strongly related with the model: trust and economical efficiciency. Being closed, app stores don't create trust among the different stkeholders: developers, advertisers, users, and OEM manufacturers. Being centralized, they cannot benefit of the shared and crowdsourcing economy.
+
+The App Coins protocol cover three critical flows:
+
+\begin{itemize}
+\item Advertising inside the app store
+\item In-App Purchase 
+\item App approval
+\end{itemize}
+
+blavla
+
 
 \subsection{Paper organization}
 
@@ -59,38 +94,35 @@ The protocol is being supported by Aptoide, an App Store wih 142 million unique 
 
 \subsection{Elementary Components}
 
-(In-App Billing, Advertising, Reputation builder) 
+% (In-App Billing, Advertising, Reputation builder) 
 
 \subsection{Protocol Overview}
 
-(Include a diagram with the players. Could be a sequence diagram as in Filecoin diagram or a component diagram)
+%(Include a diagram with the players. Could be a sequence diagram as in Filecoin diagram or a component diagram)
 
 \section{Blockchain Overview}
 
-(This is where we include the definition of the data structures and algorithms)
+%(This is where we include the definition of the data structures and algorithms)
 
 
 \section{Limitations}
 
-(Where we explain he limitations of our protocol, what is out of scope and the limitations of todays technology: scalability, time processment, and processing fees)
+%(Where we explain he limitations of our protocol, what is out of scope and the limitations of todays technology: scalability, time processment, and processing fees)
 
 \section{Related Work}
 
-(Where we introduce BAT, and other white papers that we have inpired)
+%(Where we introduce BAT, and other white papers that we have inpired)
 
-(Also can mention enablers: omise go, NXT, plasma,....)
+%(Also can mention enablers: omise go, NXT, plasma,....)
 
 \section{Future Work}
 
-(where we can include what is not yet addressed and how we see the evolution)
+%(where we can include what is not yet addressed and how we see the evolution)
 
 \section{Acknowledgements}
 
-(Where we give credit to other people in the team and externaly that contributed to the document)
+% (Where we give credit to other people in the team and externaly that contributed to the document)
 
-\begin{thebibliography}{9}
-\bibitem[Doe]{doe} \emph{First and last \LaTeX{} example.},
-John Doe 50 B.C. 
-\end{thebibliography}
+\bibliography{appcoins_whitepaper}
 
 \end{document}
