@@ -34,9 +34,9 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
 
-\noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures} for more details.\\
+\noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures_ad} for more details.\\
 
-\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}. Bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
+\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
 \begin{table}[H]
 \footnotesize
@@ -70,8 +70,8 @@ inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \end{itemize} \\
 \hline
 \end{tabular}
-\caption{Data Structures}
-\label{table: data_structures}
+\caption{Data Structures for Advertising use case}
+\label{table: data_structures_ad}
 \end{table}
 
 
@@ -81,65 +81,68 @@ inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 
 \subsubsection{Algorithm construction}
 
-Table \ref{table: ads_protocol} presents in pseudo-code a more in-depth definition of the following methods. \\
+Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definition of the following methods. \\
 
-\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent to the bid's contract wallet $BW$. \\
+\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. \\
 
-\textsf{Ad.CreateBid}
-\vspace{-0.35cm}
+\textsf{AD.CreateBid}
+%\vspace{-0.35cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.35cm}
+%	\vspace{-0.35cm}
 	\begin{itemize}
 		\item Campaign parameters:
 		\begin{itemize}
 			\item Funds $F$
 			\item Duration $\Delta t$
-			\item Tokens per attribution $T$
+			\item Tokens paid per attribution $T$
 			\item Filters (geolocation, app name, app version,...)
 		\end{itemize}
 		\item Developer $D$
-		\item App Store $AP$
+		\item App Store $AS$
 	\end{itemize}
+%	\vspace{-1.5cm}
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
 
-\noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $CW$ for a period of time. \\
+\noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $W_C$ for a period of time. \\
 
-\textsf{Ad.ValidateBid}
-\vspace{-0.35cm}
+\textsf{AD.ValidateBid}
+%\vspace{-1.75cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.35cm}
+%	\vspace{-1.25cm}
 	\begin{itemize}
 		\item User $u$
-		\item App Store $AP$
+		\item App Store $AS$
 	\end{itemize}
+%	\vspace{-2.5cm}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AP}$, respectively. \\
+\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. \\
 
-\textbf{Ad.SetAttribution}
-\vspace{-0.35cm}
+\textbf{AD.SetAttribution}
+%\vspace{-1.5cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.35cm}
+%	\vspace{-1.25cm}
 	\begin{itemize}
 		\item User $u$
 		\item Bid $B$
 	\end{itemize}
+%	\vspace{-2.0cm}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\begin{table}[h]
+\begin{table}[H]
 \scriptsize
 \centering
 \begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
 \hline
-\multicolumn{2}{|c|}{Advertising Protocol} \\
+\multicolumn{2}{|c|}{Advertising Use Case} \\
 \hline \vspace{0.1cm}
-\textsf{Ad.CreateBid}
+\textsf{AD.CreateBid}
 \begin{itemize}
 	\vspace{-0.3cm}
 	\item INPUTS:
@@ -149,33 +152,33 @@ Table \ref{table: ads_protocol} presents in pseudo-code a more in-depth definiti
 		\begin{itemize}
 			\item Funds $F$
 			\item Duration $\Delta t$
-			\item Tokens per attribution $T$
+			\item Tokens paid per attribution $T$
 			\item Filters (geolocation, app name,...)
 		\end{itemize}
 		\item Developer $D$
-		\item App Store $AP$
+		\item App Store $AS$
 	\end{itemize}
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
 \begin{enumerate}
-	\item Compute $U$ := \textsf{GetUsers}($AP$, $filters$)
+	\item Compute $U$ := \textsf{GetUsers}($AS$, $filters$)
 	\item Compute $M$ := \textsf{Mapping}($D$, $U$)
 	\item Compute $B$ := \textsf{CreateBid}($F$, $D$, $\Delta t$, $T$, $filters$, $M$)
-	\item Send $F$ from developer's wallet $DW$ to bid's wallet $BW$
+	\item Send $F$ from developer's wallet $W_D$ to bid's wallet $W_B$
 	\item For each $u$ in $U$:
 	\vspace{-0.3cm}
-	\begin{itemize}
+	\begin{enumerate}
 		\item Compute $IB_u$ := \textsf{GetIB}($u$)
 		\item If $IB_u = -1$: 
-		\begin{itemize}
+		\begin{enumerate}
 			\item Compute $IB_u$ := \textsf{CreateIB}($u$)
-		\end{itemize}
+		\end{enumerate}
 		\item Else:
-		\begin{itemize}
+		\begin{enumerate}
 		 \item Compute $IB_u$.\textsf{append}($B$)
-		\end{itemize}
-	\end{itemize}
-\end{enumerate} & \vspace{0.1cm} \textsf{Ad.SetAttribution}
+		\end{enumerate}
+	\end{enumerate}
+\end{enumerate} & \vspace{0.1cm} \textsf{AD.SetAttribution}
 \begin{itemize}
 	\vspace{-0.3cm}
 	\item INPUTS:
@@ -193,47 +196,160 @@ Table \ref{table: ads_protocol} presents in pseudo-code a more in-depth definiti
 		\item Set $R$ := 0
 	\end{itemize}
 	\item If $InLedger$ = 0:
-	\begin{itemize}
-		\item Compute $R$ := \textsf{WriteLedger}($u$, $B$)
-		\item Compute $(T_u, T_{OEM}, T_{AP})$ := \textsf{DivideTokens}($T$)
-		\item Send $T_u$ to user's wallet $UW$
-		\item Send $T_{OEM}$ to OEM's wallet $OW$
-		\item Send $T_{AP}$ to user's wallet $AW$
-	\end{itemize}
+	\begin{enumerate}
+		\item Compute $TX$ := \textsf{Transaction}($u$, $B$)
+		\item Compute $R$ := \textsf{WriteLedger}($TX$)
+		\item Compute $(T_u, T_{OEM}, T_{AS})$ := \textsf{DivideTokens}($T$)
+		\item Send $T_u$ to user's wallet $W_U$
+		\item Send $T_{OEM}$ to OEM's wallet $W_{OEM}$
+		\item Send $T_{AS}$ to user's wallet $W_{AS}$
+	\end{enumerate}
 \end{enumerate} \\
-\textsf{Ad.ValidateBid}
+\textsf{AD.ValidateBid}
 \begin{itemize}
 	\vspace{-0.3cm}
 	\item INPUTS:
 	\vspace{-0.4cm}
 	\begin{itemize}
 		\item User $u$
-		\item App Store $AP$
+		\item App Store $AS$
 	\end{itemize}
 	\item OUTPUTS: Result $R$
 \end{itemize}
 \begin{enumerate}
-	\item Compute $B^{'}_{u}$ := \textsf{GetBids}($u$, $AP$)
+	\item Compute $B^{'}_{u}$ := \textsf{GetBids}($u$, $AS$)
 	\item Compute $IB_u$ = \textsf{GetIB}($u$)
-	\item Set $IB^{'}_{u}$ := $\{u \to (B^{'1}_{u}..B^{'n}_{u})\}$
+	\item Set $IB^{'}_{u}$ := $\{u \to (B^{'1}_{u}..B^{'n}_{u}) = B^{'}_{u}\}$
 	\item Compute $R$ := \textsf{CheckMatch}($IB_u$, $IB^{'}_{u}$)
 	\item If $R = 1$:
-	\begin{itemize}
-		\item Send $T$ from bid's wallet $BW$ to bid captivation wallet $CW$
-	\end{itemize}
+	\begin{enumerate}
+		\item Send $T$ from bid's wallet $W_B$ to bid captivation wallet $W_C$
+	\end{enumerate}
 \end{enumerate} & \\
 \hline
 \end{tabular}
-\caption{Advertising Protocol}
-\label{table: ads_protocol}
+\caption{Advertising Use Case}
+\label{table: ads_use_case}
 \end{table}
 
 \subsection{In-App Billing}
 
 \subsubsection{Data Structures}
 
+\noindent \textbf{Catalog}. A \textit{catalog} is a mapping between items available in an app and their prices. Each item has only one price and the mapping is bonded to an App Store, i.e. the price can be set differently for different App Stores. \\
+
+\noindent \textbf{Ledger}. The \textit{ledger} is the record of items bought by users. It records transactions in a way that anyone can verify an anonymous user bought a quantity $Q$ of an item $I$ for a price $P$ from an app that integrated the IAB solution from App Store $AS$.
+
+\begin{table}[H]
+\footnotesize
+\centering
+\begin{tabular}{|p{1.0\textwidth}|}
+\hline
+\multicolumn{1}{|c|}{Data Structures} \\
+\hline
+\textbf{Catalog} \\
+catalog $C_{ij} : \{I_1 \to P_1..I_n \to P_n\}_{A_i, AS_j}$
+\begin{itemize}
+	\item item $I_i$, an item available in app $A_i$ which integrated IAB solution from app store $AS_j$
+	\item price $P_i$, the price of item $I_i$
+\end{itemize} \\
+\textbf{Ledger} \\
+ledger $L : (TX_1..TX_n)$
+\begin{itemize}
+	\item transaction $TX_i$, a transaction stating that an anonymous user $u$ bought a quantity $Q$ an item $I$ with price $P$ from an app $A$ that integrated the IAB solution from app store $AS$
+\end{itemize} \\
+\hline
+\end{tabular}
+\caption{Data Structures for IAB use case}
+\label{table: data_structures_iab}
+\end{table}
+
 \subsubsection{Algorithm construction}
 
+\noindent \textbf{Create catalog}. When a developer $D$ wants to integrate in-app purchases, a catalog $C$ is created containing the mapping between the items $I_N$ that are to be available in the app $A$ and their respective prices $P_N$. \\
+
+\textsf{IAB.CreateCatalog}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
+		\item Set of items $I_N = (I_1..I_n)$
+		\item Set of prices $P_N = (P_1..P_n)$
+		\item App $A$
+		\item App store $AS$
+	\end{itemize}
+	\item OUTPUTS: Catalog $C$
+\end{itemize}
+
+\noindent \textsf{Create transaction}. When a user $u$ wants to buy a certain amount $Q$ of items $I$, a transaction is created stating that the user $u$ bought a quantity $Q$ of an item $I$ for a price $P$ in a app $A$ that integrated the IAB solution from app store $AS$. \\
+
+\textsf{IAB.CreateTransaction}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
+		\item User $u$
+		\item Item $I$
+		\item Quantity $Q$
+		\item App $A$
+		\item App store $AS$
+	\end{itemize}
+	\item OUTPUTS: Result $R$ (0 or 1)
+\end{itemize}
+
+\begin{table}[H]
+\scriptsize
+\centering
+\begin{tabular}{|p{0.45\textwidth}p{0.55\textwidth}|}
+\hline
+\multicolumn{2}{|c|}{IAB Use Case} \\
+\hline \vspace{0.1cm}
+\textsf{IAB.CreateCatalog}
+\vspace{-0.3cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.4cm}
+		\begin{itemize}
+		\item Set of items $I_N = (I_1..I_n)$
+		\item Set of prices $P_N = (P_1..P_n)$
+		\item App $A$
+		\item App store $AS$
+	\end{itemize}
+	\item OUTPUTS: Catalog $C$
+\end{itemize}
+\begin{enumerate}
+	\item Compute $M$ := \textsf{Mapping}($I_N$, $P_N$)
+	\item Compute $C$ := \textsf{Catalog}($M$, $A$, $AS$)
+\end{enumerate} & 
+\vspace{0.1cm} \textsf{IAB.CreateTransaction}
+\vspace{-0.3cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.4cm}
+	\begin{itemize}
+		\item User $u$
+		\item Item $I$
+		\item Quantity $Q$
+		\item App $A$
+		\item App store $AS$
+	\end{itemize}
+	\item OUTPUTS: Result $R$ (0 or 1)
+\end{itemize}
+\begin{enumerate}
+	\item Compute $TX$ := \textsf{Transaction}($u$,$I$,$P$,$Q$,$A$, $AS$)
+	\item Compute $R$ := \textsf{WriteLedger}($TX$)
+	\item if $R = 1$:
+	\begin{enumerate}
+		\item App $A$ issues items to user
+		\item Compute $(T_D, T_{OEM}, T_{AS})$ := \textsf{DivideTokens}($F$)
+		\item Send $T_D$ to developer's wallet $W_D$
+		\item Send $T_{OEM}$ to OEM's wallet $W_{OEM}$
+		\item Send $T_{AS}$ to user's wallet $W_{AS}$
+	\end{enumerate}
+\end{enumerate} \\
+\hline
+\end{tabular}
+\caption{IAB Use Case. In \textsf{CreateTransaction}, the issuing of items in certain app $A$ is purely done in the app based on the result of the method, since the items are not in the blockchain and there is no real blockchain transaction happening.}
+\label{table: iab_protocol}
+\end{table}
 
 
 
