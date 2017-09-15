@@ -39,42 +39,53 @@ Advertising campaigns in the context of a blockchain construction must be constr
 \noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}. Bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
 \begin{table}[H]
+\footnotesize
 \centering
-\begin{tabular}{cl}
+\begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
 \hline
-\multicolumn{2}{c}{\textbf{Data Structures}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
-\textbf{Campaign}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            & \multicolumn{1}{c}{\textbf{Bid}}                                                                                                                                                                                                                                                                                                                   \\
-\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$ \\
-\tabitem funds $F_{ij}$, the amount of tokens the \\ developer $D_{i}$ is willing to spend for $C_{ij}$ \\ in an app store $AP_{j}$ \\
-\\
-\tabitem duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$ \\
-\\
-\tabitem tokens per attribution $T_{ij}$, the amount of \\ tokens to be sent from $D_{i}$ and distributed \\ to the other parties per attribution \\
-\\
-\tabitem filters, the specifics of $C_{ij}$, as the app name, \\ app version, geolocation of $C_{ij}$, \\ and others available to $D_{i}$
-\end{tabular}} & \begin{tabular}[c]{@{}l@{}}bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$\\ 
-\tabitem developer $D_i$, developer that \\ submitted a bid $B_i$ to the app\\ store $AP_j$\\ 
-\tabitem user $U_i$, user matching the\\ filters of campaign $C_{ij}$ associated\\ with bid $B_i$ in app store $AP_j$\end{tabular} \\
-\\ 
-\textbf{Inverted Bid}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        & \multicolumn{1}{c}{\textbf{Ledger}}                                                                                                                                                                                                                                                                                                                \\
-\multicolumn{1}{l}{\begin{tabular}[c]{@{}l@{}}inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$\\ 
-\tabitem user $U_i$, user matching one or more bids \\ $B_{i..n}$ in app store $AP_j$\\
-\tabitem bid $B_i$, bids submitted to app store $AP_j$\end{tabular}}                                                                                                                                                                                                                                                                                      & \begin{tabular}[c]{@{}l@{}}ledger $L : (A^{1}_{t}..A^{n}_{t})$\\
-\tabitem attribution $A^{i}_{t}$, $i$-th attribution \\ in the ledger $L$, which is\\ composed as a mapping \\ $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ \\ is the standardised bid $B_j$ across \\ all the app stores where it is defined \\ and $U_{N}^{i}$ is the normalised user $U_i$ across \\ all the app stores\end{tabular} \\
+\multicolumn{2}{|c|}{Data Structures} \\
+\hline
+\textbf{Campaign} & \textbf{Bid} \\
+campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$
+\begin{itemize}
+	\item funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AP_{j}$
+	\item duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$
+	\item tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
+	\item filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
+\end{itemize}
+& bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$
+\begin{itemize}
+	\item developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
+	\item user $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
+\end{itemize} \\
+\textbf{Inverted Bid} & \textbf{Ledger} \\
+inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
+\begin{itemize}
+	\item user $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
+	\item bid $B_i$, bids submitted to app store $AP_j$
+\end{itemize}
+& ledger $L : (A^{1}_{t}..A^{n}_{t})$
+\begin{itemize}
+	\item attribution $A^{i}_{t}$, $i$-th attribution in the ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
+\end{itemize} \\
 \hline
 \end{tabular}
 \caption{Data Structures}
 \label{table: data_structures}
 \end{table}
 
+
+
+
 \vspace{0.2cm}
 
-%\pagebreak
 \subsubsection{Algorithm construction}
 
-\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the associated bid $B$ is created and inverted bids $IB_{i...n}$ are created/updated. \\
+Table \ref{table: ads_protocol} presents in pseudo-code a more in-depth definition of the following methods. \\
 
-\textbf{Ad.CreateTarget}
+\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent to the bid's contract wallet $BW$. \\
+
+\textsf{Ad.CreateBid}
 \vspace{-0.35cm}
 \begin{itemize}
 	\item INPUTS:
@@ -93,22 +104,21 @@ Advertising campaigns in the context of a blockchain construction must be constr
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
 
-\noindent \textbf{Validate bid}. When a bid is to be shown to the user, that bid is validated in the blockchain to validate if it is a valid bid and if the user matches its filters. \\
+\noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $CW$ for a period of time. \\
 
-\textbf{Ad.ValidateBid}
+\textsf{Ad.ValidateBid}
 \vspace{-0.35cm}
 \begin{itemize}
 	\item INPUTS:
 	\vspace{-0.35cm}
 	\begin{itemize}
-		\item User $U$
-		\item Bid $B$
+		\item User $u$
 		\item App Store $AP$
 	\end{itemize}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\noindent \textbf{Set attribution}. When a user has been attributed to a bid, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), the ledger is checked to make sure the user has not yet been attributed to the bid and, if so the attribution is written in the ledger. \\
+\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AP}$, respectively. \\
 
 \textbf{Ad.SetAttribution}
 \vspace{-0.35cm}
@@ -116,12 +126,113 @@ Advertising campaigns in the context of a blockchain construction must be constr
 	\item INPUTS:
 	\vspace{-0.35cm}
 	\begin{itemize}
-		\item User $U$
+		\item User $u$
 		\item Bid $B$
 	\end{itemize}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
+\begin{table}[h]
+\scriptsize
+\centering
+\begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
+\hline
+\multicolumn{2}{|c|}{Advertising Protocol} \\
+\hline \vspace{0.1cm}
+\textsf{Ad.CreateBid}
+\begin{itemize}
+	\vspace{-0.3cm}
+	\item INPUTS:
+	\vspace{-0.4cm}
+	\begin{itemize}
+		\item Campaign parameters:
+		\begin{itemize}
+			\item Funds $F$
+			\item Duration $\Delta t$
+			\item Tokens per attribution $T$
+			\item Filters (geolocation, app name,...)
+		\end{itemize}
+		\item Developer $D$
+		\item App Store $AP$
+	\end{itemize}
+	\item OUTPUTS: Bid $B$ and inverted bid $IB$
+\end{itemize}
+\begin{enumerate}
+	\item Compute $U$ := \textsf{GetUsers}($AP$, $filters$)
+	\item Compute $M$ := \textsf{Mapping}($D$, $U$)
+	\item Compute $B$ := \textsf{CreateBid}($F$, $D$, $\Delta t$, $T$, $filters$, $M$)
+	\item Send $F$ from developer's wallet $DW$ to bid's wallet $BW$
+	\item For each $u$ in $U$:
+	\vspace{-0.3cm}
+	\begin{itemize}
+		\item Compute $IB_u$ := \textsf{GetIB}($u$)
+		\item If $IB_u = -1$: 
+		\begin{itemize}
+			\item Compute $IB_u$ := \textsf{CreateIB}($u$)
+		\end{itemize}
+		\item Else:
+		\begin{itemize}
+		 \item Compute $IB_u$.\textsf{append}($B$)
+		\end{itemize}
+	\end{itemize}
+\end{enumerate} & \vspace{0.1cm} \textsf{Ad.SetAttribution}
+\begin{itemize}
+	\vspace{-0.3cm}
+	\item INPUTS:
+	\vspace{-0.4cm}
+	\begin{itemize}
+		\item User $u$
+		\item Bid $B$
+	\end{itemize}
+	\item OUTPUTS: Result $R$
+\end{itemize}
+\begin{enumerate}
+	\item Compute $InLedger$ := \textsf{CheckLedger}($u$, $B$)
+	\item If $InLedger$ = 1:
+	\begin{itemize}
+		\item Set $R$ := 0
+	\end{itemize}
+	\item If $InLedger$ = 0:
+	\begin{itemize}
+		\item Compute $R$ := \textsf{WriteLedger}($u$, $B$)
+		\item Compute $(T_u, T_{OEM}, T_{AP})$ := \textsf{DivideTokens}($T$)
+		\item Send $T_u$ to user's wallet $UW$
+		\item Send $T_{OEM}$ to OEM's wallet $OW$
+		\item Send $T_{AP}$ to user's wallet $AW$
+	\end{itemize}
+\end{enumerate} \\
+\textsf{Ad.ValidateBid}
+\begin{itemize}
+	\vspace{-0.3cm}
+	\item INPUTS:
+	\vspace{-0.4cm}
+	\begin{itemize}
+		\item User $u$
+		\item App Store $AP$
+	\end{itemize}
+	\item OUTPUTS: Result $R$
+\end{itemize}
+\begin{enumerate}
+	\item Compute $B^{'}_{u}$ := \textsf{GetBids}($u$, $AP$)
+	\item Compute $IB_u$ = \textsf{GetIB}($u$)
+	\item Set $IB^{'}_{u}$ := $\{u \to (B^{'1}_{u}..B^{'n}_{u})\}$
+	\item Compute $R$ := \textsf{CheckMatch}($IB_u$, $IB^{'}_{u}$)
+	\item If $R = 1$:
+	\begin{itemize}
+		\item Send $T$ from bid's wallet $BW$ to bid captivation wallet $CW$
+	\end{itemize}
+\end{enumerate} & \\
+\hline
+\end{tabular}
+\caption{Advertising Protocol}
+\label{table: ads_protocol}
+\end{table}
+
+\subsection{In-App Billing}
+
+\subsubsection{Data Structures}
+
+\subsubsection{Algorithm construction}
 
 
 
@@ -130,8 +241,3 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 
 
-
-
-
-
-			
