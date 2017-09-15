@@ -41,7 +41,7 @@ Currently, the three flows presented in figure \ref{fig:exist_flows} don't have 
 
 In the next sub-sections, we'll analyse each of the above flows individually and the main problems faced today.
 
-\subsection{Advertising}
+
 
 For a developer or a publisher, the most natural place to advertise an application or game is where the users are looking for that kind of content: the app store.
 
@@ -53,21 +53,78 @@ For a developer or a publisher, the most natural place to advertise an applicati
 \label{fig:exist_flows}
 \end{figure}
 
-
 For simplicity, we will focus in the Cost per Install (CPI) model, since the difference to the other models, like Cost per Action (CPA) or Cost per Mil impressions (CPM), is a matter of who shares the risk and captures the value.
 
 In a Advertising model where the advertiser (developer) bids for an installation, we have the three different moments:
 
-- Campaign creation
 
-- Impression
-
-- Install 
+\begin{itemize}
+\item {\em Campaign creation}: the developer (advertiser) define the conditions for the Ad to run in the store. Typically, establishes a value for the bid representing the value that is willing to pay for an install. There are other types of conditions called ``filters'' and representing target requirements: it must run in a specific country, a specific smartphone, a specific operating system version,...
+\item {\em Impression}: when the campaign conditions are met and the the bid is competitive, the Ad is shown. The user may click in the Ad to see the complete description of the App.
+\item {\em Install}: if the user installs the App, converting the impression, an attribution is due and the corresponding money is transferred.
+\end{itemize}
 
 % Create a itemize list above 
 
+At each of the above moments, the lack of trust between the developer and the user carries different risks. Table X summarizes the different risks at each stage.
+
+% table
+
+The risks presented above are today managed in different ways by the advertising ecoystem and have different impacts:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l||l|l|l|} \hline
+{\bf Role} & {\bf Campaign} & {\bf Impression}  & {\bf Install} \\ \hline
+{\bf User} & & & Is not a real user \\ 
+ & & & ({\em R1:Risk of fake person}) \\ 
+ & & & Double conversion  \\
+ & & & ({\em R2:Risk of double attribution}) \\
+ & & & Don't use the app  \\
+ & & & ({\em R3:Risk of no attention}) \\  \hline
+{\bf Publisher  /}  & & & Selling the data to third-parties \\ 
+{\bf App store} & & & ({\em R4:Risk of data leak})\\ \hline
+{\bf Developer} & Not enough funds & Run out of & Don't pay \\  
+ & to start campaign & budget & the conversion \\  
+  & ({\em R5:Risk of default}) & ({\em R5:Risk of default}) & ({\em R6:Risk of repudiation}) \\  
+\hline\end{tabular}
+\caption{Risks in Advertising industry classified by action and by role.}
+\label{tab:risks}
+\end{table}
 
 
+The {\em R1:Risk of fake person} consists of the instatation of the Ad being presented to a non real person or bot with the purpose of deluding the advertiser.
+
+\medskip
+
+The {\em R2: Risk of double attribution} 
+
+\medskip
+
+The \em R3:Risk of no attention})  consists
+
+\medskip
+
+The {\em R4:Risk of data leak} consists
+
+\medskip
+
+The {\em R5:Risk of default}) consists
+
+\medskip
+
+The {\em R6:Risk of repudiation} ...
+
+
+\subsection{In-App Billing}
+
+% Description of In-App Billing inside the stores
+
+% Problems: payment methods, costs - carrier billing, changing phone and loosing the items
+
+\subsection{Apps Approval}
+
+% Description of today state: central approval, manual QA, automatic QA, time taken, arbitrary approval
 
 
 
