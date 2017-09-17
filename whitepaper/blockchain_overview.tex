@@ -29,7 +29,7 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \subsubsection{Data Structures} \label{sssec:ads_ds}
 
-\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...).\\
+\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...). Please refer to Table \ref{table: data_structures_ad} for more details. \\
 
 \noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
 
@@ -73,16 +73,11 @@ inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \label{table: data_structures_ad}
 \end{table}
 
-
-
-
-\vspace{0.2cm}
-
 \subsubsection{Algorithm construction}
 
 Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definition of the following methods. \\
 
-\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. \\
+\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
 
 \textsf{AD.CreateBid}
 \begin{itemize}
@@ -101,7 +96,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
 
-\noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $W_C$ for a period of time. \\
+\noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $W_C$ for a period of time. The method is used to overcome the problem of \textit{bid validation}. \\
 
 \textsf{AD.ValidateBid}
 \begin{itemize}
@@ -113,7 +108,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. \\
+\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
 
 \textbf{AD.SetAttribution}
 \begin{itemize}
@@ -407,7 +402,7 @@ ledger $L : (E_1..E_n)$
 	\item OUTPUTS: None
 \end{itemize}
 
-\noindent \textbf{Open dispute}. When a dispute intent is answered, a disputed is opened. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. \\
+\noindent \textbf{Open dispute}. When a dispute intent is answered, a disputed is opened. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. When the dispute is over, the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%.\\
 
 \textsf{DA.OpenDispute}
 \begin{itemize}
