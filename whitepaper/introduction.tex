@@ -48,7 +48,7 @@ For a developer or a publisher, the most natural place to advertise an applicati
 \begin{figure}[!ht]
 \centering
 %\includegraphics[width=11cm]{diagrams/current_flows.png}
-\includegraphics[width=\textwidth]{diagrams/cpi.png}
+\includegraphics[width=\textwidth]{diagrams/cpi_flow.eps}
 \caption{Cost per Installation (CPI) ecosystem.}
 \label{fig:exist_flows}
 \end{figure}
@@ -122,6 +122,14 @@ The {\em R1.6:Risk of repudiation} ...
 
 In-App Billing (IAB), also called In-App Purchase, consists in the possibility of the user to buy digital items inside an app or a game. Although those items are perceived to be bough inside the App, the items are bought through the app store.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/iab_flow.eps}
+\caption{Current IAB flow and intermediaries.}
+\label{fig:iab_flow}
+\end{figure}
+
+
 The need for the transactions for go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's App to be distributed is that all the financial transactions have to be managed by the app store. 
 
 The app store adds some value to this flow: 1) it may know the customer already and have is payments data, 2) has the trust of the user where the developer may have not 3) develop the technology necessary, allowing the developer to focus in the app development.
@@ -150,6 +158,14 @@ A platform that handles the IAB transactions have to deal with those risks.
 % Description of today state: central approval, manual QA, automatic QA, time taken, arbitrary approval
 
 Apps approval is one of the more critical challenges of an App Store.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/apps_approval_flow.eps}
+\caption{App approval in centralized App Stores.}
+\label{fig:app_approval_flow}
+\end{figure}
+
 
 By definition, the app store is a channel between the developer and the user. Filtering which apps should be available 
 
