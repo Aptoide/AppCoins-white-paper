@@ -354,11 +354,12 @@ IAB ledger $L : (TX_1..TX_n)$
 \multicolumn{1}{|c|}{Data Structures} \\
 \hline \vspace{0.05cm}
 \textbf{DisputeIntent} \\
-dispute intent $K^{0}_{x} := \langle D_i, C_j, T_{min}\rangle$
+dispute intent $K^{0}_{x} := \langle D_i, C_j, T_{min}, S\rangle$
 \begin{itemize}
 	\item Developer $D_i$, the developer being accused of being dishonest
 	\item Contestant $C_j$, user claiming developer $D_i$ is dishonest
 	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute that may result from this dispute intent
+	\item status $S$, the current status of the dispute intent, which can take the values of \textit{"Open"} or \textit{"Closed"}
 \end{itemize} \\
 \textbf{Dispute} \\
 dispute $K_x := \langle D_i, S, T_{min}\rangle$
@@ -451,6 +452,7 @@ dispute ledger $L : (E_1..E_n)$
 \end{itemize}
 \begin{enumerate}
 	\item Compute $K^{0}_{x}$ := \textsf{DisputeIntent}($D_j$, $C_z$)
+	\item Set $K^{0}_{x}$.Status := \textit{"Open"}
 \end{enumerate} & \vspace{0.1cm}
 \textsf{DA.CreateDispute}
 \vspace{-0.3cm}
@@ -466,7 +468,7 @@ dispute ledger $L : (E_1..E_n)$
 \end{itemize}
 \begin{enumerate}
 	\item Set $C_z$ := $K^{0}_{x}.C_z$ (user $K^{0}_{x}.C_z$ is the user who opened the dispute intent $K^{0}_{x}$, i.e. the first contestant)
-	\item Compute \textsf{CloseDisputeIntent}($K^{0}_{x}$)
+	\item Set $K^{0}_{x}$.Status := \textit{"Closed"}
 	\item Compute $K_x$ := \textsf{Dispute}($D_j$, $T_{min}$)
 	\item Set $K_x$.Status := \textit{"Open"}
 \end{enumerate} \\ \vspace{0.1cm}
