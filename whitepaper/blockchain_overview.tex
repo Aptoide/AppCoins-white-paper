@@ -35,7 +35,7 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures_ad} for more details.\\
 
-\noindent \textbf{Ledger}. The \textit{ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
+\noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
 \begin{table}[H]
 \footnotesize
@@ -57,15 +57,15 @@ campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i
 	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
 	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
 \end{itemize} \\
-\textbf{Inverted Bid} & \textbf{Ledger} \\
+\textbf{Inverted Bid} & \textbf{Advertising Ledger} \\
 inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \begin{itemize}
 	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
 	\item Bid $B_i$, bids submitted to app store $AP_j$
 \end{itemize}
-& ledger $L : (A^{1}_{t}..A^{n}_{t})$
+& advertising ledger $L : (A^{1}_{t}..A^{n}_{t})$
 \begin{itemize}
-	\item Attribution $A^{i}_{t}$, $i$-th attribution in the ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
+	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
 \end{itemize} \\
 \hline
 \end{tabular}
@@ -108,7 +108,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
+\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the advertising ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
 
 \textbf{AD.SetAttribution}
 \begin{itemize}
@@ -175,7 +175,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item OUTPUTS: Result $R$
 \end{itemize}
 \begin{enumerate}
-	\item Compute $InLedger$ := \textsf{CheckLedger}($u$, $B$)
+	\item Compute $InLedger$ := \textsf{CheckAdvertisingLedger}($u$, $B$)
 	\item If $InLedger$ = 1:
 	\begin{itemize}
 		\item Set $R$ := 0
@@ -183,7 +183,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item If $InLedger$ = 0:
 	\begin{enumerate}
 		\item Compute $TX$ := \textsf{Transaction}($u$, $B$)
-		\item Compute $R$ := \textsf{WriteLedger}($TX$)
+		\item Compute $R$ := \textsf{WriteAdvertisingLedger}($TX$)
 		\item Compute $(T_u, T_{OEM}, T_{AS})$ := \textsf{DivideTokens}($T$)
 		\item Send $T_u$ to user's wallet $W_U$
 		\item Send $T_{OEM}$ to OEM's wallet $W_{OEM}$
@@ -223,7 +223,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 
 \noindent \textbf{Catalog}. A \textit{catalog} is a mapping between items available in an app and their prices. Each item has only one price and the mapping is bonded to an App Store, i.e. the price can be set differently for different App Stores. \\
 
-\noindent \textbf{Ledger}. The \textit{ledger} is the record of items bought by users. It records transactions in a way that anyone can verify an anonymous user bought a quantity $Q$ of an item $I$ for a price $P$ from an app that integrated the IAB solution from App Store $AS$.
+\noindent \textbf{IAB Ledger}. The \textit{IAB ledger} is the record of items bought by users. It records transactions in a way that anyone can verify an anonymous user bought a quantity $Q$ of an item $I$ for a price $P$ from an app that integrated the IAB solution from App Store $AS$.
 
 \begin{table}[H]
 \footnotesize
@@ -238,8 +238,8 @@ catalog $C_{ij} : \{I_1 \to P_1..I_n \to P_n\}_{A_i, AS_j}$
 	\item Item $I_i$, an item available in app $A_i$ which integrated IAB solution from app store $AS_j$
 	\item Price $P_i$, the price of item $I_i$
 \end{itemize} \\
-\textbf{Ledger} \\
-ledger $L : (TX_1..TX_n)$
+\textbf{IAB Ledger} \\
+IAB ledger $L : (TX_1..TX_n)$
 \begin{itemize}
 	\item Transaction $TX_i$, a transaction stating that an anonymous user $u$ bought a quantity $Q$ an item $I$ with price $P$ from an app $A$ that integrated the IAB solution from app store $AS$
 \end{itemize} \\
@@ -320,7 +320,7 @@ ledger $L : (TX_1..TX_n)$
 \end{itemize}
 \begin{enumerate}
 	\item Compute $TX$ := \textsf{Transaction}($u$,$I$,$P$,$Q$,$A$, $AS$)
-	\item Compute $R$ := \textsf{WriteLedger}($TX$)
+	\item Compute $R$ := \textsf{WriteIABLedger}($TX$)
 	\item if $R = 1$:
 	\begin{enumerate}
 		\item App $A$ issues items to user
@@ -344,7 +344,7 @@ ledger $L : (TX_1..TX_n)$
 
 \noindent \textsf{Dispute}. A \textit{dispute} is a conflict between two parties, where one party - the \textit{contestants} - claim that a developer is dishonest, i.e. the developer uploads apps with malware, too many ads, or non-working apps, and the other party - the \textit{pleaders} - claim the developer is honest. The pleaders include the developer being accused of dishonesty by the contestants. Both parties place tokens in the dispute and the party holding the most amount of tokens by the end of the dispute wins. Therefore, the \textit{dispute} includes the developer it regards to, the participants in both parties and their respective stake in the dispute. \\
 
-\noindent \textsf{Ledger}. The \textit{ledger} is the record of disputes and changes in status of developers. Regarding the disputes, it records their results, including the participants of both parties and the amount each participant put at stake. Concerning changes in status, it records the developer, his previous and new statuses, and reason for change (promotion or dispute).
+\noindent \textsf{DisputeLedger}. The \textit{dispute ledger} is the record of users joining disputes. It stores that a user joined a dispute on behalf of one of the sides with a certain stake (amount of tokens). The entries in the \textit{dispute ledger} are used to settle disputes when they end.
 
 \begin{table}[H]
 \footnotesize
@@ -354,32 +354,23 @@ ledger $L : (TX_1..TX_n)$
 \multicolumn{1}{|c|}{Data Structures} \\
 \hline \vspace{0.05cm}
 \textbf{DisputeIntent} \\
-dispute intent $K^{0}_{x} := \langle D_i, C_i, T_{min}\rangle$
+dispute intent $K^{0}_{x} := \langle D_i, C_j, T_{min}\rangle$
 \begin{itemize}
 	\item Developer $D_i$, the developer being accused of being dishonest
-	\item Contestant $C_i$, user claiming developer $D_i$ is dishonest
+	\item Contestant $C_j$, user claiming developer $D_i$ is dishonest
 	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute that may result from this dispute intent
 \end{itemize} \\
 \textbf{Dispute} \\
-dispute $K_x := \langle D_i, C, P, T_C, T_P\rangle$
+dispute $K_x := \langle D_i, S, T_{min}\rangle$
 \begin{itemize}
 	\item Developer $D_i$, the developer being accused of being dishonest
-	\item Contestants $C$, the set of users claiming that the developer $D_i$ is dishonest
-	\item Pleaders $P$, the set of users claiming that the developer $D_i$ is honest
-	\item Contestants' stakes $T_C$, the list of amount of tokens put at stake by the contestants
-	\item Pleaders' stakes $T_P$, the list of amount of tokens put at stake by the pleaders
+	\item status $S$, the current status of the dispute, which can take the values of \textit{"Open"} or \textit{"Closed"}
+	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute
 \end{itemize} \\
-\textbf{Ledger} \\
-ledger $L : (E_1..E_n)$
+\textbf{Dispute Ledger} \\
+dispute ledger $L : (E_1..E_n)$
 \begin{itemize}
-	\item Entry $E_i$, a record of an event related with Developers Approval use case
-	\begin{itemize}
-		\item It can be a record of a dispute or a developer's status change
-		\begin{itemize}
-			\item If it is the former, $E_i$ is of the form $E := \langle R, D_i, C, P, T_C, T_P\rangle$, where $R$ is the result of the dispute
-			\item If it is the latter, $E_i$ is of the form $E := \langle D_i, S_b, S_a\rangle$, where $S_b$ is the developer's status before the change and $S_a$ is the status after the change
-		\end{itemize}
-	\end{itemize}
+	\item entry $E_i$, an entry containing information about a user joining a dispute in the form $E_i := \langle U_i, P, T, K_x\rangle$, where $U_i$ is the user, $P$ is the position the user is taking (can be either \textit{"Contestants"} or \textit{"Pleaders"}), $T$ is the stake (amount of tokens) the user $U_i$ is willing to use to defend position $P$, and $K_x$ is the dispute user $U_i$ is joining
 \end{itemize} \\
 \hline
 \end{tabular}
@@ -387,43 +378,55 @@ ledger $L : (E_1..E_n)$
 \label{table: data_structures_da}
 \end{table}
 
+
 \subsubsection{Algorithm construction}
 
-\noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may or not result in a dispute being opened, depending on whether someone answers the dispute within 7 days or not. The user answering the dispute may not be the developer. \\
+\noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may result in a dispute being opened, depending on whether someone answers the \textit{dispute intent} within 7 days or not. The user answering the dispute may not be the developer. \\
 
 \textsf{DA.CreateDisputeIntent}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
-		\item User $C_i$
+		\item User $C_z$
+		\item Developer $D_j$
+	\end{itemize}
+	\item OUTPUTS: Dispute intent $K^{0}_{x}$
+\end{itemize}
+
+\noindent \textbf{Create dispute}. When a dispute intent is answered, a disputed is created. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. The dispute intent that originated the new dispute is closed.\\
+
+\textsf{DA.CreateDispute}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
 		\item Developer $D_j$
 		\item Minimum fee $T_{min}$
+		\item Dispute intent $K^{0}_{x}$
+	\end{itemize}
+	\item OUTPUTS: Dispute $K_x$
+\end{itemize}
+
+\noindent \textbf{Close dispute}. When the dispute is over (after 30 days), the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%. Please refer to Table \ref{table: da_protocol} for more details. \\
+
+\textsf{DA.CloseDispute}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
+		\item Dispute $K_x$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
 
-\noindent \textbf{Open dispute}. When a dispute intent is answered, a disputed is opened. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. When the dispute is over, the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%.\\
+\noindent \textbf{Record}. When a user joins a side on a dispute, the event is recorded in the dispute ledger and can later be used to settle the dispute. \\
 
-\textsf{DA.OpenDispute}
+\textsf{DA.Record}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
-		\item Contestant $C_i$
-		\item Developer $D_j$
-		\item Pleader $P_z$
-		\item Minimum fee $T_{min}$
-	\end{itemize}
-	\item OUTPUTS: None
-\end{itemize}
-
-\noindent \textbf{Set record}. When an event related with a developer's status change, being it a dispute result or a status changes, it gets recorded in the ledger. \\
-
-\textsf{DA.SetRecord}
-\begin{itemize}
-	\item INPUTS:
-	\begin{itemize}
-		\item Record $R$
-		\item Record type $R_t$
+		\item User $U_i$
+		\item Position $P$
+		\item Stake $T$
+		\item Dispute $K_x$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
@@ -431,7 +434,7 @@ ledger $L : (E_1..E_n)$
 \begin{table}[H]
 \scriptsize
 \centering
-\begin{tabular}{|p{.4\textwidth}p{.6\textwidth}|}
+\begin{tabular}{|p{.55\textwidth}p{.45\textwidth}|}
 \hline
 \multicolumn{2}{|c|}{Developers Approval Use Case} \\
 \hline \vspace{0.1cm}
@@ -439,122 +442,83 @@ ledger $L : (E_1..E_n)$
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.4cm}
+	\vspace{-0.3cm}
 	\begin{itemize}
-		\item User $C_i$
+		\item User $C_z$
 		\item Developer $D_j$
-		\item Minimum fee $T_{min}$
 	\end{itemize}
-	\item OUTPUTS: \textit{None}
+	\item OUTPUTS: Dispute intent $K^{0}_{x}$
 \end{itemize}
 \begin{enumerate}
-	\item Send minimum fee $T_{min}$ from contestant's wallet $W_C$ to dispute intent's wallet $W_{K^0}$
-	\item Set $days := 0$
-	\item Set $Answer := None$
-	\item While $days < 7$:
-	\begin{enumerate}
-		\item If $answer$ arrives:
-		\begin{enumerate}
-			\item Set $Answer := answer$
-			\item Break
-		\end{enumerate}
-	\end{enumerate}
-	\item If $Answer$ != \textit{None}:
-	\begin{enumerate}
-		\item Set $K$ := \textsf{DA.OpenDispute}($D_i$, $C_i$, $Answer$.Pleader)
-		\item Send minimum fee $T_{min}$ correspondent to $C_i$ from dispute intent's wallet $W_{K^0}$ to dispute's wallet $W_K$
-		\item Send minimum fee $T_{min}$ correspondent to $Answer$.Pleader from dispute intent's wallet $W_P$ to dispute's wallet $W_K$
-	\end{enumerate}
-	\item Else:
-	\begin{enumerate}
-		\item Send minimum fee $T_{min}$ correspondent to $C_i$ from $W_{K^0}$ to $W_C$ (refund)
-		\item Set $R$ := ($D_i$.Status, \textit{"Critical"})
-		\item Compute \textsf{DA.SetRecord}($R$, \textit{"StatusChange"})
-	\end{enumerate}
+	\item Compute $K^{0}_{x}$ := \textsf{DisputeIntent}($D_j$, $C_z$)
 \end{enumerate} & \vspace{0.1cm}
-\textsf{DA.OpenDispute}
+\textsf{DA.CreateDispute}
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.4cm}
+	\vspace{-0.3cm}
 	\begin{itemize}
-		\item Contestant $C_i$
 		\item Developer $D_j$
-		\item Pleader $P_z$
 		\item Minimum fee $T_{min}$
+		\item Dispute intent $K^{0}_{x}$
 	\end{itemize}
-	\item OUTPUTS: None
+	\item OUTPUTS: Dispute $K_x$
 \end{itemize}
 \begin{enumerate}
-	\item Set $C := List(C_i)$
-	\item Set $P := List(P_z)$
-	\item Set $T_C := List(T_{min})$
-	\item Set $T_P := List(T_{min})$
-	\item Set $days := 0$
-	\item While $days < 30$:
-	\begin{enumerate}
-		\item If contestant $C_k$ arrives:
-		\begin{enumerate}
-			\item Compute $C$.\textsf{append}($C_k$)
-			\item Compute $T_C$.\textsf{append}($C_k$.Pledge)
-			\item Send $C_k$.Pledge from contestant's wallet $W_{C_K}$ to dispute's wallet $W_K$
-		\end{enumerate}
-		\item If pleader $P_k$ arrives:
-		\begin{enumerate}
-			\item Compute $P$.\textsf{append}($P_k$)
-			\item Compute $T_P$.\textsf{append}($P_k$.Pledge)
-			\item Send $P_k$.Pledge from pleader's wallet $W_{P_K}$ to $W_K$
-		\end{enumerate}
-	\end{enumerate}
-	\item Compute \textsf{DistributePledges}($T_P$, $T_C$)
-%	\item If \textsf{Sum}($T_P$) $\geq$ \textsf{Sum}($T_C$):
-%	\begin{enumerate}
-%		\item Compute $(E^{P}_{1}..E^{P}_{n})$ := \textsf{PledgesWin}($T_C$) (winning fees proportional to stake in dispute)
-%		\item Compute $(E^{C}_{1}..E^{C}_{n})$ := \textsf{PledgesLoser}($T_C$) (stakes put in dispute subtracted by the percentage of losing)
-%		\item For each pleader $p$ in $P$:
-%		\begin{enumerate}
-%			\item Send pledge $T_p$ in $T_P$ from $W_K$ to pleader's wallet $W_p$ (refund from winning dispute)
-%			\item Send winning pledge $E^{P}_{p}$ from $W_K$ to $W_p$
-%		\end{enumerate}
-%		\item For each contestant $c$ in $C$:
-%		\begin{enumerate}
-%			\item Send pledge $E^{C}_{c}$ from $W_K$ to contestant's wallet $W_c$
-%		\end{enumerate}
-%	\end{enumerate}
-	\item If \textsf{Sum}($T_C$) $<$ \textsf{Sum}($T_P$):
-	\begin{enumerate}
-		\item Set $R_S$ := ($D_i$.Status, \textit{"Critical"})
-		\item Compute \textsf{DA.SetRecord}($R_S$, \textit{"StatusChange"})
-		\item Set $R_D$ :=  (\textit{"ContestantsWin"}, $C$, $P$, $T_C$, $T_P$)
-		\item Compute \textsf{DA.SetRecord}($R_D$, \textit{"Dispute"})
-	\end{enumerate}
-	\item Else:
-	\begin{enumerate}
-		\item Set $R_D$ :=  (\textit{"PleadersWin"}, $C$, $P$, $T_C$, $T_P$)
-		\item Compute \textsf{DA.SetRecord}($R_D$, \textit{"Dispute"})
-	\end{enumerate}
-\end{enumerate} \\
-\textsf{DA.SetRecord}
+	\item Set $C_z$ := $K^{0}_{x}.C_z$ (user $K^{0}_{x}.C_z$ is the user who opened the dispute intent $K^{0}_{x}$, i.e. the first contestant)
+	\item Compute \textsf{CloseDisputeIntent}($K^{0}_{x}$)
+	\item Compute $K_x$ := \textsf{Dispute}($D_j$, $T_{min}$)
+	\item Set $K_x$.Status := \textit{"Open"}
+\end{enumerate} \\ \vspace{0.1cm}
+\textsf{DA.CloseDispute} 
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
-	\vspace{-0.4cm}
+	\vspace{-0.3cm}
 	\begin{itemize}
-		\item Record $R$
-		\item Record type $R_t$
+		\item Dispute $K_x$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
 \begin{enumerate}
-	\item Compute \textsf{WriteLedger}($R$, $R_t$)
-\end{enumerate}
-& \\
+	\item Compute ($Winners$, $Losers$) := \textsf{Parties}($K_x$)
+	\item Compute ($T_{winners}$, $T_{losers}$) := \textsf{Pledges}($K_x$)
+	\item Compute $(F^{1}_{win}..F^{n}_{win})$ := \textsf{PledgesWin}($T_{losers}$) (winning fees proportional to stake in dispute)
+	\item Compute $(F^{1}_{lose}..F^{n}_{lose})$ := \textsf{PledgesLoser}($T_{losers}$) (stakes put in dispute subtracted by the percentage of losing)
+	\item For each winner $w$ in $Winners$:
+	\begin{enumerate}
+		\item Send pledge $T_{w}$ in $T_{winners}$ from $W_K$ to winner's wallet $W_w$ (refund from winning dispute)
+		\item Send winning pledge $F^{w}_{win}$ from $W_K$ to $W_w$
+	\end{enumerate}
+	\item For each loser $l$ in $Losers$:
+	\begin{enumerate}
+		\item Send pledge $F^{l}_{lose}$ from $W_K$ to loser's wallet $W_l$
+	\end{enumerate}
+	\item Set $K_x$.Status := \textit{"Closed"}
+\end{enumerate} & \vspace{0.1cm}
+\textsf{DA.Record}
+\vspace{-0.3cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.3cm}
+	\begin{itemize}
+		\item User $U_i$
+		\item Position $P$
+		\item Stake $T$
+		\item Dispute $K_x$
+	\end{itemize}
+	\item OUTPUTS: None
+\end{itemize}
+\begin{enumerate}
+	\item Send $T$ from user $U_i$ wallet $W_{U_i}$ to dispute's wallet $W_{K_x}$
+	\item Set $E := \langle U_i, P, T, K_x\rangle$
+	\item Compute \textsf{WriteDisputeLedger}($E$)
+\end{enumerate} \\
 \hline
 \end{tabular}
 \caption{Developers Approval Use Case}
 \label{table: da_protocol}
 \end{table}
-
 
 
 
