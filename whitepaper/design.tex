@@ -3,34 +3,32 @@
 \label{sec:design}
 
 
-\subsection{Requirements and Assumptions }
+\subsection{Assumptions }
 
 % A table 
 
-The design of the platform was made having the following assumptions:
+Building a model always depends on assuming certain assumptions. The generalizations taken in the assumptions allows one to focus in the global mechnics and don't take corner cases in account. As exceptions, they are part of the reality but they don't they don't have material importance to change the result of the model.
 
-P1 - Crowdsourcing: community wisdom works for big numbers better than individual wisdom
+The design of the AppCoins platform was made having the following assumptions:
 
-P2 - Incentives: If there are enough incentives, community contributes
+\begin{itemize}
+\item {\bf\em A1 Crowdsourcing}: community wisdom works for big numbers better than individual wisdom\cite{Surowiecki:2005:WC:1095645}.
+\item {\bf\em A2 Incentives}: If there are enough incentives, community contributes.
+\item {\bf\em A3 New}: A new developer is always an unkown developer.
+\item {\bf\em A4 Trusted:} The Apps from a Trusted Developer are Trusted Apps.
+\item {\bf\em A5 Dispute}: - In a dispute, if 50\% + 1 of the community is honest, the right side wins.
+\item {\bf\em A6 Reputation}: - Transactions registered in the blockchain ledger (IAB, Ads) reflects well the trustworthness and reputation of a developer.
+\item {\bf\em A7 Unknown downloads}: - If the app downloads made by the users come from more than 5\% of unknown developers, users will start to trust in unknown developers.
+\item {\bf\em A8 Zero-day}: - A community dispute may take 30 days. While the dispute is handled, the app stores have the option to hide the app to avoid zero-day attacks.
+\end{itemize}
 
-P3 - A new developer is always an unkown developer
-
-P4 - The Apps from a Trusted Developer are Trusted Apps
-
-P5 - In a dispute, if 50\% + 1 of the community is honest, the right side wins
-
-P6 - Transactions registered in the blockchain ledger (IAB, Ads) reflects well the trustworthness of a developer.
-
-P7 - If the app downloads made by the users come from more than 5\% of unknown developers, users will start to trust in unknown developers.
-
-P8 - A community dispute may take 30 days. While the dispute is handled, the app stores have the option of hiding the app to avoid zero-day attacks.
 
 
 \subsection{Client side support}
 
 Besides the blockchain technology, the environment where the user is running the app store, should also support app coins protocol.
 
-% TODO : include quote
+% TODO }: include quote
 
 As Android represents 86\% of the smartphones market, we focus an implementation analysis in that platform. However, many of the constraints and solutions are applicable to other smaprthone operating systems.
 
