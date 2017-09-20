@@ -1,22 +1,8 @@
-\section{AppCoins: Protocol Construction}
+\section{AppCoins: Protocol Definition}
 
-Our solution solves the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
+As we seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
 
-As it works today, advertising in App Stores is a flow composed by a campaign created by the developer, which is submitted to the several networks of campaigns. App Stores then connect to these networks and get the active campaigns, trying to have their users converting them. As it is now, the value is diluted through all the networks and the most relevant players, which are the developers and the App Stores, are the ones losing the most value, since the latter receive a small amount per conversion compared to the networks, and the former have to pay more than necessary in order to make it interesting for the App Stores to get their campaigns.
-
-The developers and the App Stores should be the players getting the most for their effort, since they are the creators of most of the value in the flow by either creating the apps or by distributing and making them available for the users.\\
-
-In IAB, developers provide content inside their apps, which can be exchanged for money. They integrate third-party SDKs that handle the payments and those third-parties (e.g. Google Play) receive a large amount of the payments, which is between 15\% to 30\% for the larger players in the market (Google Play \footnote{https://support.google.com/googleplay/android-developer/answer/1153481}, Apple \footnote{https://developer.apple.com/app-store/subscriptions/}).
-
-Once again, the players creating the most value, i.e. the developers, should be the ones actively rewarded for their effort and the players supporting them should, i.e. App Stores, not ask for so much in return.\\
-
-Moreover, in both the above scenarios, the OEMs that preload the App Stores in their devices are not included in the value chain of all these transactions. Our solution comprises incentives for OEMs to preload App Stores that add the most value to users as well as to them.\\
-
-The Developer Reputation problem is the one from the mentioned three that, when not addressed properly, can harm users the most. Malignant apps can harm users in several ways, ranging from the most extreme as theft of personal information and device inoperability, to the less harmful as apps containing (almost) only ads or non-working apps. For App Stores with already considerable reach, i.e. already with several millions of users, malignant apps can find their way to a significant amount of devices and thus need to be taken care of before reaching the users.
-
-Today this assessment of apps and developers is done in a centralised way, i.e. each App Store uses its own system, and there is no shared knowledge between App Stores. Our solution includes an approach for the categorisation of developers based on the usage of their apps by the users, and the ability to share knowledge between App Stores.\\
-
-In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each use case and subsections explaining the data structures and the algorithms.
+In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each core flow and subsections explaining the data structures, algorithms and wallets flows.
 
 \subsection{Advertising}
 
@@ -73,7 +59,7 @@ inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \label{table: data_structures_ad}
 \end{table}
 
-\subsubsection{Algorithm construction}
+\subsubsection{Algorithms pseudo-code}
 
 Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definition of the following methods. \\
 
@@ -217,6 +203,26 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 \label{table: ads_use_case}
 \end{table}
 
+
+\subsubsection{Wallets transactions}
+
+The transfers between wallets in the Advertising flow have to address some risks that were previsously decribed in chapter ...
+
+There is a wallet that contains the value of the created campagin, addressing the risk of ...
+
+There is a wallet for the value of the impression, to be sure that if the conversion occurs, the conversion is payed.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/wallet_transfers.eps}
+\caption{Wallet transfers in the CPI advertising flow.}
+\label{fig:wallet_cpi_flow}
+\end{figure}
+
+
+% todo complete the text after the diagram is ready
+
+
 \subsection{In-App Billing}
 
 \subsubsection{Data Structures}
@@ -249,7 +255,9 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \label{table: data_structures_iab}
 \end{table}
 
-\subsubsection{Algorithm construction}
+
+\subsubsection{Algorithms pseudo-code}
+
 
 \noindent \textbf{Create catalog}. When a developer $D$ wants to integrate in-app purchases, a catalog $C$ is created containing the mapping between the items $I_N$ that are to be available in the app $A$ and their respective prices $P_N$. \\
 
@@ -361,6 +369,26 @@ S_l = \log_2 \frac{\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t}}{TX
 
 Because of the use of the logarithm function in Equation \ref{eq: rank_level}, it becomes harder to gain higher rank levels as the rank level increases.
 
+
+\subsubsection{Wallets transactions}
+
+In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user thart is buying the digital item and 3 recipients: the Developer, the OEM and the app store.
+
+
+\subsection{Developers Reputation}
+
+A developer known is more trustable than a developer recently arrived to the apps distribution business.
+
+In figure \ref{fig:approval_state_diagram}, the different states that the developer can have are presented.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.5\textwidth]{diagrams/approval_state_diagram.eps}
+\caption{Approval state changes.}
+\label{fig:approval_state_diagram}
+\end{figure}
+
+
 \subsubsection{Data Structures}
 
 \noindent \textsf{Dispute Intent}. A \textit{dispute intent} happens when a user claims a developer is dishonest and no dispute against that developer is open. The developer or any other user then has 7 days to answer the dispute. If someone answers the dispute, be it the developer or any other user, the dispute is opened and the minimum fees needed to open it are captivated. If no user answers the dispute, the \textit{dispute intent} closes and the developer status changes to \textit{critical}. \\
@@ -409,7 +437,9 @@ rank ledger $L_{R} : (E_1..E_n)$
 \label{table: data_structures_da}
 \end{table}
 
-\subsubsection{Algorithm construction}
+
+\subsubsection{Algorithms pseudo-code}
+
 
 \noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may result in a dispute being opened, depending on whether someone answers the \textit{dispute intent} within 7 days or not. The user answering the dispute may not be the developer. \\
 
@@ -612,6 +642,13 @@ rank ledger $L_{R} : (E_1..E_n)$
 \caption{Developers Rank Use Case}
 \label{table: dr_protocol}
 \end{table}
+
+
+\subsubsection{Wallets transactions}
+
+The reputation of a developer is built based on blockchain transactions that can be associate to him. However, when there is a dispute, like presented in the previous version, the dispute mechanism is solved by receiving endorsements / negative endorsements of the community members to the developer. The final decision is based on the total sum of coins that each side has.
+
+% descrever esta área após recebimeto do diagrama
 
 
 
