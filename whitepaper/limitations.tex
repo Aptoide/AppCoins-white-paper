@@ -31,32 +31,35 @@ First let us have a detailed look at the challenges in question.
 
 \subsection{Blockchain limits}
 
+
 Let's try to imagine a scenario of a working App Coin Economy using a bare blockchain technology like Ethereum.
 
-At the present there are about 2 Billions of Android users. The average Ethereum transaction was recently established to be around 500 bytes \cite{eth_tx_size}. If we wanted to create an App Coin Economy directly on Ethereum using these numbers we will arrives at the following characteristics of the system:
+At the present there are about 2 Billions of Android users. The average Ethereum transaction is around 160 bytes. This can be established from the data at \url{https://etherscan.io/chart/tx}. If we wanted to create an App Coin Economy directly on Ethereum using these numbers we will arrives at the following characteristics of the system:
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|l|l|l}
-\cline{1-2}
-Users              & 2 000 000 000 &                            \\ \cline{1-2}
-Avg. daily TX      & 1             &                            \\ \hline
-Avg. TX size       & 500           & \multicolumn{1}{l|}{bytes} \\ \hline
-Daily TX           & 2 000 000 000 &                            \\ \cline{1-2}
-TX per second      & 23 148        &                            \\ \hline
-Daily TX size      & 931.32        & \multicolumn{1}{l|}{GB}    \\ \hline
-TX size per second & 11.04         & \multicolumn{1}{l|}{MB}    \\ \hline
-TX size per month  & 27.28         & \multicolumn{1}{l|}{TB}    \\ \hline
-TX size per year   & 327.42        & \multicolumn{1}{l|}{TB}    \\ \hline
+\begin{tabular}{|l|r|}
+\hline
+Users              & 2 000 000 000    \\ \hline
+Avg. daily TX      & 1                \\ \hline
+Avg. TX size       & 160 bytes        \\ \hline
+Daily TX           & 2 000 000 000    \\ \hline
+TX per second      & 23 148           \\ \hline
+Daily TX size      & 298.02 GB        \\ \hline
+TX size per second & 3.53 MB          \\ \hline
+TX size per month  & 8.73 TB          \\ \hline
+TX size per year   & 104.77 TB        \\ \hline
 \end{tabular}
 \caption{Scalability requirements for App Coin Economy}
 \end{table}
+
 
 \subsubsection{Transaction Volume}
 Scalability in terms of volume is the first problem of Ethereum. At the present it handles only up-to 20 transactions per second\cite{eth_scaling}. That is nowhere near the required 23 000 average transactions per second. For peak times the system should support a number of transactions several magnitudes higher. E.g., VISA handles normally around 1667 and it peak times it claims it can do around 56 000 per second\cite{eth_scaling}.
 
 \subsubsection{Fees}
-The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute \cite{eth_gasstation}. If the user is willing to wait around 10 minutes the cost is 1 cent. This is both too slow and too expensive to facilitate micro transaction.
+
+The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute (see \url{http://ethgasstation.info/}). If the user is willing to wait around 10 minutes the cost is 1 cent. This is both too slow and too expensive to facilitate micro transaction.
 
 \subsubsection{Latency}
 As mentioned in the previous section in Ethereum one has to wait until a transaction is part of the blockchain. To have reasonable guarantee that the transaction is part of the main blockchain and not of one of possible branches one needs to wait 7 blocks. This is because two miners could submit the next block at the same time and it will take some time to decide whose block will continue the chain. While this might not be an issue for high value money transfers in the App Coin Economy the transactions have to be executed within few seconds or faster (preferably instantly) in order to enable meaningful IAB and user experience.
