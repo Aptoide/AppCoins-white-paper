@@ -91,27 +91,29 @@ The risks presented above are today managed in different ways by the advertising
 \end{table}
 
 
-The {\em R1.2:Risk of fake person} consists of the instatation of the Ad being presented to a non real person or bot with the purpose of deluding the advertiser.
+The {\em R1.2:Risk of fake person} consists of the impression of the Ad and later installation being presented to a non-real person (bot,...) with the purpose of deluding the advertiser.
 
 \medskip
 
-The {\em R1.2: Risk of double attribution} 
+The {\em R1.2: Risk of double attribution} happens with the possibility of the same user to count twice as a conversion, leading the developer to pay two times what was due.
 
 \medskip
 
-The {\em R1.3:Risk of no attention}  consists
+The {\em R1.3:Risk of no attention}  consists in the user install the app that is being advertised but not paying any attention to it. It may or not open the app, but not interacting with the components of the app, leading to a zero return-of-investment.
 
 \medskip
 
-The {\em R1.4:Risk of data leak} consists
+The {\em R1.4:Risk of data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in DMP platforms and later used by advertising in programatic / RTB targetting.
 
 \medskip
 
-The {\em R1.5:Risk of default} consists
+The {\em R1.5:Risk of default} consists in the developer to create a campaig but not having enough funds to pay the conversions that are generated in that campaign, not paying the due ammount.
 
 \medskip
 
-The {\em R1.6:Risk of repudiation} ...
+The {\em R1.6:Risk of repudiation} happens when the developer doesn't recognize the installation, failing to attribute the conversion to the publisher. The attibution is generally monitored by tracking platforms like AppsFlyer, Adjust or Kochava that have multiple variables that can be changed by the developer to define what it considers a real attribution. These variables can take in account the time window period between the click URL and the conversion, the network fingerprint, amoing others. Attribution, or the lack of attribution, is mining the industry with only 15\% to 25\% of the real installations being considerd coversions.
+
+These risks in the Advertising flow will be considered in a section ahead in the design of the AppCoins blockchain.
 
 
 \subsection{In-App Billing}
@@ -140,13 +142,14 @@ On the other hand, some of other payment methods like carrier billing have prohi
 
 Having that the user has a proper payment method, there are still some risks that have to be mitigated:
 
-The {\em R2.1: Risk of user data leak} ...
+The {\em R2.1: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in DMP platforms and later used by advertising in programatic / RTB targetting.
 
-The {\em R2.2: Risk of digital goods lost} ...
 
-The {\em R2.3: Risk of double payment} ...
+The {\em R2.2: Risk of digital goods lost} may happen when a user buys a digital good inside the game or app but it is not delivered. Often, the user doesn't have a way to recover the payment or claim the digital good.
 
-The {\em R2.4: Risk of digital items cloning} ...
+The {\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that he payed twice.
+
+The {\em R2.4: Risk of digital items cloning} when the user is able to duplicate and tranfer the digital good to another user, leading to losses for the developer that charge once for a digital good that is used twice.
 
 A platform that handles the IAB transactions have to deal with those risks.
 
@@ -188,18 +191,16 @@ Both Apple's App Store and Google's Play Store have a history of refusing and ba
 
 \medskip
 
-Besides the manual and automatic screening, sometimes the app approval is limited 
-
-Several risks can be found from the current centralized app approval processes:
+As described above, several risks can be found from the current centralized app approval processes:
 
 
-The {\em R3.1: Risk of Malware} ...
+The {\em R3.1: Risk of Malware} is the possibility of an app or game submitted to the app store being infected with a virus or a malware that stole data or damages the user device.
 
-The {\em R3.2: Risk of user data leak} ...
+The {\em R3.2: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in DMP platforms and later used by advertising in programatic / RTB targetting.
 
-The {\em R3.3: Risk of censorship} ..
+The {\em R3.3: Risk of censorship} when an app store blocks the publishing of an app or game based in political, religious or social factors that are subjective and totally unrelated with technical aspects. The censorship can be self-inflicted when the company running the app store follows orders or guidelines of national governments or can be result of technical external restrictions that limits the access to the app store (great firewall of China, for example).
 
-The {\em R3.4: Risk of arbitraty decisions} .. competition, grey areas, opposite to google insterests (user privacy) ...
+The {\em R3.4: Risk of arbitrary decisions} happens when the app store denies the distribuiton of an app based in ``anti-competion claused''\cite{PlayTermsService} or other reasons only related of its business interest, even if the interest is in other markets or industries.
 
 
 
