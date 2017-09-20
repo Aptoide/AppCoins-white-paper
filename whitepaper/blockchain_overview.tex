@@ -539,19 +539,6 @@ rank ledger $L_{R} : (E_1..E_n)$
 \end{itemize}
 \begin{enumerate}
 	\item Compute $WinSide$ := \textsf{WinningSide}($K_x$)
-%	\item Compute ($Winners$, $Losers$) := \textsf{Parties}($K_x$)
-%	\item Compute ($T_{winners}$, $T_{losers}$) := \textsf{Pledges}($K_x$)
-%	\item Compute $(F^{1}_{win}..F^{n}_{win})$ := \textsf{PledgesWin}($T_{losers}$) (winning fees proportional to stake in dispute)
-%	\item Compute $(F^{1}_{lose}..F^{n}_{lose})$ := \textsf{PledgesLoser}($T_{losers}$) (stakes put in dispute subtracted by the percentage of losing)
-%	\item For each winner $w$ in $Winners$:
-%	\begin{enumerate}
-%		\item Send pledge $T_{w}$ in $T_{winners}$ from $W_K$ to winner's wallet $W_w$ (refund from winning dispute)
-%		\item Send winning pledge $F^{w}_{win}$ from $W_K$ to $W_w$
-%	\end{enumerate}
-%	\item For each loser $l$ in $Losers$:
-%	\begin{enumerate}
-%		\item Send pledge $F^{l}_{lose}$ from $W_K$ to loser's wallet $W_l$
-%	\end{enumerate}
 	\item Compute \textsf{DistributePledges}($K_x$)
 	\item Set $K_x$.Status := \textit{"Closed"}
 	\item If $WinSide$ = \textit{"Contestants"}:
