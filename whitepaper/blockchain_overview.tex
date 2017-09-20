@@ -15,14 +15,51 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \subsubsection{Data Structures} \label{sssec:ads_ds}
 
-\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...). Please refer to Table \ref{table: data_structures_ad} for more details. \\
+%\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...). Please refer to Table \ref{table: data_structures_ad} for more details. \\
+%
+%\noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
 
-\noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
+\noindent \textbf{Bid}. A \textit{bid} is a statement of intent to pay the attention of users. Developers create \textit{bids} and submit them to App Stores, which in turn match and propagate them to users. Bids are composed by an amount of funds, a duration, the amount of tokens per attribution, the filters (app name, app version, geolocation,...). and a mapping between developers and the users in an App Store that match specific filters set by the developers. Please refer to Table \ref{table: data_structures_ad} for more details. \\
 
 \noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures_ad} for more details.\\
 
 \noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
+%\begin{table}[H]
+%\footnotesize
+%\centering
+%\begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
+%\hline
+%\multicolumn{2}{|c|}{Data Structures} \\
+%\hline \vspace{0.05cm}
+%\textbf{Campaign} & \vspace{0.05cm} \textbf{Bid} \\
+%campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$
+%\begin{itemize}
+%	\item Funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AP_{j}$
+%	\item Duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$
+%	\item Tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
+%	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
+%\end{itemize}
+%& bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$
+%\begin{itemize}
+%	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
+%	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
+%\end{itemize} \\
+%\textbf{Inverted Bid} & \textbf{Advertising Ledger} \\
+%inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
+%\begin{itemize}
+%	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
+%	\item Bid $B_i$, bids submitted to app store $AP_j$
+%\end{itemize}
+%& advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
+%\begin{itemize}
+%	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
+%\end{itemize} \\
+%\hline
+%\end{tabular}
+%\caption{Data Structures for Advertising Use Case}
+%\label{table: data_structures_ad}
+%\end{table}
 \begin{table}[H]
 \footnotesize
 \centering
@@ -30,40 +67,38 @@ Advertising campaigns in the context of a blockchain construction must be constr
 \hline
 \multicolumn{2}{|c|}{Data Structures} \\
 \hline \vspace{0.05cm}
-\textbf{Campaign} & \vspace{0.05cm} \textbf{Bid} \\
-campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$
+\textbf{Bid} & \vspace{0.05cm} \textbf{Inverted Bid} \\
+bid $B_i : \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters, D_1 \to (U_1..U_n) \rangle_{D_{i}, AP_{j}}$
 \begin{itemize}
 	\item Funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AP_{j}$
 	\item Duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$
 	\item Tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
 	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
-\end{itemize}
-& bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$
-\begin{itemize}
 	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
 	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
-\end{itemize} \\
-\textbf{Inverted Bid} & \textbf{Advertising Ledger} \\
+\end{itemize} &
 inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \begin{itemize}
 	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
 	\item Bid $B_i$, bids submitted to app store $AP_j$
-\end{itemize}
-& advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
+\end{itemize} \\
+\textbf{Advertising Ledger} & \\
+advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
 \begin{itemize}
 	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
-\end{itemize} \\
+\end{itemize} & \\
 \hline
 \end{tabular}
 \caption{Data Structures for Advertising Use Case}
 \label{table: data_structures_ad}
 \end{table}
 
+
 \subsubsection{Algorithms pseudo-code}
 
 Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definition of the following methods. \\
 
-\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
+\noindent \textbf{Create bid}. When a bid is submitted to the App Store, the \textsf{CreateBid} method creates the bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters, as well as all the parameters describing the bid as the funds $F$, duration $\Delta t$, etc. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
 
 \textsf{AD.CreateBid}
 \begin{itemize}
