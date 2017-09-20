@@ -49,7 +49,7 @@ inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
 	\item Bid $B_i$, bids submitted to app store $AP_j$
 \end{itemize}
-& advertising ledger $L : (A^{1}_{t}..A^{n}_{t})$
+& advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
 \begin{itemize}
 	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
 \end{itemize} \\
@@ -94,7 +94,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
 
-\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the advertising ledger $L$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
+\noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the advertising ledger $L_{Ad}$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
 
 \textbf{AD.SetAttribution}
 \begin{itemize}
@@ -245,7 +245,7 @@ catalog $C_{ij} : \{I_1 \to P_1..I_n \to P_n\}_{A_i, AS_j}$
 	\item Price $P_i$, the price of item $I_i$
 \end{itemize} \\
 \textbf{IAB Ledger} \\
-IAB ledger $L : (TX_1..TX_n)$
+IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \begin{itemize}
 	\item Transaction $TX_i$, a transaction stating that an anonymous user $u$ bought a quantity $Q$ an item $I$ with price $P$ from an app $A$ that integrated the IAB solution from app store $AS$
 \end{itemize} \\
@@ -344,6 +344,31 @@ IAB ledger $L : (TX_1..TX_n)$
 \label{table: iab_protocol}
 \end{table}
 
+\subsection{Developers Rank}
+
+There is the need to create trust between the different players in the app economy, namely between users and the developers and their apps. \\
+
+In the AppCoins protocol, trust is characterised by a developer rank, which is then propagated to all his apps. This rank can have the values of $\{"Unknown", "Trusted", "Critical"\}$. A user has the rank \textit{"Unknown"} only when joining the network for the first time, i.e. once the rank is changed from \textit{"Unknown"}, it can never have this value again. Changes in rank happen by either disputes, where the rank of the developer can change to \textit{"Critical"} in case of loss or remain the same in case of win, or by promotions, where the rank of the developer can change to \textit{"Trusted"}.
+
+Promotions depend on the number of transactions in each of the developer's apps compared to the number of transactions in other popular apps. Promotions are automatic and depend on the following condition:
+
+\begin{equation}
+\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t} \geq TX_{A^{T}_{M}}
+\label{eq: promo_cond}
+\end{equation}
+
+where $A_i = \{A_{i1}..A_{iN}\}$ is the set of N apps of developer $D_i$, meaning that $A_{ij}$ is the app $j$ in the set $A_i$, $t$ is the day with $t=0$ being the moment the developer joined the network, $T$ is the current day, $A^{T}_{M}$ is the app with the highest number of transactions on day $T$. Given these variables definitions, one can see that the left side in Equation \ref{eq: promo_cond} represents the amount of transactions in all the apps of developer $D_i$ since he joined the network, and the right side represents the number of transactions of the app with the highest number of transactions on day $T$.
+
+Contrary to the promotions, disputes are not done automatically and require explicit actions from users. Any user can open a dispute with a developer stating that the developer is dishonest. After the dispute is opened, any other user can join either side, depending on if they want to support the accusation of dishonesty or if they want to defend the developer.
+
+Additionally, each rank value has a level associated with it. For \textit{"Unknown"} and \textit{"Critical"} rank values, the level is always set to 1. When the rank is \textit{"Trusted"}, we do not set a maximum level and it is expressed by:
+\begin{equation}
+S_l = \log_2 \frac{\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t}}{TX_{A^{T}_{M}}}
+\label{eq: rank_level}
+\end{equation}
+
+Because of the use of the logarithm function in Equation \ref{eq: rank_level}, it becomes harder to gain higher rank levels as the rank level increases.
+
 
 \subsubsection{Wallets transactions}
 
@@ -363,13 +388,16 @@ In figure \ref{fig:approval_state_diagram}, the different states that the develo
 \label{fig:approval_state_diagram}
 \end{figure}
 
+
 \subsubsection{Data Structures}
 
 \noindent \textsf{Dispute Intent}. A \textit{dispute intent} happens when a user claims a developer is dishonest and no dispute against that developer is open. The developer or any other user then has 7 days to answer the dispute. If someone answers the dispute, be it the developer or any other user, the dispute is opened and the minimum fees needed to open it are captivated. If no user answers the dispute, the \textit{dispute intent} closes and the developer status changes to \textit{critical}. \\
 
 \noindent \textsf{Dispute}. A \textit{dispute} is a conflict between two parties, where one party - the \textit{contestants} - claim that a developer is dishonest, i.e. the developer uploads apps with malware, too many ads, or non-working apps, and the other party - the \textit{pleaders} - claim the developer is honest. The pleaders include the developer being accused of dishonesty by the contestants. Both parties place tokens in the dispute and the party holding the most amount of tokens by the end of the dispute wins. Therefore, the \textit{dispute} includes the developer it regards to, the participants in both parties and their respective stake in the dispute. \\
 
-\noindent \textsf{DisputeLedger}. The \textit{dispute ledger} is the record of users joining disputes. It stores that a user joined a dispute on behalf of one of the sides with a certain stake (amount of tokens). The entries in the \textit{dispute ledger} are used to settle disputes when they end.
+\noindent \textsf{DisputeLedger}. The \textit{dispute ledger} is the record of users joining disputes. It stores that a user joined a dispute on behalf of one of the sides with a certain stake (amount of tokens). The entries in the \textit{dispute ledger} are used to settle disputes when they end. \\
+
+\noindent \textsf{RankLedger}. The \textit{rank ledger} is the record of rank changes of developers. Whenever there is a change in a developer's rank, be it an increase in the \textit{"Trusted"} rank levels or a change to \textit{"Critical"}, it is recorded in the \textit{rank ledger}.
 
 \begin{table}[H]
 \footnotesize
@@ -394,13 +422,18 @@ dispute $K_x := \langle D_i, S, T_{min}\rangle$
 	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute
 \end{itemize} \\
 \textbf{Dispute Ledger} \\
-dispute ledger $L : (E_1..E_n)$
+dispute ledger $L_{K} : (E_1..E_n)$
 \begin{itemize}
 	\item entry $E_i$, an entry containing information about a user joining a dispute in the form $E_i := \langle U_i, P, T, K_x\rangle$, where $U_i$ is the user, $P$ is the position the user is taking (can be either \textit{"Contestants"} or \textit{"Pleaders"}), $T$ is the stake (amount of tokens) the user $U_i$ is willing to use to defend position $P$, and $K_x$ is the dispute user $U_i$ is joining
 \end{itemize} \\
+\textbf{Rank Ledger} \\
+rank ledger $L_{R} : (E_1..E_n)$
+\begin{itemize}
+	\item entry $E_i$, an entry containing information about a change in a developer's rank in the form $E_i := \langle D_i, S_b, S_a, S_l\rangle$, where $D_i$ is the developer, $S_b$ is the developer's rank before the change, $S_a$ is the rank after the change, and $S_l$ is the level of the rank. $S_b$ can take the values of $\{"Unknown", "Trusted"\}$ and $S_a$ can take the values of $\{"Trusted", "Critical"\}$. For further details regarding the possible states of $S_b$ and $S_a$, and the possible values of $S_l$, please refer to Figure \textbf{[INCLUDE REF TO FIG]}.
+\end{itemize} \\
 \hline
 \end{tabular}
-\caption{Data Structures for Developers Approval Use Case}
+\caption{Data Structures for Developers Rank Use Case}
 \label{table: data_structures_da}
 \end{table}
 
@@ -410,7 +443,7 @@ dispute ledger $L : (E_1..E_n)$
 
 \noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may result in a dispute being opened, depending on whether someone answers the \textit{dispute intent} within 7 days or not. The user answering the dispute may not be the developer. \\
 
-\textsf{DA.CreateDisputeIntent}
+\textsf{DR.CreateDisputeIntent}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
@@ -422,7 +455,7 @@ dispute ledger $L : (E_1..E_n)$
 
 \noindent \textbf{Create dispute}. When a dispute intent is answered, a disputed is created. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. The dispute intent that originated the new dispute is closed.\\
 
-\textsf{DA.CreateDispute}
+\textsf{DR.CreateDispute}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
@@ -433,9 +466,9 @@ dispute ledger $L : (E_1..E_n)$
 	\item OUTPUTS: Dispute $K_x$
 \end{itemize}
 
-\noindent \textbf{Close dispute}. When the dispute is over (after 30 days), the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%. Please refer to Table \ref{table: da_protocol} for more details. \\
+\noindent \textbf{Close dispute}. When the dispute is over (after 30 days), the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%. Please refer to Table \ref{table: dr_protocol} for more details. \\
 
-\textsf{DA.CloseDispute}
+\textsf{DR.CloseDispute}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
@@ -444,9 +477,23 @@ dispute ledger $L : (E_1..E_n)$
 	\item OUTPUTS: None
 \end{itemize}
 
-\noindent \textbf{Record}. When a user joins a side on a dispute, the event is recorded in the dispute ledger and can later be used to settle the dispute. \\
+\noindent \textbf{Compute rank}. The rank of the developer is periodically checked to assess changes in its value. For example, the rank can change from \textit{"Unknown"} to \textit{"Trusted"} or the \textit{"Trusted"} level can increase. \\
 
-\textsf{DA.Record}
+\textsf{DR.ComputeRank}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
+		\item Developer $D_i$
+		\item Set of transactions in developer's apps $TX_i$
+		\item Set of developer's apps $A_i$
+		\item App with the highest amount of transactions $A_M$
+	\end{itemize}
+	\item OUTPUTS: None
+\end{itemize}
+
+\noindent \textbf{Record dispute}. When a user joins a side on a dispute, the event is recorded in the dispute ledger and can later be used to settle the dispute. \\
+
+\textsf{DR.RecordDispute}
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
@@ -458,14 +505,27 @@ dispute ledger $L : (E_1..E_n)$
 	\item OUTPUTS: None
 \end{itemize}
 
+\noindent \textbf{Record rank change}. When there is a developer's rank change, it is recorded in the rank ledger. \\
+
+\textsf{DR.RecordRank}
+\begin{itemize}
+	\item INPUTS:
+	\begin{itemize}
+		\item Developer $D_i$
+		\item New rank $S_a$
+		\item New rank level $S_l$
+	\end{itemize}
+	\item OUTPUTS: None
+\end{itemize}
+
 \begin{table}[H]
 \scriptsize
 \centering
-\begin{tabular}{|p{.55\textwidth}p{.45\textwidth}|}
+\begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
 \hline
-\multicolumn{2}{|c|}{Developers Approval Use Case} \\
+\multicolumn{2}{|c|}{Developers Rank Use Case} \\
 \hline \vspace{0.1cm}
-\textsf{DA.CreateDisputeIntent}
+\textsf{DR.CreateDisputeIntent}
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
@@ -480,7 +540,7 @@ dispute ledger $L : (E_1..E_n)$
 	\item Compute $K^{0}_{x}$ := \textsf{DisputeIntent}($D_j$, $C_z$)
 	\item Set $K^{0}_{x}$.Status := \textit{"Open"}
 \end{enumerate} & \vspace{0.1cm}
-\textsf{DA.CreateDispute}
+\textsf{DR.CreateDispute}
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
@@ -493,12 +553,11 @@ dispute ledger $L : (E_1..E_n)$
 	\item OUTPUTS: Dispute $K_x$
 \end{itemize}
 \begin{enumerate}
-	\item Set $C_z$ := $K^{0}_{x}.C_z$ (user $K^{0}_{x}.C_z$ is the user who opened the dispute intent $K^{0}_{x}$, i.e. the first contestant)
 	\item Set $K^{0}_{x}$.Status := \textit{"Closed"}
 	\item Compute $K_x$ := \textsf{Dispute}($D_j$, $T_{min}$)
 	\item Set $K_x$.Status := \textit{"Open"}
 \end{enumerate} \\ \vspace{0.1cm}
-\textsf{DA.CloseDispute} 
+\textsf{DR.CloseDispute} 
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
@@ -509,22 +568,41 @@ dispute ledger $L : (E_1..E_n)$
 	\item OUTPUTS: None
 \end{itemize}
 \begin{enumerate}
-	\item Compute ($Winners$, $Losers$) := \textsf{Parties}($K_x$)
-	\item Compute ($T_{winners}$, $T_{losers}$) := \textsf{Pledges}($K_x$)
-	\item Compute $(F^{1}_{win}..F^{n}_{win})$ := \textsf{PledgesWin}($T_{losers}$) (winning fees proportional to stake in dispute)
-	\item Compute $(F^{1}_{lose}..F^{n}_{lose})$ := \textsf{PledgesLoser}($T_{losers}$) (stakes put in dispute subtracted by the percentage of losing)
-	\item For each winner $w$ in $Winners$:
-	\begin{enumerate}
-		\item Send pledge $T_{w}$ in $T_{winners}$ from $W_K$ to winner's wallet $W_w$ (refund from winning dispute)
-		\item Send winning pledge $F^{w}_{win}$ from $W_K$ to $W_w$
-	\end{enumerate}
-	\item For each loser $l$ in $Losers$:
-	\begin{enumerate}
-		\item Send pledge $F^{l}_{lose}$ from $W_K$ to loser's wallet $W_l$
-	\end{enumerate}
+	\item Compute $WinSide$ := \textsf{WinningSide}($K_x$)
+	\item Compute \textsf{DistributePledges}($K_x$)
 	\item Set $K_x$.Status := \textit{"Closed"}
+	\item If $WinSide$ = \textit{"Contestants"}:
+	\begin{enumerate}
+		\item Compute \textsf{DR.RecordRank}($K_x$.D, \textit{"Critical"}, 1)
+	\end{enumerate}
 \end{enumerate} & \vspace{0.1cm}
-\textsf{DA.Record}
+\textsf{DR.ComputeRank} 
+\vspace{-0.3cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.3cm}
+	\begin{itemize}
+		\item Developer $D_i$
+		\item Set of transactions in developer's apps $TX_i$
+		\item Set of developer's apps $A_i$
+		\item App with the highest amount of transactions $A_M$
+	\end{itemize}
+	\item OUTPUTS: None
+\end{itemize}
+\begin{enumerate}
+	\item Compute $S_l$ := \textsf{RankLevel}($TX_i$, $A_M$)
+	\item If $S_l \geq 1$ and $D_i$.Rank = \textit{"Unknown"}:
+	\begin{enumerate}
+		\item Compute \textsf{DR.RecordRank}($D_i$, \textit{"Trusted"}, $S_l$)
+		\item Return
+	\end{enumerate}
+	\item If $S_l > D_i$.RankLevel and $D_i$.Rank = \textit{"Trusted"}:
+	\begin{enumerate}
+		\item Compute \textsf{DR.RecordRank}($D_i$, \textit{"Trusted"}, $S_l$)
+		\item Return
+	\end{enumerate}
+\end{enumerate} \\ \vspace{0.1cm}
+\textsf{DR.RecordDispute}
 \vspace{-0.3cm}
 \begin{itemize}
 	\item INPUTS:
@@ -541,11 +619,28 @@ dispute ledger $L : (E_1..E_n)$
 	\item Send $T$ from user $U_i$ wallet $W_{U_i}$ to dispute's wallet $W_{K_x}$
 	\item Set $E := \langle U_i, P, T, K_x\rangle$
 	\item Compute \textsf{WriteDisputeLedger}($E$)
+\end{enumerate} & \vspace{0.1cm}
+\textsf{DR.RecordRank}
+\vspace{-0.3cm}
+\begin{itemize}
+	\item INPUTS:
+	\vspace{-0.3cm}
+	\begin{itemize}
+		\item Developer $D_i$
+		\item New rank $S_a$
+		\item New rank level $S_l$
+	\end{itemize}
+	\item OUTPUTS: None
+\end{itemize}
+\begin{enumerate}
+	\item Set $S_b$ := $D_i$.Rank
+	\item Set $E := \langle D_i, S_b, S_a, S_l\rangle$
+	\item Compute \textsf{WriteRankLedger}($E$)
 \end{enumerate} \\
 \hline
 \end{tabular}
-\caption{Developers Approval Use Case}
-\label{table: da_protocol}
+\caption{Developers Rank Use Case}
+\label{table: dr_protocol}
 \end{table}
 
 
