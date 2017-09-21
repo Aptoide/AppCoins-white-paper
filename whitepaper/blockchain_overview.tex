@@ -1,6 +1,9 @@
 \section{AppCoins: Protocol Definition}
 
-As we have seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
+
+\label{sec:protocol}
+
+As we seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
 
 In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each core flow and subsections explaining the data structures, algorithms and wallets flows.
 
@@ -419,8 +422,15 @@ Because of the use of the logarithm function in Equation \ref{eq: rank_level}, i
 
 In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user that is buying the digital item and 3 recipients: the developer, the OEM and the app store.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/wallet_transfers_iab.eps}
+\caption{Wallet transfers in IAB flow.}
+\label{fig:wallet_iab_flow}
+\end{figure}
 
-\subsection{Developers' Reputation}
+
+\subsubsection{Developers' Reputation}
 
 A known developer is more trustable than a developer recently arrived to the apps' distribution business.
 
@@ -699,9 +709,15 @@ rank ledger $L_{R} : (E_1..E_n)$
 The reputation of a developer is built based on blockchain transactions that can be associate to him. However, when there is a dispute, like presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of coins that each side has.
 %how many tokens each user and developer puts? Is it a fixed value? If variable, can rich malware developers or users takeover the system?
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{diagrams/wallet_transfers_approval.eps}
+\caption{Wallet transfers in the Developers Approval process.}
+\label{fig:wallet_developers_approval}
+\end{figure}
+
+
 % descrever esta área após recebimeto do diagrama
-
-
 
 
 
