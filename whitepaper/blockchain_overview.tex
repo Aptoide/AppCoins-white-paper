@@ -391,6 +391,18 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \label{table: iab_protocol}
 \end{table}
 
+\subsubsection{Wallets' Transactions}
+
+In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user that is buying the digital item and 3 recipients: the developer, the OEM and the app store.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/wallet_transfers_iab.eps}
+\caption{Wallet transfers in IAB flow.}
+\label{fig:wallet_iab_flow}
+\end{figure}
+
+
 \subsection{Developers' Rank}
 
 There is the need to create trust between the different players in the app economy, namely between users, the developers and their apps. \\
@@ -418,16 +430,6 @@ S_l = \log_2 \frac{\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t}}{TX
 Because of the use of the logarithm function in Equation \ref{eq: rank_level}, it becomes harder to gain higher rank levels as the rank level increases.
 
 
-\subsubsection{Wallets' Transactions}
-
-In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user that is buying the digital item and 3 recipients: the developer, the OEM and the app store.
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=\textwidth]{diagrams/wallet_transfers_iab.eps}
-\caption{Wallet transfers in IAB flow.}
-\label{fig:wallet_iab_flow}
-\end{figure}
 
 
 \subsubsection{Developers' Reputation}
