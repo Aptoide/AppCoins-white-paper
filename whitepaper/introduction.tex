@@ -10,21 +10,20 @@
 
 App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple App Store in July 2008, and with its pre-load in iPhone 3G.
 
-In the same year, but later in August 2008, Google announced the launch of Android Market\cite{wiki:market}, the App Store for Android.
+In the same year, but later in August 2008, Google announced the launch of Android Market\cite{wiki:market}, the app store for Android.
 
-These initial app stores followed a centralized model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions, and app approval. As the smartphone userbase grew, the centralized model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: lack of trust and economical efficiency. 
+These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions, and app approval. Centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: lack of trust and economical efficiency.
 
-By not being transparent, app stores don't earn the trust among the different stakeholders: developers, advertisers, users, and OEM manufacturers. Being centralized, they cannot benefit of a shared and crowdsourcing economy. Being closed source and hiding data, they don't promote competition and innovation.
+Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes.
 
-% XXX not transparent: how?
-% XXX hiding data: what data?
+By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users, and OEM manufacturers. By being centralised, they cannot benefit of a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
 
 The App Coins protocol covers three core app store use cases:
 
 \begin{itemize}
-\item {\bf Advertising inside the app store}: the transactional flow where a developer pays for a user to install his app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per thousand impressions),... There are different technology and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
-\item {\bf In-App Purchase}: when there is something that the user wants to buy inside the app or the game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions the developer has to integrate the SDK from the App Store or to use the App Store API.
-\item {\bf App approval}: in order for the app to be available the developer has to go through an approval process where the App Store screens the app through automatic tools like anti-virus, anti-malware tools, and static and dynamic code analysis platforms and then manually tests it.
+\item {\bf Advertising inside the app store}: the transactional flow where a developer pays for a user to install his app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per thousand impressions), and others. There are different technology and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
+\item {\bf In-App Purchase}: when there is something that the user wants to buy inside the app or game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions, the developer has to integrate the SDK from the app store or to use the app store API.
+\item {\bf App approval}: in order for the app to be available, the developer has to go through an approval process where the app store screens the app through automatic tools like anti-virus, anti-malware tools, and static and dynamic code analysis platforms. Some app stores also manually test the app.
 \end{itemize}
 
 
@@ -44,14 +43,12 @@ In the next sub-sections, we'll analyse each of the above flows and the main pro
 \subsection{Advertising}
 
 
-Currently, the three flows presented in figure \ref{fig:exist_flows} don't have any interaction among them. They are isolated and handled by different App Store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  
+Currently, the three flows presented in Figure \ref{fig:exist_flows} do not have any interaction among them. They are isolated and handled by different app store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  
 
 % XXX which flows: the flows cannot be easily identified
 % XXX The resources ... sentence seems to be redundant.
 
-
-In the next sub-sections, we'll analyse each of the above flows individually and the main problems faced today.
-
+In the next sub-sections, we will analyse each of the flows individually and the main problems faced today.
 
 For a developer or a publisher, the most natural place to advertise an application or game is where the users are looking for that kind of content: the app store.
 
@@ -60,23 +57,22 @@ For a developer or a publisher, the most natural place to advertise an applicati
 %\includegraphics[width=11cm]{diagrams/current_flows.png}
 \includegraphics[width=\textwidth]{diagrams/cpi_flow.eps}
 \caption{Cost per Installation (CPI) ecosystem.}
-\label{fig:exist_flows}
+\label{fig:cpi}
 \end{figure}
 
-For simplicity, we will focus in the Cost per Install (CPI) model, since the difference to the other models, like Cost per Action (CPA) or Cost per thousand impressions (CPM), is a matter of who shares the risk and captures the value.
+For simplicity, we will focus in the Cost per Install (CPI) model shown in Figure \ref{fig:cpi}, since the difference to the other models, like Cost per Action (CPA) or Cost per thousand impressions (CPM), is a matter of who shares the risk and captures the value.
 
 In an advertising model where the advertiser (developer) bids for an installation, we have the three different moments:
 
-
 \begin{itemize}
-\item {\em Campaign creation}: the developer (advertiser) defines the conditions for the ad to run in the store. Typically, he establishes a value for the bid representing the value that is willing to pay for an install. There are other types of conditions called ``filters'' and representing target requirements: it must run in a specific country, a specific smartphone, a specific operating system version,...
-\item {\em Impression}: when the campaign conditions are met and the bid is competitive, the ad is shown. The user may click in the ad to see the complete description of the App.
-\item {\em Install}: if the user installs the App, thus converting the impression, an attribution is due and the corresponding money is transferred.
+\item {\em Campaign creation}: the developer (advertiser) defines the conditions for the ad to run in the store. Typically, he establishes a value for the bid representing the value that he is willing to pay for an install. There are other types of conditions called ``filters'', which represent target requirements: the campaign must run in a specific country, a specific smartphone, a specific operating system version, etc.
+\item {\em Impression}: when the campaign conditions are met and the bid is competitive, the ad is shown. The user may click in the ad to see the complete description of the app.
+\item {\em Install}: if the user installs the app, thus converting the impression, an attribution is due and the corresponding money is transferred.
 \end{itemize}
 
 % Create a itemize list above 
 
-At each of the above moments, the lack of trust between the developer and the user carries different risks. Table \ref{tab:risks} summarizes the different risks at each stage.
+At each of the above moments, the lack of trust between the developer and the user carries different risks. Table \ref{tab:risks} summarises the different risks at each stage.
 
 % table
 
@@ -85,16 +81,16 @@ At each of the above moments, the lack of trust between the developer and the us
 \begin{tabular}{|l||l|l|l|} \hline
 {\bf Role} & {\bf Campaign} & {\bf Impression}  & {\bf Install} \\ \hline
 {\bf User} & & & Is not a real user \\ 
- & & & ({\em R1:Risk of fake person}) \\ 
+ & & & ({\em R1: Risk of fake person}) \\ 
  & & & Double conversion  \\
- & & & ({\em R2:Risk of double attribution}) \\
+ & & & ({\em R2: Risk of double attribution}) \\
  & & & Don't use the app  \\
- & & & ({\em R3:Risk of no attention}) \\  \hline
+ & & & ({\em R3: Risk of no attention}) \\  \hline
 {\bf Publisher  /}  & & & Selling the data to third-parties \\ 
-{\bf App store} & & & ({\em R4:Risk of data leak})\\ \hline
+{\bf App store} & & & ({\em R4: Risk of data leak})\\ \hline
 {\bf Developer} & Not enough funds & Run out of & Don't pay \\  
  & to start campaign & budget & the conversion \\  
-  & ({\em R5:Risk of default}) & ({\em R5:Risk of default}) & ({\em R6:Risk of repudiation}) \\  
+  & ({\em R5: Risk of default}) & ({\em R5: Risk of default}) & ({\em R6: Risk of repudiation}) \\  
 \hline\end{tabular}
 \caption{Risks in advertising industry classified by action and by role.}
 \label{tab:risks}
@@ -104,21 +100,21 @@ The risks presented above are today managed in different ways by the advertising
 
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 
-The {\bf\em R1.2:Risk of fake person} consists of the impression of the ad and later installation being presented to a non-real person (bot,...) with the purpose of deluding the advertiser. 
+The {\bf\em R1.1: Risk of fake person} consists of the impression of the ad and later installation being presented to a non-real person (bot,...) with the purpose of deluding the advertiser. 
 
 
 The {\bf\em R1.2: Risk of double attribution} happens with the possibility of the same user to count twice as a conversion, leading the developer to pay two times what was due.
 
 
-The {\bf\em R1.3:Risk of no attention}  consists in the user install the app that is being advertised but not paying any attention to it. He may or not open the app, but not interact with the app, leading to a zero return-of-investment.
+The {\bf\em R1.3: Risk of no attention} consists in the user installing the app that is being advertised but paying no attention to it. He may or not open the app, but does not interact with the app, leading to a zero return-of-investment.
 
 
-The {\bf\em R1.4:Risk of data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in Data Management Platform (DMP) platforms and later used by advertising in programmatic / RTB targeting. 
+The {\bf\em R1.4: Risk of data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in Data Management Platform (DMP) platforms and later used by advertising in programmatic / RTB targeting. 
 
-The {\bf\em R1.5:Risk of default} consists in the developer creating a campaign but not having enough funds to pay the conversions that are generated in that campaign. Therefore not paying the due amount.
+The {\bf\em R1.5: Risk of default} consists in the developer creating a campaign but not having enough funds to pay the conversions that are generated in that campaign, leading to him not paying the due amount.
 
 
-The {\bf\em R1.6:Risk of repudiation} happens when the developer doesn't recognize the installation, failing to attribute the conversion to the publisher. The attibution is generally monitored by tracking platforms like AppsFlyer, Adjust or Kochava that have multiple variables that can be changed by the developer to define what it considers a real attribution. These variables can take in account the time window period between the click URL and the conversion, the network fingerprint, amoing others. Attribution, or the lack of attribution, is mining the industry with only 15\% to 25\% of the real installations being considered conversions.
+The {\bf\em R1.6: Risk of repudiation} happens when the developer does not recognise the installation, failing to attribute the conversion to the publisher. The attribution is generally monitored by tracking platforms like AppsFlyer, Adjust or Kochava that have multiple variables that can be changed by the developer to define what it considers a real attribution. These variables can take in account the time window period between the click URL and the conversion, the network fingerprint, among others. Attribution, or the lack of it, is mining the industry with only 15\% to 25\% of the real installations being considered conversions\footnote{Values based on Aptoide experience.}.
 
 %XXX what does mining the industry mean?
 %XXX provide reference for the 15-25% statement
@@ -142,21 +138,23 @@ In-App Billing (IAB), also called In-App Purchase, consists in the possibility f
 \end{figure}
 
 
-The need for the transactions for go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's App to be distributed is that all the financial transactions have to be managed by the app store. 
+The need for the transactions for go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's app to be distributed is that all the financial transactions have to be managed by the app store. 
 
-The app store adds some value to this flow: 1) it may know the customer already and have is payments data thus easing the entrance hurdles for the user and providing a better user experience, 2) has the trust of the user where the developer may have not 3) develop the technology necessary, allowing the developer to focus in the app development.
+The app store adds some value to this flow: 1) it may know the customer already and have is payments data, thus easing the entrance hurdles for the user and providing a better user experience, 2) it has the trust of the user when the developer may not have it yet, and 3) it develops the necessary technology, allowing the developer to focus in the app development.
 
-Although IAB represents a market with a huge volume of transactions processed by Google Play and Apple, there is still two big challenges.
+Although IAB represents a market with a huge volume of transactions processed by Google Play and Apple, there are still two big challenges.
 
 %XXX provide source for "huge volume of transactions by ..."
 
 The number of users with a credit card loaded in the store is still a minority. Only small part of the world population has access to credit card. Alternative methods like pre-paid cards are an approach but they are physical and depend of points of sale, therefore don't scale well.
 
-On the other hand, some of other payment methods like carrier billing have prohibitive margins that compromise the revenue share of 70\% for the developer. In some markets, the margin of the telecom operator varies between from 35\% to 60\% of the cost of the transaction. The reasons given by the telecom operators are: 1) high risk of fraud that has to be compensated 2) the users may cannibalize the telecommunications balance so the margin has to pay that possibility.
+%XXX provide source for "Only small part of the world population has access to credit card."
+
+On the other hand, some of other payment methods like carrier billing have prohibitive margins that compromise the revenue share of 70\% for the developer. In some markets, the margin of the telecom operator varies between from 35\% to 60\% of the cost of the transaction. The reasons given by the telecom operators are: 1) high risk of fraud that has to be compensated and 2) the users may cannibalise the telecommunications balance so the margin has to pay that possibility.
 
 %XXX provide source for margin being between 35% and 60%
 
-Having that the user has a proper payment method, there are still some risks that have to be mitigated:
+Providing the user has a proper payment method, there are still some risks that have to be mitigated:
 
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 
@@ -164,11 +162,11 @@ The {\bf\em R2.1: Risk of user data leak} consists in the information regarding 
 
 %XXX R2.1 is copy and paste of R1.4!
 
-The {\bf\em R2.2: Risk of digital goods lost} may happen when a user buys a digital good inside the game or app but it is not delivered. Often, the user doesn't have a way to recover the payment or claim the digital good.
+The {\bf\em R2.2: Risk of digital goods lost} may happen when a user buys a digital good inside the game or app but it is not delivered. Often, the user does not have a way to recover the payment or claim the digital good.
 
 The {\bf\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that he payed twice.
 
-The {\bf\em R2.4: Risk of digital items cloning} when the user is able to duplicate and tranfer the digital good to another user, leading to losses for the developer that charge once for a digital good that is used twice.
+The {\bf\em R2.4: Risk of digital items cloning} when the user is able to duplicate and transfer the digital good to another user, leading to losses for the developer that charge once for a digital good that is used twice.
 
 \end{tcolorbox}
 
@@ -179,7 +177,7 @@ A platform that handles the IAB transactions has to deal with those risks.
 
 % Description of today state: central approval, manual QA, automatic QA, time taken, arbitrary approval
 
-Apps approval is one of the more critical challenges of an App Store.
+\footnote{This section was contributed by Jo\~ao Carneiro, Aptoide backend team member}Apps approval is one of the more critical challenges of an App Store. By definition, the app store is a channel between the developer and the user.
 
 \begin{figure}[!ht]
 \centering
@@ -188,15 +186,12 @@ Apps approval is one of the more critical challenges of an App Store.
 \label{fig:app_approval_flow}
 \end{figure}
 
-
-By definition, the App Store is a channel between the developer and the user\footnote{This section was contributed by Joao Carneiro, Aptoide backend team member}.
-
 % include contribution from João Carneiro
-In order to enforce security, legal and business requirements, App Stores define limits in terms of acceptable app behaviour and/or content. These policies also mirror the store's philosophy (e.g. defining the acceptable content) and protect both users and developers against unwanted or potentially dangerous behaviour thus promoting trust. Policies can include general categories such as safety - protecting against malware behaviour, offensive content or physical harm - or legal - protecting privacy and intellectual property. More restrictive stores such as the Apple App Store also imposes strict rules regarding the user interface design, minimum functionality and quality. \cite{GooglePolicyWebsite} \cite{ApplePolicyWebsite}
+In order to enforce security, legal and business requirements, app stores define limits in terms of acceptable app behaviour and/or content. These policies also mirror the store's philosophy (e.g. defining the acceptable content) and protect both users and developers against unwanted or potentially dangerous behaviour, thus promoting trust. Policies can include general categories such as safety - protecting against malware behaviour, offensive content or physical harm - or legal - protecting privacy and intellectual property. More restrictive stores such as the Apple App Store also imposes strict rules regarding the user interface design, minimum functionality and quality. \cite{GooglePolicyWebsite} \cite{ApplePolicyWebsite}
 
 %XXX I don't get the meaning of "general categories"
 
-The risk of infringement occurs when new apps are added to the store. Therefore stores which are open to public upload of apps (e.g. Google Play Store or Apple Play Store allow submission by developers) need to ensure that uploaded apps abide by their rules by putting them through a reviewing process. The app approval flow is a critical process for App Stores as it ensures the compliance of new apps to the store's policy.
+The risk of infringement occurs when new apps are added to the store. Therefore, stores which are open to public upload of apps (e.g. Google Play Store or Apple Play Store allow submission by developers) need to ensure that uploaded apps abide by their rules by putting them through a reviewing process. The app approval flow is a critical process for App Stores as it ensures the compliance of new apps to the store's policy.
 
 The app screening may be performed through manual and/or automatic processes and differ between stores as they are defined by their own policies. The manual process involves a group of people (typically belonging to the Quality Assurance and/or the Security Team) who manually install and test apps on real devices. They examine the apps' behaviour and content in order to decide whether each app respects the store's policy. The automatic process consists of a computer program which automatically analyses the submitted apps and compares features to a given dataset of rules, signatures, unwanted apps, content or behaviour. Multiple techniques may be used by the program to automatically classify given apps into unwanted, accepted or unknown states\cite{Bhattacharya2017}.
 
