@@ -1,11 +1,11 @@
-\section{Blockchain Limitations and Proposed Approach}
+\section{Blockchain Limitations and Proposed Approach}\footnote{This section was contributed by Martin Uzak, Aptoide's backend team member}
 
 \label{sec:limitations}
 
-The current status of blockchain developments, both Bitcoin and Ethereum, can limit the development of projects that depend on the technology to support the required business usecases\footnote{This section was contributed by Martin Uzak, Aptoide backend team member}.
+The current status of blockchain developments, both Bitcoin and Ethereum, can limit the development of projects that depend on the technology to support the required business use cases. %missing citation?
 
  
-There are three use cases the App Coin Protocol tries to deliver in order to enable a fully working App Coin Economy:
+There are three use cases which the App Coin Protocol tries to solve in order to enable a fully working App Coin Economy:
 
 % \subsection{Use Cases}
 
@@ -23,9 +23,9 @@ From the above-mentioned use cases a list of requirements on the technology can 
     \item Scalability for millions of users
 \end{enumerate}
 
-The first criterion is solved by using a blockchain technology. Both Bitcoin or Ethereum work for this. For the second criterion only a blockchain technology supporting smart contracts will work i.e. Ethereum, NXT or Tezos.
+The first requirement is solved by using a blockchain technology. Both Bitcoin or Ethereum work for this. For the second requirement only a blockchain technology supporting smart contracts will work i.e. Ethereum, NXT or Tezos.
 
-Unfortunately bare Ethereum nor any other current blockchain for that matter doesn't scale for the needs of an App marketplace. This problem is even more aggravated considering a platform potentially working for all the app marketplaces.
+Unfortunately bare Ethereum nor any other current blockchain for that matter are able to scale for the needs of an App marketplace. This problem is even more aggravated considering a platform potentially working for all the app marketplaces.
 
 First let us have a detailed look at the challenges in question.
 
@@ -34,9 +34,9 @@ First let us have a detailed look at the challenges in question.
 
 Let's try to imagine a scenario of a working App Coin Economy using a bare blockchain technology like Ethereum.
 
-At the present there are about 2 Billions of Android users. The average Ethereum transaction is around 160 bytes. This can be established from the data at \url{https://etherscan.io/chart/tx}. If we wanted to create an App Coin Economy directly on Ethereum using these numbers we will arrives at the following characteristics of the system:
+At the present there are about 2 Billions of Android users. The average Ethereum transaction is around 160 bytes\cite{EthereumTransactions}. If we wanted to create an App Coin Economy directly on Ethereum using these numbers we would get a system with the characteristics shown in table \ref{table:ethereumscalability}.
 
-\begin{table}[h]
+\begin{table}[!htbp]
 \centering
 \begin{tabular}{|l|r|}
 \hline
@@ -51,21 +51,23 @@ TX size per month  & 8.73 TB          \\ \hline
 TX size per year   & 104.77 TB        \\ \hline
 \end{tabular}
 \caption{Scalability requirements for App Coin Economy}
+\label{table:ethereumscalability}
 \end{table}
 
 
 \subsubsection{Transaction Volume}
-Scalability in terms of volume is the first problem of Ethereum. At the present it handles only up-to 20 transactions per second\cite{eth_scaling}. That is nowhere near the required 23 000 average transactions per second. For peak times the system should support a number of transactions several magnitudes higher. E.g., VISA handles normally around 1667 and it peak times it claims it can do around 56 000 per second\cite{eth_scaling}.
+Scalability in terms of volume is the first problem of Ethereum. At the present it handles only up-to 20 transactions per second\cite{eth_scaling}. That is nowhere near the required 23 000 average transactions per second. For peak times the system should support a number of transactions several orders of magnitudes higher. E.g., VISA handles normally around 1667 and at peak times it claims it can do around 56 000 per second\cite{eth_scaling}.
 
 \subsubsection{Fees}
 
-The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute (see \url{http://ethgasstation.info/}). If the user is willing to wait around 10 minutes the cost is 1 cent. This is both too slow and too expensive to facilitate micro transaction.
+The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute (see \cite{ethgasstation}). If the user is willing to wait around 10 minutes the cost is 1 cent. This is both too slow and too expensive to facilitate micro transaction.
 
 \subsubsection{Latency}
-As mentioned in the previous section in Ethereum one has to wait until a transaction is part of the blockchain. To have reasonable guarantee that the transaction is part of the main blockchain and not of one of possible branches one needs to wait 7 blocks. This is because two miners could submit the next block at the same time and it will take some time to decide whose block will continue the chain. While this might not be an issue for high value money transfers in the App Coin Economy the transactions have to be executed within few seconds or faster (preferably instantly) in order to enable meaningful IAB and user experience.
+As mentioned in the previous section, in Ethereum, one has to wait until a transaction is part of the blockchain. To have reasonable guarantee that the transaction is part of the main blockchain and not of one of possible branches, one needs to wait 7 blocks. This is because two miners could submit the next block at the same time and it will take some time to decide whose block will continue the chain. While this might not be an issue for high value money transfers in the App Coin Economy the transactions have to be executed within few seconds or faster (preferably instantly) in order to enable meaningful IAB and user experience.
 
 \subsection{Existing technology}
-Scalability restrictions are present in any blockchain technology using mining by proof-of-Work e.g. Bitcoin and Ethereum. For Bitcoin - the oldest blockchain implementation - the proposed solution is the Lightning Network.
+Scalability restrictions are present in any blockchain technology using mining by proof-of-Work e.g. Bitcoin and Ethereum. For Bitcoin - the oldest blockchain implementation - the proposed solution is the Lightning Network. %citation?
+%why is the lightning network the only solution referred? should talk about proof-of-stake?
 
 
 \subsection{Ethereum and Bitcoin based}
@@ -73,44 +75,48 @@ Scalability restrictions are present in any blockchain technology using mining b
 Basically there is one possibility how to tackle the scalability problem with Bitcoin and two solutions with Ethereum. The first one is keeping the proof-of-work based blockchain and enhancing it with a direct-channel-payment solution like the Lightning Network. For Ethereum there are two major technologies that are going to be introduced also in this section.
 
 \subsection{Lightning Network}
-In brief the Lightning Network allows for creation of bidirectional payment channels that are off-chain. Using such a channel two parties agree to deposit money into a common entity called channel and this information is stored on blockchain. There is a 2-signature entry for the channel with the total sum of the deposit saved. From this moment on the two parties can exchange between them any number of payments in the form of signed receipts. The only condition is that the balance for one party doesn't exceed the total of the deposit. Should a case like this happen, the parties can increase the deposit. These off-chain transactions are signed and sent direct. They are not broadcasted. In contrast all the transactions on the main blockchain need to be broadcasted to all participants. 
+In brief the Lightning Network allows for creation of bidirectional payment channels that are off-chain. %citation?
+Using such a channel two parties agree to deposit money into a common entity called channel and this information is stored on blockchain. There is a 2-signature entry for the channel with the total sum of the deposit saved. From this moment on the two parties can exchange between them any number of payments in the form of signed receipts. The only condition is that the balance for one party doesn't exceed the total of the deposit. Should a case like this happen, the parties can increase the deposit. These off-chain transactions are signed and sent direct. They are not broadcast. In contrast all the transactions on the main blockchain need to be broadcast to all participants. 
 
 This approach solves the blockchain scalability problem, as:
 
 \begin{itemize}
-    \item the messages are direct and not broadcasted. The volume of transactions between the two parties is only limited by their processing capabilities. Also compared to blockchain not all the transactions have to be stored but only the latest receipts, i.e. the latest balance for both users. This solves the problem of storing huge amounts of old transactional data that is inherent in blockchain.
+    \item The messages are direct and not broadcast. The volume of transactions between the two parties is only limited by their processing capabilities. Also compared to blockchain not all the transactions have to be stored but only the latest receipts, i.e. the latest balance for both users. This solves the problem of storing huge amounts of old transactional data that is inherent in blockchain.
     \item The only fees are for opening and closing the payment channel on the blockchain. For payments over the payment channel there is no extra fees. Once it is established micro transactions are possible without further limitations.
     \item Finally by using direct peer-2-peer communication transactions can be exchanged as fast as the underlying network between the two parties will enable it. Thus the problem of latency is solved.
 \end{itemize}
 
-Thus the original blockchain scalability limitations are resolved for the case of two directly connected parties. Of course having open channels between all the participants in the App-Coin-Economy is both not feasible and economical (because of opening and settling fees on blockchain). Therefore the Lightning Network proposes a solution, where the payment channels are stored in a graph and payment can be routed securely keeping the above mentioned characteristics among multiple parties. This is enabled using hashlocks. For more detailed information, please have a look at either the specification of Lightning Network or the excellent introductory article \cite{starkness}.
+Thus the original blockchain scalability limitations are resolved for the case of two directly connected parties. Of course having open channels between all the participants in the App-Coin-Economy is both not feasible and economically viable (because of opening and settling fees on blockchain). Therefore the Lightning Network proposes a solution, where the payment channels are stored in a graph and payment can be routed securely keeping the above mentioned characteristics among multiple parties. This is enabled using hashlocks. For more detailed information, please have a look at either the specification of Lightning Network or the excellent introductory article \cite{starkness}.
 
 
 
 \subsubsection{Raiden}
-Raiden network is an early implementation of the Lightning Network protocol for Ethereum. Therefore it is an off-chain scaling solution for Ethereum. It promises near-instant, low-fee and scalable payments and enables micro transactions. Raiden runs as a network of nodes establishing payment channels among users. It uses locked funds in a smart contract in Ethereum and payments happen inside of Raiden until one party chooses to settle. Raiden will work for any Ethereum tokens implementing the ERC20 standard.
+%citation missing
+Raiden network is an early implementation of the Lightning Network protocol for Ethereum. Therefore, it is an off-chain scaling solution for Ethereum. It promises near-instant, low-fee and scalable payments and enables micro transactions. Raiden runs as a network of nodes establishing payment channels among users. It uses locked funds in a smart contract in Ethereum and payments happen inside of Raiden until one party chooses to settle. Raiden will work for any Ethereum tokens implementing the ERC20 standard.
 
-One of the key characteristics of Raiden is its maturity. Currently it is the only known technology for Ethereum with existing implementation (i.e. beyond white paper stage) enabling a working App-Coin-Economy. It has been in development for past two years and it is reaching a Minimal Viable Product stage, currently being in a developer preview stage.
+One of the key characteristics of Raiden is its maturity. Currently it is the only known technology for Ethereum with existing implementation (i.e. beyond white paper stage) enabling a working App-Coin-Economy. It has been under development for the past two years and it is reaching a Minimal Viable Product stage, currently being in a developer preview stage.
 
-Privacy is another key characteristic of Raiden.  All the transactions within are known only to the involved parties and not public knowledge like in Ethereum.
+Privacy is another key characteristic of Raiden.  All the transactions are known only to the involved parties and not public knowledge like in Ethereum.
 
-Finally the maturity can be also seen as a weak point for Raiden. Even though it is beyond proof-of-concept stage it is not recommended to be used on the live Ethereum network by its creators.
+Finally the maturity can also be seen as a weak point for Raiden. Even though it is beyond proof-of-concept stage it is not recommended to be used on the live Ethereum network by its creators.
 
 \subsubsection{Plasma}
-Plasma is defined as “Scalable autonomous smart contracts” and it is another attempt to bring the Lightning Network technology from Bitcoin to the Ethereum world. This is envisioned by means of a tree of hierarchical chains where where most of the transactions can be settled in the sub-chains and don’t need to go to the expensive and slow main chain. The main chain will be needed only to settle disputes coming from sub chains and would serve as final validation.
+%citation missing
+Plasma is defined as \“Scalable autonomous smart contracts\” and it is another attempt to bring the Lightning Network technology from Bitcoin to the Ethereum world. This is envisioned by means of a tree of hierarchical chains where most of the transactions can be settled in the sub-chains and do not need to go to the expensive and slow main chain. The main chain will be needed only to settle disputes coming from sub chains and would serve as final validation.
 
-A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another fact speaking for Plasma it that is has been endorsed by OmiseGo to be used for their decentralized exchange and payment platform\cite{omisego_plasma}.
+A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another aspect supporting Plasma it that is has been endorsed by OmiseGo to be used for their decentralized exchange and payment platform\cite{omisego_plasma}.
 
-What speaks against Plasma at this time is the fact that the project has only a white paper, no working code base yet.
+What speaks against Plasma at this time is the fact that the project has only a white paper, without any working code base yet.
 
 \subsubsection{OmiseGo}
+%citation missing
 OmiseGo is an Asian payment gateway. It plans to use Ethereum and Plasma as a foundation for creating a decentralized exchange and payment platform. They plan to launch their own blockchain called OMG that will be complementary to Ethereum. Ether will be then used as a medium of interchange for various asset being exchanged on their blockchain.
 
-Here is some of the strong points of OmiseGo:
+Here are some of the strong points of OmiseGo:
 \begin{itemize}
-    \item Consensus rules for high performance activity.
-    \item Rapid execution and clearing. Proof-of-Stake.
-    \item Handle extremely high volumes of Transactions and o final delivery on Ethereum.
+    \item Consensus rules for high performance activity;
+    \item Rapid execution and clearing. Proof-of-Stake;
+    \item Handle extremely high volumes of transactions and of final delivery on Ethereum;
     \item Availability as white label e-Wallet solution
 \end{itemize}
 
@@ -122,44 +128,43 @@ The weak points include:
 \end{itemize}
 
 \subsection{Independent blockchains}
-The second solution to achieve global consensus (blockchain) with some scalability is use an proof-of-work as block minting algorithm. For Ethereum this would be the Casper protocol which has been talked about a lot in the past years in Ethereum community but which is not implemented yet. As Casper is not in use yet we will examine here other projects that have implemented minting instead of mining blocks.
+The second solution to achieve global consensus (blockchain) with some scalability is the use of a proof-of-work as block minting algorithm. For Ethereum this would be the Casper protocol which has been talked about a lot in the past years in Ethereum community but which is not implemented yet. As Casper is not in use yet we will examine here other projects that have implemented minting instead of mining blocks.
 
 A brief look will be also thrown at IOTA that solves the scalability problem by using not a blockchain, but a directed acyclic graph called Tangle.
 
 \subsubsection{NXT}
-One of solutions not based upon Ethereum is NXT. It is an open source blockchain written in Java first released in 2013. Compared to Ethereum one can see NXT as a monolith trying to include major features from alt coins. It describes itself as an modern economic system based on cryptography and blockchain technology. On the other hand Ethereum built a low platform and programming language in which one can program generic contracts.
+%citation missing
+One of solutions not based upon Ethereum is NXT. It is an open source blockchain written in Java first released in 2013. Compared to Ethereum one can see NXT as a monolith trying to include major features from all coins. It describes itself as an modern economic system based on cryptography and blockchain technology. On the other hand Ethereum built a low platform and programming language in which one can program generic contracts.
 
 Other major differentiation of NXT to Ethereum is the fact that it is based on proof-of-stake for creating new blocks.
 
-NXT is unsuitable for creating an App Coin Economy as it targets a different scenario. One of managing your business, assets and customers and interaction between them in a secure way. Not as a blockchain backed technology enabling to create generic decentralized Apps.
+NXT is unsuitable for creating an App Coin Economy as it targets a different scenario. Focusing on managing your business, assets and customers and interaction between them in a secure way. Not as a blockchain backed technology enabling to create generic decentralized Apps.
 
-Another point speaking against NXT is the fact that its beginning were obscure. 73 anonymous accounts received stakes in exchange for bitcoin accounts and it is these people who can mint new blocks. And also that there has not been much buzz around and development for NXT recently.
+Another point speaking against NXT is the fact that its beginning was obscure. 73 anonymous accounts received stakes in exchange for bitcoin accounts and it is these people who can mint new blocks. And also that there has not been much buzz around and development for NXT recently.
 
 \subsubsection{Tezos}
+%citation missing
 Compared to NXT the next examined project has received a lot of attention recently and finished its ICO by raising more than \$200 million.
 
-Tezos describes its ultimate aim to create blockchain technology working better as both Ethereum and Bitcoin. It wants to provide users financial incentives for maintaining on-chain consensus mechanism. Main differences to Ethereum are:
+Tezos describes its ultimate aim to create blockchain technology working better than both Ethereum and Bitcoin. It wants to provide users with financial incentives for maintaining on-chain consensus mechanism. Main differences to Ethereum are:
 
 \begin{itemize}
-    \item built-in consensus mechanism for governance
-    \item decoupled from Ethereum. Separate blockchain with proof-of-stake consensus for block minting.
+    \item Built-in consensus mechanism for governance
+    \item Decoupled from Ethereum. Separate blockchain with proof-of-stake consensus for block minting.
     \item OCaml as programming language for creating smart contracts
     \item Design-wise Ethereum is a generic and low-level solution while Tezos aims to provide a fat protocol with a lot of features, not unlike NXT.
 \end{itemize}
 
 \subsubsection{IOTA}
-The goal of IOTA is to create a lightweight network that allows an machine economy. Machine economy is a situation where many IoT devices communicate and execute payments between each other. IOTA doesn't use blockchain but a directed acyclic graph called Tangle. Currently it is in Beta stage with a reference implementation. One of the major advertised features is that there is no fees. In Tangle each new transactions confirms at least 2 previous transactions. That is the "fee" to participate. This might delay the transaction, especially if the network is small. 
-
-There is no miners.
-
-The IOTA white paper states it is quantum proof. It has got a lot of supply and the tokens are not divisible, unlike bitcoins or ethers.
+%citation missing
+The goal of IOTA is to create a lightweight network that allows a machine economy. Machine economy is a situation where many IoT devices communicate and execute payments between each other. IOTA doesn't use blockchain but a directed acyclic graph called Tangle. Currently it is in Beta stage with a reference implementation. One of the major advertised features is that there is no fees. In Tangle each new transactions confirms at least 2 previous transactions. That is the "fee" to participate. This might delay the transaction, especially if the network is small. There are no miners. The IOTA white paper states it is quantum proof. It has got a lot of supply and the tokens are not divisible, unlike bitcoins or ethers.
 
 \subsection{Proposed Approach}
-In the old days among other valuables it was gold that was used to store value. But trading in gold is hugely unpractical and insecure - having to have physically the gold on a person one can robbed easily. Therefore paper money was created which was a lot more practicable and secure. Originally it was only receipts from goldsmiths that were later replaced by more refined forms. And this is paper how money came into being.
+In the old days among other valuables it was gold that was used to store value. But trading gold is hugely unpractical and insecure - having to physically have the gold on a person, one can be easily robbed. Therefore paper money was created which was a lot more practical and secure. Originally it was only receipts from goldsmiths that were later replaced by more refined forms. And this is how paper money came into being.
 
-In our use case we are facing the same situation. There is blockchain currencies that can securely store digital value. Not unlike gold. But as we have seen doing trades over them doesn't scale, is slow and not without fees. Just as it is impracticable to use gold for paying in a restaurant. Therefore we need to reinvent an analogy to the paper money. In our case it can be done by direct payment channels connected into an network.
+In our use case we are facing the same situation. There is blockchain currencies that can securely store digital value. Not unlike gold. But as we have seen doing trades over them doesn't scale, is slow and requires fees. Just as it is impracticable to use gold for paying in a restaurant. Therefore we need to reinvent an analogy to the paper money. In our case it can be done by direct payment channels connected into an network.
 
-The roles in our scenario compared to the past would be these:
+The roles in our scenario with an analogy to the past would be these:
 
 \begin{itemize}
     \item Gold - App Coins (ERC20 compliant Ethereum token)
@@ -169,14 +174,14 @@ The roles in our scenario compared to the past would be these:
 
 The App Store acts as the gateway to the digital payment world for the user. He deposits his valuables (preferably Ether) with the store in a payment channel using a smart contract. The same happens for developers. And from this moment on they can utilize the micropayments within the App Infrastructure. The payments are instant, cheap and there can be any number of them.
 
-What about the fees? The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there is several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
+What about the fees? The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there are several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
 
 In other words the App Store can be seen as a payment hub for users and developers.
 
 Returning to the requirements from the beginning of this chapter, we plan to use Ethereum for storing value and smart contracts. 
 
-To allow for scalability Raiden will be used along the ERC20 App Coins deployed on Ethereum for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. 
+To allow for scalability Raiden will be used along the ERC20 App Coins deployed on Ethereum for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
 
-The choice for Raiden is because at the time of writing it is the only platform that has a test network and can be used. Yet OmiseGo have promising outlook and in the future can be used. Depending on the progress they make this option might change in their favour. They will be kept under close look as they might develop the potential to substitute Raiden.
+The choice for Raiden is because at the time of writing it is the only platform that has a test network and can be used. Yet OmiseGo has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
 
 
