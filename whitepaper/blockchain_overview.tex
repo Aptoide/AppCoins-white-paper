@@ -1,5 +1,6 @@
 \section{AppCoins: Protocol Definition}
 
+
 \label{sec:protocol}
 
 As we seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within App Stores by leveraging the blockchain construction to create value for the different participants.\\
@@ -17,14 +18,53 @@ Advertising campaigns in the context of a blockchain construction must be constr
 
 \subsubsection{Data Structures} \label{sssec:ads_ds}
 
-\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...). Please refer to Table \ref{table: data_structures_ad} for more details. \\
+%\noindent \textbf{Campaign}. A \textit{campaign} is a statement of intent to pay for the attention of users. Developers create \textit{campaigns} and submit them to App Stores, which in turn match and propagate them to users. Campaigns are composed by an amount of funds, a duration, the amount of tokens per attribution, and the filters (app name, app version, geolocation,...). Please refer to Table \ref{table: data_structures_ad} for more details. \\
+%
+%\noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
 
-\noindent \textbf{Bid}. A \textit{bid} is a mapping between developers and the users in an App Store that match specific campaigns created by developers. It also contains the funds available for the \textit{bid} and the amount of tokens per attribution, and its duration.\\
+\noindent \textbf{Bid}. A \textit{bid} is a statement of intent to pay for the attention of users. Developers create \textit{bids} and submit them to App Stores, which in turn match and propagate them to users. Bids are composed by an amount of funds, a duration, the amount of tokens per attribution, the filters (app name, app version, geolocation,...). and a mapping between developers and the users in an App Store that match specific filters set by the developers. Please refer to Table \ref{table: data_structures_ad} for more details. \\
 
 \noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures_ad} for more details.\\
 
-\noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that did the required action (having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
+\noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that did the required action (e.g. having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different App Stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
+%\begin{table}[H]
+%\footnotesize
+%\centering
+%\begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
+%\hline
+%\multicolumn{2}{|c|}{Data Structures} \\
+%\hline \vspace{0.05cm}
+%\textbf{Campaign} & \vspace{0.05cm} \textbf{Bid} \\
+%campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$
+%\begin{itemize}
+%	\item Funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AP_{j}$
+%	\item Duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$
+%	\item Tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
+%	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
+%\end{itemize}
+%& bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$
+%why D_1 instead of D_i?
+%add relationship between B and C? 
+%\begin{itemize}
+%	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
+%	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
+%\end{itemize} \\
+%\textbf{Inverted Bid} & \textbf{Advertising Ledger} \\
+%inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
+%\begin{itemize}
+%	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
+%	\item Bid $B_i$, bids submitted to app store $AP_j$
+%\end{itemize}
+%& advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
+%\begin{itemize}
+%	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
+%\end{itemize} \\
+%\hline
+%\end{tabular}
+%\caption{Data Structures for Advertising Use Case}
+%\label{table: data_structures_ad}
+%\end{table}
 \begin{table}[H]
 \footnotesize
 \centering
@@ -32,40 +72,42 @@ Advertising campaigns in the context of a blockchain construction must be constr
 \hline
 \multicolumn{2}{|c|}{Data Structures} \\
 \hline \vspace{0.05cm}
-\textbf{Campaign} & \vspace{0.05cm} \textbf{Bid} \\
-campaign $C_{ij} := \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters \rangle_{D_{i}, AP_{j}}$
+\textbf{Bid} & \vspace{0.05cm} \textbf{Inverted Bid} \\
+bid $B_a : \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters, D_i \to (U_1..U_n) \rangle_{D_{i}, AP_{j}}$
+%add introduction to i.j indexes?
+%why \Delta t_{ij} has ij? does it time relate appstore and user or is it related to the bid (e.g. store with multiple bids what does it mean)?
+% i is related to developer and j in app store
 \begin{itemize}
 	\item Funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AP_{j}$
 	\item Duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AP_{j}$
 	\item Tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
 	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
-\end{itemize}
-& bid $B_i : \{D_1 \to (U_1..U_n)\}_{AP_j}$
-\begin{itemize}
 	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AP_j$ 
 	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AP_j$
-\end{itemize} \\
-\textbf{Inverted Bid} & \textbf{Advertising Ledger} \\
+\end{itemize} &
 inverted bid $IB_i : \{U_1 \to (B_1..B_n), U_2..\}_{AP_j}$
 \begin{itemize}
 	\item User $U_i$, user matching one or more bids $B_{i..n}$ in app store $AP_j$
 	\item Bid $B_i$, bids submitted to app store $AP_j$
-\end{itemize}
-& advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
+\end{itemize} \\
+\textbf{Advertising Ledger} & \\
+advertising ledger $L_{Ad} : (A^{1}_{t}..A^{n}_{t})$
+%what is the index t?
 \begin{itemize}
 	\item Attribution $A^{i}_{t}$, $i$-th attribution in the advertising ledger $L$, which is composed as a mapping $A^{i}_{t} : \{B_{N}^{j} \to (U_{N}^{1}..U{N}^{n})\}$, where $B_{N}^{j}$ is the standardised bid $B_j$ across all the app stores where it is defined and $U_{N}^{i}$ is the normalised user $U_i$ across all the app stores
-\end{itemize} \\
+\end{itemize} & \\
 \hline
 \end{tabular}
 \caption{Data Structures for Advertising Use Case}
 \label{table: data_structures_ad}
 \end{table}
 
-\subsubsection{Algorithms pseudo-code}
+
+\subsubsection{Algorithms' Pseudo-code}
 
 Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definition of the following methods. \\
 
-\noindent \textbf{Create bid}. When a campaign is submitted to the App Store, the \textsf{CreateBid} method creates the associated bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
+\noindent \textbf{Create bid}. When a bid is submitted to the App Store, the \textsf{CreateBid} method creates the bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters, as well as all the parameters describing the bid as the funds $F$, duration $\Delta t$, etc. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
 
 \textsf{AD.CreateBid}
 \begin{itemize}
@@ -79,7 +121,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 			\item Filters (geolocation, app name, app version,...)
 		\end{itemize}
 		\item Developer $D$
-		\item App Store $AS$
+		\item App Store $AS$ %App Store was AP in previous definitions
 	\end{itemize}
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
@@ -206,13 +248,13 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 \end{table}
 
 
-\subsubsection{Wallets transactions}
+\subsubsection{Wallets' Transactions}
 
-The transfers between wallets in the Advertising flow have to address some risks that were previsously decribed in chapter ...
+The transfers between wallets in the Advertising flow have to address some risks that were previsously decribed in chapter ...%missing reference
 
-There is a wallet that contains the value of the created campagin, addressing the risk of ...
+There is a wallet that contains the value of the created campagin, addressing the risk of ...%missing text
 
-There is a wallet for the value of the impression, to be sure that if the conversion occurs, the conversion is payed.
+There is a wallet temporarilly storing the value of the impression, to be sure that if the conversion occurs, the conversion is payed.
 
 \begin{figure}[!ht]
 \centering
@@ -226,12 +268,13 @@ There is a wallet for the value of the impression, to be sure that if the conver
 
 
 \subsection{In-App Billing}
+%missing intro?
 
 \subsubsection{Data Structures}
 
 \noindent \textbf{Catalog}. A \textit{catalog} is a mapping between items available in an app and their prices. Each item has only one price and the mapping is bonded to an App Store, i.e. the price can be set differently for different App Stores. \\
 
-\noindent \textbf{IAB Ledger}. The \textit{IAB ledger} is the record of items bought by users. It records transactions in a way that anyone can verify an anonymous user bought a quantity $Q$ of an item $I$ for a price $P$ from an app that integrated the IAB solution from App Store $AS$.
+\noindent \textbf{IAB Ledger}. The \textit{IAB ledger} is the record of items bought by users. It records transactions in a way that anyone can verify an anonymous user bought a quantity $Q$ of an item $I$ for a price $P$ from an app that integrated the IAB solution from App Store $AS$. %App Store was previously defined AP
 
 \begin{table}[H]
 \footnotesize
@@ -242,6 +285,7 @@ There is a wallet for the value of the impression, to be sure that if the conver
 \hline \vspace{0.05cm}
 \textbf{Catalog} \\
 catalog $C_{ij} : \{I_1 \to P_1..I_n \to P_n\}_{A_i, AS_j}$
+%C was campaign, would be better to chose different symbol
 \begin{itemize}
 	\item Item $I_i$, an item available in app $A_i$ which integrated IAB solution from app store $AS_j$
 	\item Price $P_i$, the price of item $I_i$
@@ -258,7 +302,7 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \end{table}
 
 
-\subsubsection{Algorithms pseudo-code}
+\subsubsection{Algorithms' Pseudo-code}
 
 
 \noindent \textbf{Create catalog}. When a developer $D$ wants to integrate in-app purchases, a catalog $C$ is created containing the mapping between the items $I_N$ that are to be available in the app $A$ and their respective prices $P_N$. \\
@@ -267,6 +311,7 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \begin{itemize}
 	\item INPUTS:
 	\begin{itemize}
+		%N previously used as normalized?
 		\item Set of items $I_N = (I_1..I_n)$
 		\item Set of prices $P_N = (P_1..P_n)$
 		\item App $A$
@@ -346,16 +391,17 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 \label{table: iab_protocol}
 \end{table}
 
-\subsection{Developers Rank}
+\subsection{Developers' Rank}
 
-There is the need to create trust between the different players in the app economy, namely between users and the developers and their apps. \\
+There is the need to create trust between the different players in the app economy, namely between users, the developers and their apps. \\
 
-In the AppCoins protocol, trust is characterised by a developer rank, which is then propagated to all his apps. This rank can have the values of $\{"Unknown", "Trusted", "Critical"\}$. A user has the rank \textit{"Unknown"} only when joining the network for the first time, i.e. once the rank is changed from \textit{"Unknown"}, it can never have this value again. Changes in rank happen by either disputes, where the rank of the developer can change to \textit{"Critical"} in case of loss or remain the same in case of win, or by promotions, where the rank of the developer can change to \textit{"Trusted"}.
+In the AppCoins protocol, trust is characterised by a developer's rank, which is then propagated to all his apps. This rank can have the values of $\{"Unknown", "Trusted", "Critical"\}$. A user has the rank \textit{"Unknown"} only when joining the network for the first time, i.e. once the rank is changed from \textit{"Unknown"}, it can never have this value again. Changes in rank happen by either disputes, where the rank of the developer can change to \textit{"Critical"} in case of loss or remain the same in case of win, or by promotions, where the rank of the developer can change to \textit{"Trusted"}.
 
 Promotions depend on the number of transactions in each of the developer's apps compared to the number of transactions in other popular apps. Promotions are automatic and depend on the following condition:
 
 \begin{equation}
 \sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t} \geq TX_{A^{T}_{M}}
+%T variable in the date and part of TX is confusing looks like T multiplied by X
 \label{eq: promo_cond}
 \end{equation}
 
@@ -372,9 +418,9 @@ S_l = \log_2 \frac{\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t}}{TX
 Because of the use of the logarithm function in Equation \ref{eq: rank_level}, it becomes harder to gain higher rank levels as the rank level increases.
 
 
-\subsubsection{Wallets transactions}
+\subsubsection{Wallets' Transactions}
 
-In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user thart is buying the digital item and 3 recipients: the Developer, the OEM and the app store.
+In In-App Billing the transactions between wallets occur off-chain. The main transactions are between the user that is buying the digital item and 3 recipients: the developer, the OEM and the app store.
 
 \begin{figure}[!ht]
 \centering
@@ -384,9 +430,9 @@ In In-App Billing the transactions between wallets occur off-chain. The main tra
 \end{figure}
 
 
-\subsubsection{Developers Reputation}
+\subsubsection{Developers' Reputation}
 
-A developer known is more trustable than a developer recently arrived to the apps distribution business.
+A known developer is more trustable than a developer recently arrived to the apps' distribution business.
 
 In figure \ref{fig:approval_state_diagram}, the different states that the developer can have are presented.
 
@@ -400,9 +446,11 @@ In figure \ref{fig:approval_state_diagram}, the different states that the develo
 
 \subsubsection{Data Structures}
 
-\noindent \textsf{Dispute Intent}. A \textit{dispute intent} happens when a user claims a developer is dishonest and no dispute against that developer is open. The developer or any other user then has 7 days to answer the dispute. If someone answers the dispute, be it the developer or any other user, the dispute is opened and the minimum fees needed to open it are captivated. If no user answers the dispute, the \textit{dispute intent} closes and the developer status changes to \textit{critical}. \\
+\noindent \textsf{Dispute Intent}. A \textit{dispute intent} happens when a user claims that a developer is dishonest and no dispute against that developer is open. The developer or any other user then has 7 days to answer the dispute. If someone answers the dispute, be it the developer or any other user, the dispute is opened and the minimum fees needed to open it are captivated. If no user answers the dispute, the \textit{dispute intent} closes and the developer status changes to \textit{critical}. \\
+%in the last sentence "If no user answers the dispute". Shouldn't it be "If no user or developer answers the dispute" else a user can allways blacklist any developer provided that other users don't reply
 
 \noindent \textsf{Dispute}. A \textit{dispute} is a conflict between two parties, where one party - the \textit{contestants} - claim that a developer is dishonest, i.e. the developer uploads apps with malware, too many ads, or non-working apps, and the other party - the \textit{pleaders} - claim the developer is honest. The pleaders include the developer being accused of dishonesty by the contestants. Both parties place tokens in the dispute and the party holding the most amount of tokens by the end of the dispute wins. Therefore, the \textit{dispute} includes the developer it regards to, the participants in both parties and their respective stake in the dispute. \\
+%how many tokens each user, developer puts?
 
 \noindent \textsf{DisputeLedger}. The \textit{dispute ledger} is the record of users joining disputes. It stores that a user joined a dispute on behalf of one of the sides with a certain stake (amount of tokens). The entries in the \textit{dispute ledger} are used to settle disputes when they end. \\
 
@@ -420,6 +468,7 @@ dispute intent $K^{0}_{x} := \langle D_i, C_j, T_{min}, S\rangle$
 \begin{itemize}
 	\item Developer $D_i$, the developer being accused of being dishonest
 	\item Contestant $C_j$, user claiming developer $D_i$ is dishonest
+	%C has been defined as campaign
 	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute that may result from this dispute intent
 	\item status $S$, the current status of the dispute intent, which can take the values of \textit{"Open"} or \textit{"Closed"}
 \end{itemize} \\
@@ -429,6 +478,7 @@ dispute $K_x := \langle D_i, S, T_{min}\rangle$
 	\item Developer $D_i$, the developer being accused of being dishonest
 	\item status $S$, the current status of the dispute, which can take the values of \textit{"Open"} or \textit{"Closed"}
 	\item Minimum fee $T_{min}$, the minimum fee needed to open the dispute
+	%who defines the value of $T_{min}$, dows it change between disputes?
 \end{itemize} \\
 \textbf{Dispute Ledger} \\
 dispute ledger $L_{K} : (E_1..E_n)$
@@ -447,9 +497,10 @@ rank ledger $L_{R} : (E_1..E_n)$
 \end{table}
 
 
-\subsubsection{Algorithms pseudo-code}
+\subsubsection{Algorithms' Pseudo-code}
 
-
+%user was previously $U$
+%what are i,j,z,x ans 0
 \noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may result in a dispute being opened, depending on whether someone answers the \textit{dispute intent} within 7 days or not. The user answering the dispute may not be the developer. \\
 
 \textsf{DR.CreateDisputeIntent}
@@ -532,7 +583,7 @@ rank ledger $L_{R} : (E_1..E_n)$
 \centering
 \begin{tabular}{|p{.5\textwidth}p{.5\textwidth}|}
 \hline
-\multicolumn{2}{|c|}{Developers Rank Use Case} \\
+\multicolumn{2}{|c|}{Developers' Rank Use Case} \\
 \hline \vspace{0.1cm}
 \textsf{DR.CreateDisputeIntent}
 \vspace{-0.3cm}
@@ -653,9 +704,10 @@ rank ledger $L_{R} : (E_1..E_n)$
 \end{table}
 
 
-\subsubsection{Wallets transactions}
+\subsubsection{Wallets' Transactions}
 
-The reputation of a developer is built based on blockchain transactions that can be associate to him. However, when there is a dispute, like presented in the previous version, the dispute mechanism is solved by receiving endorsements / negative endorsements of the community members to the developer. The final decision is based on the total sum of coins that each side has.
+The reputation of a developer is built based on blockchain transactions that can be associate to him. However, when there is a dispute, like presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of coins that each side has.
+%how many tokens each user and developer puts? Is it a fixed value? If variable, can rich malware developers or users takeover the system?
 
 \begin{figure}[!ht]
 \centering
