@@ -1,7 +1,7 @@
 \section{AppCoins: Protocol Definition}
 \label{sec:protocol}
 
-As we seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within app stores by leveraging the blockchain construction to create value for the different participants.\\
+As we have seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within app stores by leveraging the blockchain construction to create value for the different participants.\\
 
 In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each core flow and subsections explaining the data structures, algorithms and wallets flows.
 
@@ -11,7 +11,7 @@ Advertising campaigns in the context of a blockchain construction must be constr
 \begin{itemize}
 \item \textit{Double attribution problem}: For all instances of the same bid (explained in \ref{sssec:ads_ds}) in different app stores, a user can only be attributed once.
 \item \textit{Bid refutation}: A developer must not be able to state that he did not create a bid if it is not true.
-\item \textit{Bid validation}: A developer must be able to confirm that the attribution rules match the ones submitted at campaign (explained in \ref{sssec:ads_ds}) creation time.
+\item \textit{Bid validation}: A developer must be able to confirm that the attribution rules match the ones submitted at the campaign (explained in \ref{sssec:ads_ds}) creation time.
 \end{itemize}
 
 \subsubsection{Data Structures}
@@ -36,7 +36,7 @@ bid $B_a : \langle F_{ij}, \Delta t_{ij}, T_{ij}, filters, D_i \to (U_1..U_n) \r
 	\item Funds $F_{ij}$, the amount of tokens the developer $D_{i}$ is willing to spend for $C_{ij}$ in an app store $AS_{j}$
 	\item Duration $\Delta t_{ij}$, the duration of $C_{ij}$ in $AS_{j}$
 	\item Tokens per attribution $T_{ij}$, the amount of tokens to be sent from $D_{i}$ and distributed to the other parties per attribution
-	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$, and others available to $D_{i}$
+	\item Filters, the specifics of $C_{ij}$, as the app name, app version, geolocation of $C_{ij}$ and others available to $D_{i}$
 	\item Developer $D_i$, developer that submitted a bid $B_i$ to the app store $AS_j$ 
 	\item User $U_i$, user matching the filters of campaign $C_{ij}$ associated with bid $B_i$ in app store $AS_j$
 \end{itemize} &
@@ -207,7 +207,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 
 The transfers between wallets in the Advertising flow have to address some risks that were previously described in Chapter \ref{subsec:intro_ads}.
 
-There is a wallet that contains the budget of the created campaign, which is meant to lock the budget, addressing the risk of default (R1.5) by the developer. To address the same risk, there is also a wallet temporarily storing the value of the impression, to make sure that if the attribution occurs within a certain time, i.e. the user installs and opens the app within a certain time interval, there is funds available to pay for the conversion. Otherwise, there could be the scenario of giving the impression to many users but the campaign only had enough funds for one more attribution. The users would try to get attribution, creating a race condition, but only one would get it. An example of this schema is shown in Figure \ref{fig:wallet_cpi_flow}.
+There is a wallet that contains the budget of the created campaign, which is meant to lock the budget, addressing the risk of default (R1.5) by the developer. To address the same risk, there is also a wallet temporarily storing the value of the impression, to make sure that if the attribution occurs within a certain time, i.e. the user installs and opens the app within a certain time interval, there are funds available to pay for the conversion. Otherwise, there could be the scenario of giving the impression to many users but the campaign only had enough funds for one more attribution. The users would try to get attribution, creating a race condition, but only one would get it. An example of this schema is shown in Figure \ref{fig:wallet_cpi_flow}.
 
 \begin{figure}[!ht]
 \centering
@@ -366,7 +366,7 @@ Promotions depend on the number of transactions in each of the developer's apps 
 \label{eq: promo_cond}
 \end{equation}
 
-where $A_i = \{A_{i1}..A_{iN}\}$ is the set of N apps of developer $D_i$, meaning that $A_{ij}$ is the app $j$ in the set $A_i$, $t$ is the day with $t=0$ being the moment the developer joined the network, $T$ is the current day, $A^{T}_{M}$ is the app with the highest number of transactions on day $T$. Given these variables definitions, one can see that the left side in Equation \ref{eq: promo_cond} represents the amount of transactions in all the apps of developer $D_i$ since he joined the network, and the right side represents the number of transactions of the app with the highest number of transactions on day $T$.
+Where $A_i = \{A_{i1}..A_{iN}\}$ is the set of N apps of developer $D_i$, meaning that $A_{ij}$ is the app $j$ in the set $A_i$, $t$ is the day with $t=0$ being the moment the developer joined the network, $T$ is the current day, $A^{T}_{M}$ is the app with the highest number of transactions on day $T$. Given these variables definitions, one can see that the left side in Equation \ref{eq: promo_cond} represents the amount of transactions in all the apps of developer $D_i$ since he joined the network and the right side represents the number of transactions of the app with the highest number of transactions on day $T$.
 
 Contrary to the promotions, disputes are not done automatically and require explicit actions from users. Any user can open a dispute with a developer stating that the developer is dishonest. After the dispute is opened, any other user can join either side, depending on if they want to support the accusation of dishonesty or if they want to defend the developer.
 
@@ -400,7 +400,7 @@ In Figure \ref{fig:approval_state_diagram}, the different states that the develo
 \noindent \textsf{Dispute Intent}. A \textit{dispute intent} happens when a user claims that a developer is dishonest and no dispute against that developer is open. The developer or any other user then has 7 days to answer the dispute. If someone answers the dispute, be it the developer or any other user, the dispute is opened and the minimum fees needed to open it are captivated. If no user answers the dispute, the \textit{dispute intent} closes and the developer status changes to \textit{critical}. \\
 %in the last sentence "If no user answers the dispute". Shouldn't it be "If no user or developer answers the dispute" else a user can allways blacklist any developer provided that other users don't reply
 
-\noindent \textsf{Dispute}. A \textit{dispute} is a conflict between two parties, where one party - the \textit{contestants} - claim that a developer is dishonest, i.e. the developer uploads apps with malware, too many ads, or non-working apps, and the other party - the \textit{pleaders} - claim the developer is honest. The pleaders include the developer being accused of dishonesty by the contestants. Both parties place tokens in the dispute and the party holding the most amount of tokens by the end of the dispute wins. Therefore, the \textit{dispute} includes the developer it regards to, the participants in both parties and their respective stake in the dispute. \\
+\noindent \textsf{Dispute}. A \textit{dispute} is a conflict between two parties, where one party - the \textit{contestants} - claim that a developer is dishonest, i.e. the developer uploads apps with malware, too many ads, or non-working apps and the other party - the \textit{pleaders} - claim the developer is honest. The pleaders include the developer being accused of dishonesty by the contestants. Both parties place tokens in the dispute and the party holding the most amount of tokens by the end of the dispute wins. Therefore, the \textit{dispute} includes the developer it regards to, the participants in both parties and their respective stake in the dispute. \\
 %how many tokens each user, developer puts?
 
 \noindent \textsf{DisputeLedger}. The \textit{dispute ledger} is the record of users joining disputes. It stores that a user joined a dispute on behalf of one of the sides with a certain stake (amount of tokens). The entries in the \textit{dispute ledger} are used to settle disputes when they end. \\
@@ -434,12 +434,12 @@ dispute $K_x := \langle D_i, S, T_{min}\rangle$
 \textbf{Dispute Ledger} \\
 dispute ledger $L_{K} : (E_1..E_n)$
 \begin{itemize}
-	\item entry $E_i$, an entry containing information about a user joining a dispute in the form $E_i := \langle U_i, P, T, K_x\rangle$, where $U_i$ is the user, $P$ is the position the user is taking (can be either \textit{"Contestants"} or \textit{"Pleaders"}), $T$ is the stake (amount of tokens) the user $U_i$ is willing to use to defend position $P$, and $K_x$ is the dispute user $U_i$ is joining
+	\item entry $E_i$, an entry containing information about a user joining a dispute in the form $E_i := \langle U_i, P, T, K_x\rangle$, where $U_i$ is the user, $P$ is the position the user is taking (can be either \textit{"Contestants"} or \textit{"Pleaders"}), $T$ is the stake (amount of tokens) the user $U_i$ is willing to use to defend position $P$ and $K_x$ is the dispute user $U_i$ is joining
 \end{itemize} \\
 \textbf{Rank Ledger} \\
 rank ledger $L_{R} : (E_1..E_n)$
 \begin{itemize}
-	\item entry $E_i$, an entry containing information about a change in a developer's rank in the form $E_i := \langle D_i, S_b, S_a, S_l\rangle$, where $D_i$ is the developer, $S_b$ is the developer's rank before the change, $S_a$ is the rank after the change, and $S_l$ is the level of the rank. $S_b$ can take the values of $\{"Unknown", "Trusted"\}$ and $S_a$ can take the values of $\{"Trusted", "Critical"\}$. For further details regarding the possible states of $S_b$ and $S_a$, and the possible values of $S_l$, please refer to Figure \textbf{[INCLUDE REF TO FIG]}.
+	\item entry $E_i$, an entry containing information about a change in a developer's rank in the form $E_i := \langle D_i, S_b, S_a, S_l\rangle$, where $D_i$ is the developer, $S_b$ is the developer's rank before the change, $S_a$ is the rank after the change and $S_l$ is the level of the rank. $S_b$ can take the values of $\{"Unknown", "Trusted"\}$ and $S_a$ can take the values of $\{"Trusted", "Critical"\}$. For further details regarding the possible states of $S_b$ and $S_a$ and the possible values of $S_l$, please refer to Figure \textbf{[INCLUDE REF TO FIG]}.
 \end{itemize} \\
 \hline
 \end{tabular}
@@ -657,7 +657,7 @@ rank ledger $L_{R} : (E_1..E_n)$
 
 \subsubsection{Wallets' Transactions}
 
-The reputation of a developer is built based on blockchain transactions that can be associate to him. However, when there is a dispute, like presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of tokens that each side has. Figure \ref{fig:wallet_developers_approval} shows how users create disputes and join sides by placing tokens on the dispute.
+The reputation of a developer is built based on blockchain transactions that can be associated to him. However, when there is a dispute, like presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of tokens that each side has. Figure \ref{fig:wallet_developers_approval} shows how users create disputes and join sides by placing tokens on the dispute.
 %how many tokens each user and developer puts? Is it a fixed value? If variable, can rich malware developers or users takeover the system?
 
 \begin{figure}[!ht]

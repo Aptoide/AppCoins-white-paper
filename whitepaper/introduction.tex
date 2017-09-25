@@ -8,22 +8,22 @@
 
 % (Explaining the problem for each of the 3 main flows. Problem of double attribution, problem of refutation,....)
 
-App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple App Store in July 2008, and with its pre-load in iPhone 3G.
+App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple's App Store in July 2008 and with its pre-load in iPhone 3G.
 
-In the same year, but later in August 2008, Google announced the launch of Android Market\cite{wiki:market}, the app store for Android.
+In the same year, but later in August 2008, Google announced the launch of Android Market \cite{wiki:market}, the app store for Android.
 
-These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions, and app approval. Centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: lack of trust and economical efficiency.
+These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions and app approval. Centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: a lack of trust and economical efficiency.
 
 Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes.
 
-By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users, and OEM manufacturers. By being centralised, they cannot benefit of a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
+By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users and OEM manufacturers. By being centralised, they cannot benefit from a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
 
-The App Coins protocol covers three core app store use cases:
+The AppCoins protocol covers three core app store use cases:
 
 \begin{itemize}
-\item {\bf Advertising inside the app store}: the transactional flow where a developer pays for a user to install his app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per thousand impressions), and others. There are different technology and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
-\item {\bf In-App Purchase}: when there is something that the user wants to buy inside the app or game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions, the developer has to integrate the SDK from the app store or to use the app store API.
-\item {\bf App approval}: in order for the app to be available, the developer has to go through an approval process where the app store screens the app through automatic tools like anti-virus, anti-malware tools, and static and dynamic code analysis platforms. Some app stores also manually test the app.
+\item {\bf Advertising inside the app store}: The transactional flow where a developer pays for a user to install their app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per Thousand Impressions) and others. There are different technologies and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
+\item {\bf In-App Purchase}: When there is something that the user wants to buy inside the app or game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions, the developer has to integrate the SDK from the app store or to use the app store API.
+\item {\bf App approval}: In order for the app to be available, the developer has to go through an approval process where the app store screens the app through automatic tools like anti-virus, anti-malware tools and static and dynamic code analysis platforms. Some app stores also manually test the app.
 \end{itemize}
 
 
@@ -61,14 +61,14 @@ For a developer or a publisher, the most natural place to advertise an applicati
 \label{fig:cpi}
 \end{figure}
 
-For simplicity, we will focus in the Cost per Install (CPI) model shown in Figure \ref{fig:cpi}, since the difference to the other models, like Cost per Action (CPA) or Cost per thousand impressions (CPM), is a matter of who shares the risk and captures the value.
+For simplicity, we will focus on the Cost per Install (CPI) model shown in Figure \ref{fig:cpi}, since the difference to the other models, like Cost per Action (CPA) or Cost per Thousand Impressions (CPM), is a matter of who shares the risk and captures the value.
 
-In an advertising model where the advertiser (developer) bids for an installation, we have the three different moments:
+In an advertising model where the advertiser (developer) bids for an installation, we have three different moments:
 
 \begin{itemize}
-\item {\em Campaign creation}: the developer (advertiser) defines the conditions for the ad to run in the store. Typically, he establishes a value for the bid representing the value that he is willing to pay for an install. There are other types of conditions called ``filters'', which represent target requirements: the campaign must run in a specific country, a specific smartphone, a specific operating system version, etc.
-\item {\em Impression}: when the campaign conditions are met and the bid is competitive, the ad is shown. The user may click in the ad to see the complete description of the app.
-\item {\em Install}: if the user installs the app, thus converting the impression, an attribution is due and the corresponding money is transferred.
+\item {\em Campaign creation}: The developer (advertiser) defines the conditions for the ad to run in the store. Typically, he establishes a value for the bid representing the value that he is willing to pay for an install. There are other types of conditions called ``filters'', which represent target requirements. For example, requirements stating that the campaign must run in a specific country, a specific smartphone, a specific operating system version, and others.
+\item {\em Impression}: When the campaign conditions are met and the bid is competitive, the ad is shown. The user may click on the ad to see the complete description of the app.
+\item {\em Install}: If the user installs the app, thus converting the impression, an attribution is due and the corresponding money is transferred.
 \end{itemize}
 
 % Create a itemize list above 
@@ -107,10 +107,10 @@ The {\bf\em R1.1: Risk of fake person} consists of the impression of the ad and 
 The {\bf\em R1.2: Risk of double attribution} happens with the possibility of the same user to count twice as a conversion, leading the developer to pay two times what was due.
 
 
-The {\bf\em R1.3: Risk of no attention} consists in the user installing the app that is being advertised but paying no attention to it. He may or not open the app, but does not interact with the app, leading to a zero return-of-investment.
+The {\bf\em R1.3: Risk of no attention} consists in the user installing the app that is being advertised but paying no attention to it. They may or not open the app, but does not interact with the app, leading to a zero return-of-investment.
 
 
-The {\bf\em R1.4: Risk of data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in Data Management Platform (DMP) platforms and later used by advertising in programmatic / RTB targeting. 
+The {\bf\em R1.4: Risk of data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user's preferences are aggregated in Data Management Platforms (DMP) and later used by advertisers in programmatic / RTB targeting. 
 
 The {\bf\em R1.5: Risk of default} consists in the developer creating a campaign but not having enough funds to pay the conversions that are generated in that campaign, leading to him not paying the due amount.
 
@@ -129,7 +129,7 @@ These risks in the Advertising flow will be considered in a section ahead in the
 
 % Description of In-App Billing inside the stores
 
-In-App Billing (IAB), also called In-App Purchase, consists in the possibility for the user to buy digital items inside an app or a game. Although those items are perceived to be bough inside the App, the items are bought through the app store.
+In-App Billing (IAB), also called In-App Purchase, consists in the possibility for the user to buy digital items inside an app or a game. Although those items are perceived to be bought inside the App, the items are bought through the app store.
 
 \begin{figure}[!ht]
 \centering
@@ -141,13 +141,13 @@ In-App Billing (IAB), also called In-App Purchase, consists in the possibility f
 
 The need for the transactions for go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's app to be distributed is that all the financial transactions have to be managed by the app store. 
 
-The app store adds some value to this flow: 1) it may know the customer already and have is payments data, thus easing the entrance hurdles for the user and providing a better user experience, 2) it has the trust of the user when the developer may not have it yet, and 3) it develops the necessary technology, allowing the developer to focus in the app development.
+The app store adds some value to this flow: 1) it may know the customer already and have their payment data, thus easing the entrance hurdles for the user and providing a better user experience, 2) it has the trust of the user when the developer may not have it yet and 3) it develops the necessary technology, allowing the developer to focus on the app development.
 
 Although IAB represents a market with a huge volume of transactions processed by Google Play and Apple, there are still two big challenges.
 
 %XXX provide source for "huge volume of transactions by ..."
 
-The number of users with a credit card loaded in the store is still a minority. Only small part of the world population has access to credit card. Alternative methods like pre-paid cards are an approach but they are physical and depend of points of sale, therefore don't scale well.
+The number of users with a credit card loaded in the store is still a minority. Only small part of the world population has access to credit card. Alternative methods like pre-paid cards are an approach but they are physical and depend on points of sale, therefore do not scale well.
 
 %XXX provide source for "Only small part of the world population has access to credit card."
 
@@ -159,13 +159,13 @@ Providing the user has a proper payment method, there are still some risks that 
 
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 
-The {\bf\em R2.1: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
+The {\bf\em R2.1: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences are aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
 
 %XXX R2.1 is copy and paste of R1.4!
 
 The {\bf\em R2.2: Risk of digital goods lost} may happen when a user buys a digital good inside the game or app but it is not delivered. Often, the user does not have a way to recover the payment or claim the digital good.
 
-The {\bf\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that he payed twice.
+The {\bf\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that they payed twice.
 
 The {\bf\em R2.4: Risk of digital items cloning} when the user is able to duplicate and transfer the digital good to another user, leading to losses for the developer that charge once for a digital good that is used twice.
 
@@ -174,16 +174,16 @@ The {\bf\em R2.4: Risk of digital items cloning} when the user is able to duplic
 A platform that handles the IAB transactions has to deal with those risks.
 
 
-\subsection{Apps Approval}
+\subsection{App Approval}
 
 % Description of today state: central approval, manual QA, automatic QA, time taken, arbitrary approval
 
-\footnote{This section was contributed by Jo\~ao Carneiro, Aptoide backend team member}Apps approval is one of the more critical challenges of an App Store. By definition, the app store is a channel between the developer and the user.
+\footnote{This section was contributed by Jo\~ao Carneiro, Aptoide backend team member}App approval is one of the more critical challenges of an app store. By definition, the app store is a channel between the developer and the user.
 
 \begin{figure}[!ht]
 \centering
 \includegraphics[width=\textwidth]{diagrams/apps_approval_flow.eps}
-\caption{App approval in centralized App Stores.}
+\caption{App approval in centralised App Stores.}
 \label{fig:app_approval_flow}
 \end{figure}
 
@@ -198,27 +198,27 @@ The app screening may be performed through manual and/or automatic processes and
 
 Google's Play Store and Apple's App Store, the current largest and most well-known app stores, use a combination of both processes. When a new app is submitted to their store, they first go through an automatic process which will automatically discard identified unwanted apps and then proceed to the manual process. However, the two stores differ in the techniques they use in their automatic processes and the amount of apps that go through manual reviewing \cite{AppleInsiderWebsite, AndroidWhitePaper}.
 
-Apple App Store approval flow is simple. All submitted apps go through an automatic static analysis process, a method which examines the app code without running it. In this process, the apps are analysed for traces of calls to the Apple's private API as the company's policy only allows calls to their public API. The identified apps are discarded while all the remaining apps are passed on for manual reviewing \cite{AppleInsiderWebsite, AppleApprovalFortune}. Apple states the following most common reasons for failing their strict manual reviewing process: crashes and bugs, broken links, placeholder content, incomplete information, inaccurate description, misleading users, substandard user interface, advertisements, web clipping, similar apps and not enough lasting value \cite{AppleReviewRejections}. According to apple, the complete review process takes on average between 24 (50\%) to 48 hours (90\% of submitted apps) \cite{AppleReviewTime}. 
+Apple App Store approval flow is simple. All submitted apps go through an automatic static analysis process, a method which examines the app code without running it. In this process, the apps are analysed for traces of calls to Apple's private API as the company's policy only allows calls to their public API. The identified apps are discarded while all the remaining apps are passed on for manual review \cite{AppleInsiderWebsite, AppleApprovalFortune}. Apple states the following most common reasons for failing their strict manual reviewing process: crashes and bugs, broken links, placeholder content, incomplete information, inaccurate description, misleading users, substandard user interface, advertisements, web clipping, similar apps and not enough lasting value \cite{AppleReviewRejections}. According to apple, the complete review process takes on average between 24 (50\%) to 48 hours (90\% of submitted apps) \cite{AppleReviewTime}. 
 
-Google's Play Store has a more evolved reviewing system where the automatic process involves a complex machine learning engine. This engine relies on multiple technologies including static and dynamic analysis (where both code and runtime behaviour is analysed), heuristic and similarity analysis (for finding new trends of unwanted apps) and signatures (identifying known unwanted apps). The engine also includes features from external independent security research as well as the developer's behaviour (history with other apps and billing profile) as well as metadata such as ratings and downloads. The automatic process assigns to each application a risk level ranging from safe to harmful. Low risk applications are automatically accepted and high risk applications are automatically rejected. Apps with medium risk level are submitted for manual reviewing \cite{AndroidWhitePaper}. According to publicly available information, Play Store's reviewing process takes on average between 45 minutes and 2 hours \cite{AndroidReviewTime}.
+Google's Play Store has a more evolved reviewing system where the automatic process involves a complex machine learning engine. This engine relies on multiple technologies including static and dynamic analysis (where both code and runtime behaviour is analysed), heuristic and similarity analysis (for finding new trends of unwanted apps) and signatures (identifying known unwanted apps). The engine also includes features from external independent security research as well as the developer's behaviour (history with other apps and billing profile) as well as metadata such as ratings and downloads. The automatic process assigns to each application a risk level ranging from safe to harmful. Low risk applications are automatically accepted and high risk applications are automatically rejected. Apps with medium risk level are submitted for manual review \cite{AndroidWhitePaper}. According to publicly available information, Play Store's reviewing process takes on average between 45 minutes and 2 hours \cite{AndroidReviewTime}.
 
-Although these app approving systems are capable of detecting a large number of unwanted apps, they also pose problems to developers. Apple's automatic process has shown problems with false positives and rejecting legitimate apps \cite{AppleInsiderWebsite} and their strict policy is known to frequently change the categories of rejected apps, posing problems to developers of such apps. Also, Apple's reviewing process strongly based on human analysis is known to have flaws, namely not being able to detect apps which hide their malware behaviour by being inactive for a given amount of time and showing a regular behaviour in order to escape the human test \cite{AppleFlaws1}. Other reports \cite{AppleFlaws2} have also shown a big presence of scamware in Apple's store where apps are able to scam users into paying for unneeded services. Google's more automated system has also been shown to have flaws \cite{AppleApprovalFortune} due to its more permissive system with apps being accepted without manual evaluation. Frequent security reports show breaches in the security control of Play Store reporting the existence of multiple malware (ransomware, backdoor, trojans) infected apps compromising several millions of devices and thus posing serious threats to users \cite{GoogleMalware1, GoogleMalware2, GoogleMalware3}.
+Although these app approval systems are capable of detecting a large number of unwanted apps, they also pose problems to developers. Apple's automatic process has shown problems with false positives and rejecting legitimate apps \cite{AppleInsiderWebsite} and their strict policy is known to frequently change the categories of rejected apps, posing problems to developers of such apps. Also, Apple's reviewing process strongly based on human analysis is known to have flaws, namely not being able to detect apps which hide their malware behaviour by being inactive for a given amount of time and showing a regular behaviour in order to escape the human test \cite{AppleFlaws1}. Other reports \cite{AppleFlaws2} have also shown a big presence of scamware in Apple's store where apps are able to scam users into paying for unneeded services. Google's more automated system has also been shown to have flaws \cite{AppleApprovalFortune} due to its more permissive system with apps being accepted without manual evaluation. Frequent security reports show breaches in the security control of Play Store reporting the existence of multiple malware (ransomware, backdoor and trojans) infected apps compromising several millions of devices and thus posing serious threats to users \cite{GoogleMalware1, GoogleMalware2, GoogleMalware3}.
 
-Both Apple's App Store and Google's Play Store have a history of refusing and banning apps. Examples of recent complaints include the rejection of the social network GAB's app by both Apple and Google \cite{AppRefusedGAB}, the refusal of music streaming Spotify app update \cite{AppleRefuseSpotify} or the Anti-Spam App \cite{AppleRefuseTRIAD} by Apple, and the rejection of Popcorn Time, TubeMate, Adguard or Fildo by Google \cite{GoogleBannedApps}. However, these rejections are often considered unfair by developers who claim an abusive and anticompetitive behaviour as the apps conflict with other services provided by the app stores and have motivated complaints to legal authorities \cite{AntiCompetitiveClaim}. \\
+Both Apple's App Store and Google's Play Store have a history of refusing and banning apps. Examples of recent complaints include the rejection of the social network GAB's app by both Apple and Google \cite{AppRefusedGAB}, the refusal of music streaming service Spotify's app update \cite{AppleRefuseSpotify} or the Anti-Spam App \cite{AppleRefuseTRIAD} by Apple and the rejection of Popcorn Time, TubeMate, Adguard or Fildo by Google \cite{GoogleBannedApps}. However, these rejections are often considered unfair by developers who claim an abusive and anticompetitive behaviour as the apps conflict with other services provided by the app stores and have motivated a number of complaints to legal authorities \cite{AntiCompetitiveClaim}. \\
 
 As described above, several risks can be found from the current centralised app approval processes:
 
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 
-The {\bf\em R3.1: Risk of Malware} is the possibility of an app or game submitted to the app store being infected with a virus or a malware that steal data or damages the user device.
+The {\bf\em R3.1: Risk of Malware} is the possibility of an app or game submitted to the app store being infected with a virus or malware that steals data or damages the user's device.
 
-The {\bf\em R3.2: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences is aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
+The {\bf\em R3.2: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user's preferences are aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
 
 %XXX again, R3.2 is just a copy and paste of R1.4
 
-The {\bf\em R3.3: Risk of censorship} when an app store blocks the publishing of an app or game based in political, religious or social factors that are subjective and totally unrelated with technical aspects. The censorship can be self-inflicted when the company running the app store follows orders or guidelines of national governments or can be result of technical external restrictions that limits the access to the app store (great firewall of China, for example).
+The {\bf\em R3.3: Risk of censorship} when an app store blocks the publishing of an app or game based on political, religious or social factors that are subjective and totally unrelated with technical aspects. The censorship can be self-inflicted when the company running the app store follows orders or guidelines of national governments or can be result of technical external restrictions that limits the access to the app store (The Great Firewall of China, for example).
 
-The {\bf\em R3.4: Risk of arbitrary decisions} happens when the app store denies the distribution of an app based in ``anti-competition clauses'' \cite{PlayTermsService} or other reasons only related of its business interest, even if the interest is in other markets or industries.
+The {\bf\em R3.4: Risk of arbitrary decisions} happens when the app store denies the distribution of an app based on ``anti-competition clauses'' \cite{PlayTermsService} or other reasons only related to its business interest, even if the interest is in other markets or industries.
 
 \end{tcolorbox}
 
@@ -228,11 +228,11 @@ This paper is organised in the following chapters. In this chapter we started to
 
 Chapter \ref{sec:design} will propose the overall design of the solution for the core app store flows supported by blockchain technology. 
 
-Chapter \ref{sec:protocol} will deep dive in the blockchain technology, presenting the main data structures and algorithms that are proposed.
+Chapter \ref{sec:protocol} will dive deep in the blockchain technology, presenting the main data structures and algorithms that are proposed.
 
 The current limitations of the blockchain technology when applied to app stores are introduced in Chapter \ref{sec:limitations}.
 
-In Chapter \ref{sec:related}, related work that shares common approaches with App Coins protocol are introduced, as well as projects that inspired parts of the App Coins protocol.
+In Chapter \ref{sec:related}, related work that shares common approaches with the AppCoins protocol are introduced, as well as projects that inspired parts of the AppCoins protocol.
 
 % TODO replacing 6 by the \ref tag
 
