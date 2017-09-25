@@ -7,34 +7,46 @@
 
 % A table 
 
-Building a model always depends on assuming certain assumptions. The generalisations taken in the assumptions allows one to focus in the global mechanics and do not take corner cases into account. As exceptions, they are part of the reality but they do not have material importance to change the result of the model.
+Building a model always depends on assuming certain assumptions. The generalisations taken in the 
+assumptions allows one to focus on the global mechanics and do not take corner cases into account. 
+As exceptions, they are part of the reality but they do not have material importance to change the result 
+of the model.
 
 The design of the AppCoins platform was made having the following eight assumptions:
 
 \begin{itemize}
-\item {\bf\em A1 Crowdsourcing}: community wisdom works for big numbers better than individual wisdom \cite{Surowiecki:2005:WC:1095645};
+\item {\bf\em A1 Crowdsourcing}: Community wisdom works for big numbers better than individual 
+wisdom \cite{Surowiecki:2005:WC:1095645};
 \item {\bf\em A2 Incentives}: If there are enough incentives, community contributes;
 \item {\bf\em A3 New}: A new developer is always an unknown developer;
 \item {\bf\em A4 Trusted:} The Apps from a Trusted Developer are Trusted Apps;
 %chose between how to use capitals: Developer vs developer in A3 and A4
 \item {\bf\em A5 Dispute}: - In a dispute, if 50\% + 1 of the community is honest, the right side wins;
-\item {\bf\em A6 Reputation}: - Transactions registered in the blockchain ledger (IAB, Ads) reflects well the trustworthiness and reputation of a developer;
-\item {\bf\em A7 Unknown downloads}: - If the app downloads made by the users come from more than 5\% of unknown developers, users will start to trust in unknown developers. %cannot understand this statement. rephrase?
-\item {\bf\em A8 Zero-day}: - A community dispute may take 30 days. While the dispute is handled, the app stores have the option to hide the app to avoid zero-day attacks.
+\item {\bf\em A6 Reputation}: - Transactions registered in the blockchain ledger (IAB, Ads) reflects well 
+the trustworthiness and reputation of a developer;
+\item {\bf\em A7 Unknown downloads}: - If the app downloads made by the users come from more than 
+5\% of unknown developers, users will start to have trust in unknown developers.
+\item {\bf\em A8 Zero-day}: - A community dispute may take 30 days. While the dispute is handled, the 
+app stores have the option to hide the app to avoid zero-day attacks.
 \end{itemize}
 
 
 
 \subsection{Client side support}
 
-Besides the blockchain technology, the environment where the user is running the app store should also support the AppCoins protocol.
+Besides the blockchain technology, the environment where the user is running the app store should 
+also support the AppCoins protocol.
 
 % TODO }: include quote
 %missing context and connection to previous sentence?
 
-As Android represents 86\% of the smartphones market, we focus an implementation analysis in that platform. However, many of the constraints and solutions are applicable to other smartphone operating systems.
+As Android represents 86\% of the smartphones market, we focus an implementation analysis in that 
+platform. However, many of the constraints and solutions are applicable to other smartphone operating systems.
 
-This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team member} aims to describe a client-side method, running in the smartphone's untrusted environment, to register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is requested and stored in the blockchain.
+This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
+member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
+register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is requested and stored in the 
+blockchain.
  
 %XXX describe what is a proof-of-attention
  
@@ -45,9 +57,19 @@ Concepts definition: %improve this introductory sentence?
 \item {\bf User}: user registered in the app store.
 \end{itemize}
 
-When designing a solution, two main factors should be taken into account: reliability and availability. Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of confidence that a user paid attention to an app installed from an app store. Availability consists in making sure that whenever a user pays attention to an app installed from an app store, the app store will be aware of that and will request the \textsf{PoA} once the requirements are met. %requirements?
+When designing a solution, two main factors should be taken into account: reliability and availability. 
+Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of 
+confidence that a user paid attention to an app installed from an app store. Availability consists in 
+making sure that whenever a user pays attention to an app installed from an app store, the app store 
+will be aware of that and will request the \textsf{PoA} once the requirements are met. %requirements?
 
-The app store process has to be running when the user is paying attention to an app in order to request  the \textsf{PoA}. Latest releases of the Android operating system (Android OS) - from Lollipop (API level 21) onwards - have been limiting the ability of app processes to run while the app is in the background. In our scenario the app store process could eventually be killed by the Android OS while not being in the foreground. In order to overcome that issue, we will take advantage of the Binder framework to bind the app and app store's processes while the app is in the foreground, which will ensure that the app store process is not killed by the Android OS. 
+The app store process has to be running when the user is paying attention to an app in order to request  
+the \textsf{PoA}. Latest releases of the Android operating system (Android OS) - from Lollipop (API 
+level 21) onwards - have been limiting the ability of app processes to run while the app is in the 
+background. In our scenario the app store process could eventually be killed by the Android OS while 
+not being in the foreground. In order to overcome that issue, we will take advantage of the Binder 
+framework to bind the app and app store's processes while the app is in the foreground, which will 
+ensure that the app store process is not killed by the Android OS. 
 
 \begin{figure}[!ht]
 \centering
@@ -56,9 +78,15 @@ The app store process has to be running when the user is paying attention to an 
 \label{fig:binder}
 \end{figure}
 
-Binder framework is a core component in Android architecture and its main goal is to simplify Inter-Process Communication (IPC). Binder is implicitly used whenever an app communicates with OS services or with other apps through Android Java API Framework. The Binder framework will also provide information regarding the app process, which will positively contribute to the app store \textsf{PoA} reliability.
+Binder framework is a core component in Android architecture and its main goal is to simplify Inter-
+Process Communication (IPC). Binder is implicitly used whenever an app communicates with OS 
+services or with other apps through the Android Java API Framework. The Binder framework will also 
+provide information regarding the app process, which will positively contribute to the app store 
+\textsf{PoA} reliability.
 
-Once the app and the app store's processes are bound, the app store will periodically verify whether the app is in the foreground and the user is actively interacting with the device. In order to certify that the user is paying attention to the app. the following conditions should be met:
+Once the app and the app store's processes are bound, the app store will periodically verify whether 
+the app is in the foreground and the user is actively interacting with the device. In order to certify that 
+the user is paying attention to the app. the following conditions should be met:
 %are conditions the same as what was previously called requirements?
 
 \begin{itemize}
@@ -69,16 +97,29 @@ Once the app and the app store's processes are bound, the app store will periodi
 \item The signature of the app must be verified on the app store's servers.
 \end{itemize}
 
-To assure that the app's process is bound to app store, Binder and PackageManager APIs can be used. To verify whether an app process is in the foreground, both ActivityManager, UserStatsManager and %or?
- PackageManager APIs can be used. To check whether the device screen is on, the PowerManager and Display APIs can be used. Regarding the state of the lock screen, the KeyguardManager API can be used. 
+To assure that the app's process is bound to app store, Binder and PackageManager APIs can be used. 
+To verify whether an app process is in the foreground, both ActivityManager, UserStatsManager and 
+%or?
+ PackageManager APIs can be used. To check whether the device screen is on, the PowerManager 
+and Display APIs can be used. Regarding the state of the lock screen, the KeyguardManager API can 
+be used. 
 
-Every application has to be signed by the developer before being installed in an Android's device. App stores have access to the apps' signatures and can validate by confirming whether they match with the signature on their servers. If the signature does not match, the app may have been tampered. To obtain the app's signature, the Binder and PackageManager APIs can be used.
+Every application has to be signed by the developer before being installed on an Android device. App 
+stores have access to the apps' signatures and can validate by confirming whether they match with the 
+signature on their servers. If the signature does not match, the app may have been tampered with. To obtain the app's signature, the Binder and PackageManager APIs can be used.
 
 \subsubsection{Limitations client-side}
 
-The proposed solution has some limitations regarding reliability - imposed by Android's inherently insecure environment - and Android API availability - due to Android's version fragmentation and app store permission level. The use of several different Android APIs can help hardening the solution against an attacker but can not assure full protection against fraud on the client side. In order to mitigate fraud, a system has to have different security layers both on the client side and the server side. 
+The proposed solution has some limitations regarding reliability - imposed by Android's inherently 
+insecure environment - and Android API availability - due to Android's version fragmentation and app 
+store permission level. The use of several different Android APIs can help harden the solution 
+against an attacker but can not assure full protection against fraud on the client side. In order to 
+mitigate fraud, a system has to have different security layers both on the client side and the server side. 
 
-In Android some APIs are considered sensitive and require system-level permissions to access them. Usually system-level can only be granted to system applications (pre-installed on the device by manufacturers). Also some APIs are only available in certain versions of Android. % The following table summarises the APIs needed to generate the \textsf{PoA} and their availability:
+In Android some APIs are considered sensitive and require system-level permissions to access them. 
+Usually system-level can only be granted to system applications (pre-installed on the device by 
+manufacturers). Also some APIs are only available in certain versions of Android. %The following table 
+%summarises the APIs needed to generate the \textsf{PoA} and their availability:
 
 
 %\begin{figure}[!ht]
@@ -88,17 +129,24 @@ In Android some APIs are considered sensitive and require system-level permissio
 %\label{fig:android_versions}
 %\end{figure}
 
-The UsageStatsManager requires a System-Level permission but the PACKAGE \_USAGE\_STATS can also be obtained by a normal application if the user explicitly enables it in the Settings.
+The UsageStatsManager requires a System-Level permission but the PACKAGE \_USAGE\_STATS 
+can also be obtained by a normal application if the user explicitly enables it in the Settings.
 
-We can only have an implementation that fulfils all the requirements to certify that the user is paying attention to the app with a minimum Android version of Jelly Bean (API 16) and above. The Android version limitation is not relevant since that according to Google statistics, only 1.2\% of the Android devices are not running version Jelly Bean (API 16) or above. %reference missing
+We can only have an implementation that fulfils all the requirements to certify that the user is paying 
+attention to the app with a minimum Android version of Jelly Bean (API 16) and above. The Android 
+version limitation is not relevant since according to Google statistics, only 1.2\% of the Android devices are not running version Jelly Bean (API 16) or above. %reference missing
 
-Also, UsageStatsManager is necessary from Lollipop (API 21) onwards requiring that, either the app store app is a system app, or asking the user to explicitly go to Settings and give the permission. Since in the App Economy the user will be rewarded by the attention given to apps, it will be easy to convince him to manually provide the permission in the case where the app store is not a system application.
+Also, UsageStatsManager is necessary from Lollipop (API 21) onwards requiring that, either the app 
+store app is a system app, or asking the user to explicitly go to Settings and give the permission. Since 
+in the App Economy the user will be rewarded by the attention given to apps, it will be easy to convince 
+him to manually provide the permission in the case where the app store is not a system application.
 
 
 \subsection{Protocol Overview and sketch}
 
 
-The AppCoins protocol is depicted in Figure \ref{fig:design}. It consists in 3 main blocks: Advertising, Developer's Reputation (Rank) and IAB.
+The AppCoins protocol is depicted in Figure \ref{fig:design}. It consists in 3 main blocks: Advertising, 
+Developer's Reputation (Rank) and IAB.
 
 \begin{figure}[!ht]
 \centering
@@ -107,13 +155,20 @@ The AppCoins protocol is depicted in Figure \ref{fig:design}. It consists in 3 m
 \label{fig:design}
 \end{figure}
 
-Inside each block we see the interactions between the ecosystem players and the blockchain. The rounded squares represent functions / methods of smart contracts that implement business logic. The cylinders represent data stored in smart contracts' own storage or event logs. \\
+Inside each block we see the interactions between the ecosystem players and the blockchain. The 
+rounded squares represent functions / methods of smart contracts that implement business logic. The 
+cylinders represent data stored in smart contracts' own storage or event logs. \\
 
-The Advertising block has 3 functions that interact with three data structures stored in the blockchain: \textsf{Ad.CreateBid}, \textsf{Ad.ValidateBid} and \textsf{Ad.SetAttribution}. Together, those functions perform the desired behaviour in the Advertising model, ensuring trust and transparency.
+The Advertising block has 3 functions that interact with three data structures stored in the blockchain: 
+\textsf{Ad.CreateBid}, \textsf{Ad.ValidateBid} and \textsf{Ad.SetAttribution}. Together, those functions 
+perform the desired behaviour in the Advertising model, ensuring trust and transparency.
 
-The Developer's Reputation block consists in functions related with the potential dispute. The blockchain stores three different data structures: the Dispute Intent, the Dispute and the Dispute Ledger.
+The Developer's Reputation block consists in functions related with the potential dispute. The 
+blockchain stores three different data structures: the Dispute Intent, the Dispute and the Dispute 
+Ledger.
 
-The IAB has only two functions related with the purchase: \textsf{IAB.CreateCatalog} and \textsf{IAB.Create Transaction}. \\
+The IAB has only two functions related with the purchase: \textsf{IAB.CreateCatalog} and 
+\textsf{IAB.Create Transaction}. \\
 
 In the next section, we will present in detail each of them.
 
