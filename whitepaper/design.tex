@@ -157,7 +157,33 @@ Developer's Reputation (Rank) and IAB.
 
 Inside each block we see the interactions between the ecosystem players and the blockchain. The 
 rounded squares represent functions / methods of smart contracts that implement business logic. The 
-cylinders represent data stored in smart contracts' own storage or event logs. \\
+cylinders represent data stored in smart contracts' own storage or event logs.
+
+\subsubsection{Advertising}
+
+The protocol has to be constructed such that the risks in Section \ref{sec: introduction} are avoided or at least mitigated. By leveraging blockchain technology and its requirements of transparency, privacy and verifiability of processes, we avoid creating a middlemen-dependent economy and add value both for the advertisers/developers and the users. \\
+
+As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc). Our solution proposes a protocol where a user creates an account that is shared among app stores operating within the protocol. Since the user account is shared, this means users can seamlessly go from one app store to another. This also means that a user cannot be attributed to the same campaign in different app stores, thus solving the risk \textsf{R1.2}. \\
+
+Regarding attributions that generate more value to the developers, installations are the ones generating less value and campaigns for installs generate very low return-of-investment. Therefore, we are focusing on more valuable actions (from the perspective of the developer), such as opening the app for a time interval. When users open an app, they are more keen to use it for longer periods of time, thus exposing themselves to hooks developers may have introduced in the app to create more engagement and better retention. This is easy to intuitively understand: if users do not open apps, they cannot know if they like them or not. Therefore, the probability of users to continue using the app increases if they open it, which in turn creates higher return-of-investment for developers. This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. Similar work has been done in BAT \cite{BAT}. Hence, the protocol solves the risk \textsf{R1.3}. \\
+
+From the requirement of privacy, the protocol itself does not expose any user information at any time and interaction with app stores. The only information that can be seen by others are the wallet addresses when a transaction occurs. Concerning risk \textsf{R1.3}, since the addresses are not linked to any sensitive user information (e.g. email), there is no leakage of user data. \\
+
+Regarding risk \textsf{R1.6}, developers can claim that a certain user did not actually do the required action to be given the attribution, i.e. that either the app store, the user or both are being dishonest. By providing a \textsf{PoA} and storing the transactions in the blockchain, they become verifiable by anyone, including the developer. Since the developer can verify the proof, it becomes clear that the protocol avoids the risk of repudiation. \\
+
+Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}. \\
+
+\subsubsection{IAB}
+
+
+
+\subsubsection{Developers Reputation}
+
+
+
+
+
+
 
 The Advertising block has 3 functions that interact with three data structures stored in the blockchain: 
 \textsf{Ad.CreateBid}, \textsf{Ad.ValidateBid} and \textsf{Ad.SetAttribution}. Together, those functions 
