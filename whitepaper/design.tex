@@ -45,7 +45,7 @@ platform. However, many of the constraints and solutions are applicable to other
 
 This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
 member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
-register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is requested and stored in the 
+register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (\textsf{PoA}) is requested and stored in the 
 blockchain.
  
 %XXX describe what is a proof-of-attention
@@ -118,8 +118,30 @@ mitigate fraud, a system has to have different security layers both on the clien
 
 In Android some APIs are considered sensitive and require system-level permissions to access them. 
 Usually system-level can only be granted to system applications (pre-installed on the device by 
-manufacturers). Also some APIs are only available in certain versions of Android. %The following table 
-%summarises the APIs needed to generate the \textsf{PoA} and their availability:
+manufacturers). Also some APIs are only available in certain versions of Android. Table \ref{table: permissions} summarises the APIs needed to generate the \textsf{PoA} and their availability:
+
+\begin{table}[H]
+\scriptsize
+\centering
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{API Class}                          & \textbf{API Method}                  & \textbf{Min API}      & \textbf{Max API}       & \textbf{Permission Level}               & \textbf{Permission}                             \\ \hline
+\multirow{2}{*}{PowerManager}      & isScreenOn                  & API 7       & API 19       & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-4}
+                                   & isInteractive               & API 20      & None                  &                                &                                        \\ \hline
+Display                            & getState                    & API 20      & None                  & None                           & None                                   \\ \hline
+Binder                             & getCallingUid               & API 1      & None                  & None                           & None                                   \\ \hline
+\multirow{2}{*}{ActivityManager}   & getRunningAppProcesses      & API 3      & API 21     & None                           & None                                   \\ \cline{2-6}
+                                   & getRunningTasks             & API 1      & API 20       & Normal-Level                   & GET\_TASKS                             \\ \hline
+\multirow{2}{*}{PackageManager}    & getPackagesForUid           & API 1      & \multirow{2}{*}{None} & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-3}
+                                   & getPackageInfo              & API 1      &                       &                                &                                        \\ \hline
+\multirow{2}{*}{KeyguardManager}   & isKeyguardLocked            & API 16  & \multirow{2}{*}{None} & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-3}
+                                   & isDeviceLocked              & API 23 &                       &                                &                                        \\ \hline
+\multirow{2}{*}{UsageStatsManager} & isAppInactive               & API 23 & None                  & \multirow{2}{*}{System-Level} & \multirow{2}{*}{PACKAGE\_USAGE\_STATS} \\ \cline{2-4}
+                                   & queryAndAggregateUsageStats & API 21    & None                  &                                &                                        \\ \hline
+\end{tabular}
+\caption{\textsf{PoA} generation Android APIs. The \textit{UsageStatsManager} requires a System-Level permission but the PACKAGE\_USAGE\_STATS can also be obtained by a normal application if the user explicitly enables it in the Settings.}
+\label{table: permissions}
+\end{table}
 
 
 %\begin{figure}[!ht]
@@ -129,8 +151,7 @@ manufacturers). Also some APIs are only available in certain versions of Android
 %\label{fig:android_versions}
 %\end{figure}
 
-The UsageStatsManager requires a System-Level permission but the PACKAGE \_USAGE\_STATS 
-can also be obtained by a normal application if the user explicitly enables it in the Settings.
+
 
 We can only have an implementation that fulfils all the requirements to certify that the user is paying 
 attention to the app with a minimum Android version of Jelly Bean (API 16) and above. The Android 
