@@ -45,7 +45,7 @@ platform. However, many of the constraints and solutions are applicable to other
 
 This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
 member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
-register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (\textsf{PoA}) is requested and stored in the 
+register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is requested and stored in the 
 blockchain.
  
 %XXX describe what is a proof-of-attention
@@ -118,30 +118,8 @@ mitigate fraud, a system has to have different security layers both on the clien
 
 In Android some APIs are considered sensitive and require system-level permissions to access them. 
 Usually system-level can only be granted to system applications (pre-installed on the device by 
-manufacturers). Also some APIs are only available in certain versions of Android. Table \ref{table: permissions} summarises the APIs needed to generate the \textsf{PoA} and their availability:
-
-\begin{table}[H]
-\scriptsize
-\centering
-\begin{tabular}{|l|l|l|l|l|l|}
-\hline
-\textbf{API Class}                          & \textbf{API Method}                  & \textbf{Min API}      & \textbf{Max API}       & \textbf{Permission Level}               & \textbf{Permission}                             \\ \hline
-\multirow{2}{*}{PowerManager}      & isScreenOn                  & API 7       & API 19       & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-4}
-                                   & isInteractive               & API 20      & None                  &                                &                                        \\ \hline
-Display                            & getState                    & API 20      & None                  & None                           & None                                   \\ \hline
-Binder                             & getCallingUid               & API 1      & None                  & None                           & None                                   \\ \hline
-\multirow{2}{*}{ActivityManager}   & getRunningAppProcesses      & API 3      & API 21     & None                           & None                                   \\ \cline{2-6}
-                                   & getRunningTasks             & API 1      & API 20       & Normal-Level                   & GET\_TASKS                             \\ \hline
-\multirow{2}{*}{PackageManager}    & getPackagesForUid           & API 1      & \multirow{2}{*}{None} & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-3}
-                                   & getPackageInfo              & API 1      &                       &                                &                                        \\ \hline
-\multirow{2}{*}{KeyguardManager}   & isKeyguardLocked            & API 16  & \multirow{2}{*}{None} & \multirow{2}{*}{None}          & \multirow{2}{*}{None}                  \\ \cline{2-3}
-                                   & isDeviceLocked              & API 23 &                       &                                &                                        \\ \hline
-\multirow{2}{*}{UsageStatsManager} & isAppInactive               & API 23 & None                  & \multirow{2}{*}{System-Level} & \multirow{2}{*}{PACKAGE\_USAGE\_STATS} \\ \cline{2-4}
-                                   & queryAndAggregateUsageStats & API 21    & None                  &                                &                                        \\ \hline
-\end{tabular}
-\caption{\textsf{PoA} generation Android APIs. The \textit{UsageStatsManager} requires a System-Level permission but the PACKAGE\_USAGE\_STATS can also be obtained by a normal application if the user explicitly enables it in the Settings.}
-\label{table: permissions}
-\end{table}
+manufacturers). Also some APIs are only available in certain versions of Android. %The following table 
+%summarises the APIs needed to generate the \textsf{PoA} and their availability:
 
 
 %\begin{figure}[!ht]
@@ -151,7 +129,8 @@ Binder                             & getCallingUid               & API 1      & 
 %\label{fig:android_versions}
 %\end{figure}
 
-
+The UsageStatsManager requires a System-Level permission but the PACKAGE \_USAGE\_STATS 
+can also be obtained by a normal application if the user explicitly enables it in the Settings.
 
 We can only have an implementation that fulfils all the requirements to certify that the user is paying 
 attention to the app with a minimum Android version of Jelly Bean (API 16) and above. The Android 
@@ -178,21 +157,25 @@ Developer's Reputation (Rank) and IAB.
 
 Inside each block we see the interactions between the ecosystem players and the blockchain. The 
 rounded squares represent functions / methods of smart contracts that implement business logic. The 
-cylinders represent data stored in smart contracts' own storage or event logs. \\
+cylinders represent data stored in smart contracts' own storage or event logs.
 
 {\bf Advertising}
 
 The protocol was defined such that most risks in Section \ref{subsec:intro_ads} are avoided or at least mitigated. By leveraging blockchain technology and its requirements of transparency, accountability and verifiability of processes, we avoid creating a middlemen-dependent economy and add value both for the advertisers/developers and the users. \\
 
-As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc).  In AppCoins protocol, an attribution does not happen when the user installs the app or game, but after the app is opened for 2 minutes. This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. \\
+As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc). 
 
-Since the smartphone is an untrusted environment, there is not a total guarantee that the user is real or that the app store stub installed in the phone was not tampered. However, identity is checked server side by the app store using network fingerprint (IP, routing information, etc) as it is done today by the tracking platforms. Similar challenges to \textsf{PoA} are addressed in BAT \cite{BAT}. \\
+In AppCoins protocol, attibution doesn't happen when the user installs the app or game, but after he plays for 2 minutes.  This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. 
+
+Since the smartphone is an untrusted environment, there is not a total guarantee that the user is real or that the app store stub installed in the phone was not tampered. However, identity is checked server side by the app store using network fingerprint (IP, routing information, ...) as it is done today by the tracking platforms.
+
+Similar challenges to \textsf{PoA} are addressed in BAT \cite{BAT}. \\
 
 From the requirement of privacy, the protocol itself does not expose any user information at any time and interaction with app stores. The only information that can be seen by others are the wallet addresses when a transaction occurs. Concerning risk \textsf{R1.4}, since the addresses are not linked to any sensitive user information (e.g. email), there is no leakage of user data. \\
 
 Regarding risk \textsf{R1.6}, developers can claim that a certain user did not actually do the required action to be given the attribution, i.e. that either the app store, the user or both are being dishonest. By providing a \textsf{PoA} and storing the transactions in the blockchain, they become verifiable by anyone, including the developer. Since the developer can verify the proof, it becomes clear that the protocol avoids the risk of repudiation. \\
 
-Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.\\
+Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.
 
 {\bf IAB}
 
@@ -202,7 +185,7 @@ As in the Advertising use case, since the protocol follows the requirements of b
 
 The protocol is built to allow for transparency between users, developers and app stores. Transparency means that transactions between parties are public and verifiable, but only regarding token exchange. This means that the protocol is not intended to store items or any other form of goods/value. This tracking, as it is today, is to be done directly by users and developers, i.e. when the user pays for an in-app item, it is the user's responsibility to check if the item is transferred or not. The store, retrieve, and exchange of digital items between users is out of the scope of the AppCoins solution. Nonetheless, having the transactions publicly available mitigates this problem, which is referred to as risk \textsf{R2.2}, but does not completely avoid it. However, because of having the transactions publicly available, the protocol avoids risk \textsf{R2.3} because the user only sends more tokens in exchange for an in-app item if wanted. \\
 
-Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version.\\
+Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version.
 
 
 {\bf Developer Reputation}
@@ -231,6 +214,22 @@ The dispute mechanism transfers power back to the community, which can also incl
 Risk \textsf{R3.2} is similar to risks \textsf{R1.4} and \textsf{R2.1} and the reason why it is avoided by the protocol is the same.
 
 
+%Regarding the risks of presented in Section \ref{subsec:intro_approval}, risk \textsf{R3.2} is very similar to risks \textsf{R1.4} and \textsf{R2.1} and we do not present again the reasons why the protocol avoids user data leaks.
+
+%The Advertising block has 3 functions that interact with three data structures stored in the blockchain: 
+%\textsf{Ad.CreateBid}, \textsf{Ad.ValidateBid} and \textsf{Ad.SetAttribution}. Together, those functions 
+%perform the desired behaviour in the Advertising model, ensuring trust and transparency.
+%
+%The Developer's Reputation block consists in functions related with the potential dispute. The 
+%blockchain stores three different data structures: the Dispute Intent, the Dispute and the Dispute 
+%Ledger.
+%
+%The IAB has only two functions related with the purchase: \textsf{IAB.CreateCatalog} and 
+%\textsf{IAB.Create Transaction}. \\
+%
+%In the next section, we will present in detail each of them.
+
+
 % a diagram that integrates all the players
 % the circular but more geek 
 
@@ -241,5 +240,4 @@ Risk \textsf{R3.2} is similar to risks \textsf{R1.4} and \textsf{R2.1} and the r
 % (In-App Billing, Advertising, Reputation builder) 
 
 %
-
 
