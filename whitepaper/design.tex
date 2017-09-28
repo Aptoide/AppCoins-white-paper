@@ -35,28 +35,19 @@ app stores have the option to hide the app to avoid zero-day attacks.
 \subsection{Client side support}
 
 Besides the blockchain technology, the environment where the user is running the app store should 
-also support the AppCoins protocol.
+also support the AppCoins protocol to be able to monitor if the advertised app is really used during two minutes.
 
 % TODO }: include quote
 %missing context and connection to previous sentence?
 
-As Android represents 86\% of the smartphones market, we focus an implementation analysis in that 
+As Android represents 86\% of the smartphones market, we focus an implementation analysis in this
 platform. However, many of the constraints and solutions are applicable to other smartphone operating systems.
 
 This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
 member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
-register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is requested and stored in the 
+register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is issued using through a server-side platform and stored in the 
 blockchain.
  
-%XXX describe what is a proof-of-attention
- 
-Concepts definition: %improve this introductory sentence?
-\begin{itemize}
-\item {\bf App store}: PoA compliant app store Android app.
-\item {\bf Application}: Android app installed from the app store.
-\item {\bf User}: user registered in the app store.
-\end{itemize}
-
 When designing a solution, two main factors should be taken into account: reliability and availability. 
 Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of 
 confidence that a user paid attention to an app installed from an app store. Availability consists in 
@@ -64,7 +55,7 @@ making sure that whenever a user pays attention to an app installed from an app 
 will be aware of that and will request the \textsf{PoA} once the requirements are met. %requirements?
 
 The app store process has to be running when the user is paying attention to an app in order to request  
-the \textsf{PoA}. Latest releases of the Android operating system (Android OS) - from Lollipop (API 
+the issue of \textsf{PoA}. Latest releases of the Android operating system (Android OS) - from Lollipop (API 
 level 21) onwards - have been limiting the ability of app processes to run while the app is in the 
 background. In our scenario the app store process could eventually be killed by the Android OS while 
 not being in the foreground. In order to overcome that issue, we will take advantage of the Binder 
@@ -73,7 +64,7 @@ ensure that the app store process is not killed by the Android OS.
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.5\textwidth]{diagrams/binder_diagram.eps}
+\includegraphics[width=0.3\textwidth]{diagrams/binder_diagram.eps}
 \caption{Operating system binder.}
 \label{fig:binder}
 \end{figure}
@@ -86,21 +77,10 @@ provide information regarding the app process, which will positively contribute 
 
 Once the app and the app store's processes are bound, the app store will periodically verify whether 
 the app is in the foreground and the user is actively interacting with the device. In order to certify that 
-the user is paying attention to the app, the following conditions should be met:
-%are conditions the same as what was previously called requirements?
-
-\begin{itemize}
-\item The app's process must be bound to the app store's process.
-\item The app must be in foreground.
-\item The device screen must be on.
-\item The device must not be locked. 
-\item The signature of the app must be verified on the app store's servers.
-\end{itemize}
+the user is paying attention to the app, the following conditions should be met: the app's process must be bound to the app store's process, the app must be in foreground, the device screen must be on, the device must not be locked, and the signature of the app must be verified on the app store's servers.
 
 To assure that the app's process is bound to app store, Binder and PackageManager APIs can be used. 
-To verify whether an app process is in the foreground, both ActivityManager, UserStatsManager and 
-%or?
- PackageManager APIs can be used. To check whether the device screen is on, the PowerManager 
+To verify whether an app process is in the foreground, both ActivityManager, UserStatsManager and  PackageManager APIs can be used. To check whether the device screen is on, the PowerManager 
 and Display APIs can be used. Regarding the state of the lock screen, the KeyguardManager API can 
 be used. 
 
@@ -108,38 +88,10 @@ Every application has to be signed by the developer before being installed on an
 stores have access to the apps' signatures and can validate by confirming whether they match with the 
 signature on their servers. If the signature does not match, the app may have been tampered with. To obtain the app's signature, the Binder and PackageManager APIs can be used.
 
-\subsubsection{Limitations client-side}
-
 The proposed solution has some limitations regarding reliability - imposed by Android's inherently 
 insecure environment - and Android API availability - due to Android's version fragmentation and app 
 store permission level. The use of several different Android APIs can help harden the solution 
-against an attacker but can not assure full protection against fraud on the client side. In order to 
-mitigate fraud, a system has to have different security layers both on the client side and the server side. 
-
-In Android some APIs are considered sensitive and require system-level permissions to access them. 
-Usually system-level can only be granted to system applications (pre-installed on the device by 
-manufacturers). Also some APIs are only available in certain versions of Android. %The following table 
-%summarises the APIs needed to generate the \textsf{PoA} and their availability:
-
-
-%\begin{figure}[!ht]
-%\centering
-%\includegraphics[width=\textwidth]{diagrams/table_android_limitations.eps}
-%\caption{Table of Android versions and API support}
-%\label{fig:android_versions}
-%\end{figure}
-
-The UsageStatsManager requires a System-Level permission but the PACKAGE \_USAGE\_STATS 
-can also be obtained by a normal application if the user explicitly enables it in the Settings.
-
-We can only have an implementation that fulfils all the requirements to certify that the user is paying 
-attention to the app with a minimum Android version of Jelly Bean (API 16) and above. The Android 
-version limitation is not relevant since according to Google statistics, only 1.2\% of the Android devices are not running version Jelly Bean (API 16) or above. %reference missing
-
-Also, UsageStatsManager is necessary from Lollipop (API 21) onwards requiring that, either the app 
-store app is a system app, or asking the user to explicitly go to Settings and give the permission. Since 
-in the App Economy the user will be rewarded by the attention given to apps, it will be easy to convince 
-him to manually provide the permission in the case where the app store is not a system application.
+against an attacker but can not assure full protection against fraud on the client side. The AppCoins protocol aims to find a balance between the effort of breaking and the incentives of doing it.
 
 
 \subsection{Protocol Overview and sketch}
