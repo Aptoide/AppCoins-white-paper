@@ -3,7 +3,6 @@
 
 \footnote{This section was contributed by Martin Uzak, Aptoide's backend team member}
 The current status of blockchain developments, both Bitcoin and Ethereum, can limit the development of projects that depend on the technology to support the required business use cases. %missing citation?
-
  
 There are three use cases which the AppCoin protocol tries to solve in order to enable a fully working AppCoin economy:
 
@@ -32,7 +31,7 @@ First let us have a detailed look at the challenges in question.
 \subsection{Blockchain limits}
 
 
-Let's try to imagine a scenario of a working AppCoin economy using a bare blockchain technology like Ethereum.
+Let's try to imagine a scenario of a working AppCoins economy using a bare blockchain technology like Ethereum.
 
 At the present there are about 2 billion Android users. The average Ethereum transaction is around 160 bytes \cite{EthereumTransactions}. If we wanted to create an AppCoin economy directly on Ethereum using these numbers, we would get a system with the characteristics shown in Table \ref{table:ethereumscalability}.
 
@@ -55,17 +54,23 @@ TX size per year   & 104.77 TB        \\ \hline
 \end{table}
 
 
-\subsubsection{Transaction Volume}
+{\bf Transaction Volume}
+
 Scalability in terms of volume is the first problem of Ethereum. At the present it handles only up to 20 transactions per second \cite{eth_scaling}. That is nowhere near the required 23 000 average transactions per second. For peak times the system should support a number of transactions several orders of magnitudes higher. E.g., VISA handles normally around 1667 and at peak times it claims it can do around 56 000 per second \cite{eth_scaling}.
 
-\subsubsection{Fees}
+\medskip
+
+{\bf Fees}
 
 The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of a few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute \cite{ethgasstation}. If the user is willing to wait around 10 minutes, the cost is 1 cent. This is both too slow and too expensive to facilitate micro transactions.
 
-\subsubsection{Latency}
+\medskip
+
+{\bf Latency}
 As mentioned in the previous section, in Ethereum, one has to wait until a transaction is part of the blockchain. To have a reasonable guarantee that the transaction is part of the main blockchain and not of one of possible branches, one needs to wait 7 blocks. This is because two miners could submit the next block at the same time and it will take some time to decide whose block will continue the chain. While this might not be an issue for high value money transfers in the AppCoin economy the transactions have to be executed within few seconds or faster (preferably instantly) in order to enable meaningful IAB and user experience.
 
 \subsection{Existing technology}
+
 Scalability restrictions are present in any blockchain technology using mining by \textit{proof-of-work} e.g. Bitcoin and Ethereum. For Bitcoin - the oldest blockchain implementation - the proposed solution is the Lightning Network \cite{LighthingNetwork}.
 
 %why is the lightning network the only solution referred? should talk about proof-of-stake?
@@ -153,7 +158,7 @@ Tezos describes its ultimate aim to create blockchain technology working better 
 The goal of IOTA is to create a lightweight network that allows a machine economy. A machine economy is a situation where many IoT devices communicate and execute payments between each other. IOTA does not use blockchain but a directed acyclic graph called Tangle. Currently it is in Beta stage with a reference implementation. One of the major advertised features is that there are no fees. In Tangle each new transactions confirms at least 2 previous transactions. That is the "fee" to participate. This might delay the transaction, especially if the network is small. There are no miners. The IOTA white paper states it is quantum proof. It has got a lot of supply and the tokens are not divisible, unlike bitcoins or ethers. For a primer on IOTA see \cite{IOTA}.
 
 \subsection{Proposed Approach}
-In the old days among other valuables it was gold that was used to store value. But trading gold is hugely unpractical and insecure - having to physically have the gold on a person, one can be easily robbed. Therefore paper money was created which was a lot more practical and secure. Originally it was only receipts from goldsmiths that were later replaced by more refined forms. And this is how paper money came into being.
+
 
 \begin{figure}[!ht]
 \centering
@@ -163,13 +168,11 @@ In the old days among other valuables it was gold that was used to store value. 
 \end{figure}
 
 
-In our use case we are facing the same situation. There are blockchain currencies that can securely store digital value, like gold does for in the traditional economy. But as we have seen, doing trades over them does not scale, is slow and requires fees. Just as it is impracticable to use gold for paying in a restaurant. Therefore we need to reinvent an analogy to the paper money. In our case it can be done by direct payment channels connected into an network.
+As seen in the previous section, there are blockchain currencies that can securely store digital value. But as we have seen, doing transactions over them does not scale, is slow and requires fees. Therefore alternatives like direct payment channels have to be evaluated.
 
-Using an analogy with the past, the roles in our scenario would be:  Gold - AppCoins (ERC20 compliant Ethereum token),  Bank/Goldsmith - App stores, and Paper Money - AppCoin locked in payment channels with the app store.
+In general terms, the App Store acts as the gateway to the digital payment world for the user. He deposits his valuables (preferably Ether) with the store in a payment channel using a smart contract. The same happens for developers. And from this moment on they can utilise the micro-payments within the App Infrastructure. The payments are instant, cheap and there can be any number of them.
 
-The App Store acts as the gateway to the digital payment world for the user. He deposits his valuables (preferably Ether) with the store in a payment channel using a smart contract. The same happens for developers. And from this moment on they can utilise the micro-payments within the App Infrastructure. The payments are instant, cheap and there can be any number of them.
-
-What about the fees? The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there are several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
+The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there are several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
 
 Figure \ref{fig:offchain} depicts what is on-chain a vision of the wallets on-chain (Ethereum network) and the wallets off-chain using Raiden or OmiseGO.
 
@@ -177,8 +180,7 @@ Figure \ref{fig:offchain} depicts what is on-chain a vision of the wallets on-ch
 
 Returning to the requirements from the beginning of this chapter, we plan to use Ethereum for storing value and smart contracts. 
 
-To allow for scalability Raiden will be used along the ERC20 App Coins deployed on Ethereum for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
+To have scalability, Raiden is being evaluated for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
 
-The choice for Raiden is because at the time of writing it is the only platform that has a test network and can be used. Yet OmiseGO has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
-
+The choice for Raiden is because - at the time of writing - it is the only platform that has a test network and can be used. Yet OmiseGO has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
 
