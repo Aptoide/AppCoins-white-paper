@@ -60,7 +60,7 @@ Scalability in terms of volume is the first problem of Ethereum. At the present 
 
 \subsubsection{Fees}
 
-The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of a few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute \cite{ethgasstation}. If the user is willing to wait around 10 minutes the cost is 1 cent. This is both too slow and too expensive to facilitate micro transactions.
+The topic of fees is closely connected to the possibility to support micro transactions - transfers of value in the range of a few cents. At the time of writing the cost for one transaction in Ethereum is around 10 cents of a US Dollar for a transaction that takes around 1 minute to execute \cite{ethgasstation}. If the user is willing to wait around 10 minutes, the cost is 1 cent. This is both too slow and too expensive to facilitate micro transactions.
 
 \subsubsection{Latency}
 As mentioned in the previous section, in Ethereum, one has to wait until a transaction is part of the blockchain. To have a reasonable guarantee that the transaction is part of the main blockchain and not of one of possible branches, one needs to wait 7 blocks. This is because two miners could submit the next block at the same time and it will take some time to decide whose block will continue the chain. While this might not be an issue for high value money transfers in the AppCoin economy the transactions have to be executed within few seconds or faster (preferably instantly) in order to enable meaningful IAB and user experience.
@@ -101,14 +101,14 @@ Finally the maturity can also be seen as a weak point for Raiden. Even though it
 \subsubsection{Plasma}
 Plasma is defined as "scalable autonomous smart contracts" \cite{Plasma} and it is another attempt to bring the Lightning Network technology from Bitcoin to the Ethereum world. This is envisioned by means of a tree of hierarchical chains where most of the transactions can be settled in the sub-chains and do not need to go to the expensive and slow main chain. The main chain will be needed only to settle disputes coming from sub chains and would serve as final validation.
 
-A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another aspect supporting Plasma it that is has been endorsed by OmiseGo to be used for their decentralised exchange and payment platform\cite{omisego_plasma}.
+A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another aspect supporting Plasma it that is has been endorsed by OmiseGO to be used for their decentralised exchange and payment platform\cite{omisego_plasma}.
 
 What speaks against Plasma at this time is the fact that the project has only a white paper, without any working code base yet.
 
-\subsubsection{OmiseGo}
-OmiseGo is an Asian payment gateway. It plans to use Ethereum and Plasma as a foundation for creating a decentralised exchange and payment platform \cite{OMG} and intends to launch their own blockchain called OMG that will be complementary to Ethereum. Ether will be then used as a medium of interchange for various asset being exchanged on their blockchain.
+\subsubsection{OmiseGO}
+OmiseGO is an Asian payment gateway. It plans to use Ethereum and Plasma as a foundation for creating a decentralised exchange and payment platform \cite{OMG} and intends to launch their own blockchain called OMG that will be complementary to Ethereum. Ether will be then used as a medium of interchange for various asset being exchanged on their blockchain.
 
-Here are some of the strong points of OmiseGo:
+Here are some of the strong points of OmiseGO:
 \begin{itemize}
     \item Consensus rules for high performance activity;
     \item Rapid execution and clearing. Proof-of-Stake;
@@ -171,7 +171,7 @@ The App Store acts as the gateway to the digital payment world for the user. He 
 
 What about the fees? The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there are several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
 
-Figure \ref{fig:offchain} depicts what is on-chain a vision of the wallets on-chain (Ethereum network) and the wallets off-chain using Raiden or OmiseGo.
+Figure \ref{fig:offchain} depicts what is on-chain a vision of the wallets on-chain (Ethereum network) and the wallets off-chain using Raiden or OmiseGO.
 
 % TODO explain better the division
 
@@ -179,6 +179,6 @@ Returning to the requirements from the beginning of this chapter, we plan to use
 
 To allow for scalability Raiden will be used along the ERC20 App Coins deployed on Ethereum for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
 
-The choice for Raiden is because at the time of writing it is the only platform that has a test network and can be used. Yet OmiseGo has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
+The choice for Raiden is because at the time of writing it is the only platform that has a test network and can be used. Yet OmiseGO has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
 
 
