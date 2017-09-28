@@ -178,39 +178,38 @@ Developer's Reputation (Rank) and IAB.
 
 Inside each block we see the interactions between the ecosystem players and the blockchain. The 
 rounded squares represent functions / methods of smart contracts that implement business logic. The 
-cylinders represent data stored in smart contracts' own storage or event logs.
+cylinders represent data stored in smart contracts' own storage or event logs. \\
 
-\subsubsection{Advertising}
+{\bf Advertising}
 
-The protocol has to be constructed such that the risks in Section \ref{subsec:intro_ads} are avoided or at least mitigated. By leveraging blockchain technology and its requirements of transparency, privacy and verifiability of processes, we avoid creating a middlemen-dependent economy and add value both for the advertisers/developers and the users. \\
+The protocol was defined such that most risks in Section \ref{subsec:intro_ads} are avoided or at least mitigated. By leveraging blockchain technology and its requirements of transparency, accountability and verifiability of processes, we avoid creating a middlemen-dependent economy and add value both for the advertisers/developers and the users. \\
 
-As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc). 
-Our solution proposes a protocol where a user is identifiable across app stores operating within the protocol. This identification does not contain any link to personal information (for example, email, phone number, etc), thus user anonymity is maintained. Since users are identifiable across stores, a user cannot be attributed to the same campaign in different stores, thus solving the risk \textsf{R1.2}. \\
+As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc).  In AppCoins protocol, an attribution does not happen when the user installs the app or game, but after the app is opened for 2 minutes. This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. \\
 
-Regarding attributions that generate more value to the developers, installations are the ones generating less value and campaigns for installs generate very low return-of-investment. Therefore, we are focusing on more valuable actions (from the perspective of the developer), such as opening the app for a time interval. When users open an app, they are more keen to use it for longer periods of time, thus exposing themselves to hooks developers may have introduced in the app to create more engagement and better retention. This is easy to intuitively understand: if users do not open apps, they cannot know if they like them or not. Therefore, the probability of users to continue using the app increases if they open it, which in turn creates higher return-of-investment for developers. This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. Similar work has been done in BAT \cite{BAT}. Hence, the protocol solves the risk \textsf{R1.3}. \\
+Since the smartphone is an untrusted environment, there is not a total guarantee that the user is real or that the app store stub installed in the phone was not tampered. However, identity is checked server side by the app store using network fingerprint (IP, routing information, etc) as it is done today by the tracking platforms. Similar challenges to \textsf{PoA} are addressed in BAT \cite{BAT}. \\
 
 From the requirement of privacy, the protocol itself does not expose any user information at any time and interaction with app stores. The only information that can be seen by others are the wallet addresses when a transaction occurs. Concerning risk \textsf{R1.4}, since the addresses are not linked to any sensitive user information (e.g. email), there is no leakage of user data. \\
 
 Regarding risk \textsf{R1.6}, developers can claim that a certain user did not actually do the required action to be given the attribution, i.e. that either the app store, the user or both are being dishonest. By providing a \textsf{PoA} and storing the transactions in the blockchain, they become verifiable by anyone, including the developer. Since the developer can verify the proof, it becomes clear that the protocol avoids the risk of repudiation. \\
 
-Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.
+Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.\\
 
-\subsubsection{IAB}
+{\bf IAB}
 
-The IAB use case has the risks outlined in Section \ref{subsec:intro_iab}, which the protocol needs to either avoid or mitigate. The reader may have already realised that one of the risks is not completely avoided, since it is out of the scope of the protocol. \\
+The IAB use case has the risks outlined in Section \ref{subsec:intro_iab}, which the protocol needs to either avoid or mitigate. \\
 
-As in the Advertising use case, since the protocol follows the requirements of blockchain technology, and in particular the requirement of privacy, the protocol only exposes wallet addresses when transactions occur. These need to be publicly available in order to have the possibility of verifying transactions but do not carry any link to personal user information (for example, the email of the user). Therefore, risk \textsf{R2.1} is completely avoided. \\
+As in the Advertising use case, since the protocol follows the requirements of blockchain technology, and in particular the requirement of privacy, the protocol only exposes wallet addresses when transactions occur. These need to be publicly available in order to have the possibility of verifying transactions but do not carry any link to personal user information (for example, the email of the user). Therefore, risk \textsf{R2.1} is partially avoided. \\
 
-The protocol is built to allow for transparency between users, developers and app stores. Transparency means that transactions between parties are public and verifiable, but only regarding token exchange. This means that the protocol is not intended to store items or any other form of goods/value. This tracking, as it is today, is to be done directly by users and developers, i.e. when the user pays for an in-app item, it is the user's responsibility to check if the item is transferred or not. We believe this problem is out of the scope of the solution we are proposing. If we would include the transfer of goods inside the protocol, we would also be creating a virtual marketplace. This is something that can be done in the future or that other projects can then integrate in the protocol but it is out of the protocol's scope for now. Nonetheless, having the transactions publicly available mitigates this problem, which is referred to as risk \textsf{R2.2}, but does not completely avoid it. However, because of having the transactions publicly available, the protocol avoids risk \textsf{R2.3} because the user only sends more tokens in exchange for an in-app item if wanted. \\
+The protocol is built to allow for transparency between users, developers and app stores. Transparency means that transactions between parties are public and verifiable, but only regarding token exchange. This means that the protocol is not intended to store items or any other form of goods/value. This tracking, as it is today, is to be done directly by users and developers, i.e. when the user pays for an in-app item, it is the user's responsibility to check if the item is transferred or not. The store, retrieve, and exchange of digital items between users is out of the scope of the AppCoins solution. Nonetheless, having the transactions publicly available mitigates this problem, which is referred to as risk \textsf{R2.2}, but does not completely avoid it. However, because of having the transactions publicly available, the protocol avoids risk \textsf{R2.3} because the user only sends more tokens in exchange for an in-app item if wanted. \\
 
-Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is avoided by the protocol.
+Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version.\\
 
 
-\subsubsection{Developer Reputation}
+{\bf Developer Reputation}
 
-This use case is the one that may dictate if an app store is trustable or not. Therefore, if the protocol defines ways to mitigate and avoid malware attacks across the app stores operating within the protocol, then the adoption of the protocol by app stores can be greatly increased. \\
+This use case is the one that may dictate if a developer is trustable or not. Therefore, if the protocol defines ways to mitigate and avoid malware attacks across the app stores operating within the protocol, then the adoption of the protocol by app stores can be greatly increased. \\
 
-As it was said in Section \ref{subsec:intro_approval}, the malware scanning process is different for all the app stores, as are the reasons for blacklisting apps. An app store may not show an app to its users because it is from a competitor or for censorship purposes, and not only because it has some sort of malware. In addition, the malware knowledge is not shared across app stores, which in fact harm users because one app with malware may have already been blacklisted in an app store but it still available on others. Our protocol deals with this problem by attributing a reputation level to the developers, which is then extended to all their apps. \\
+As it was said in Section \ref{subsec:intro_approval}, the malware scanning process is different for all the app stores, as are the reasons for blacklisting apps. An app store that is not showing an app to its users because it is from a competitor or for censorship purposes, although the app was considered ``trusted'' in the blockchain, is then exposed in the community. If the malware knowledge is not shared across app stores - the current state - will fin act harm users because one app with malware may have already been blacklisted in an app store but it still available on others. Our protocol deals with this problem by attributing a reputation level to the developers, which is then extended to all their apps. \\
 
 The reputation of a developer has two components: the rank and the rank level. The rank can have the values of \textit{"Unknown"}, \textit{"Trusted"} or \textit{"Critical"} and it states if a developer is new to the community, if it is already known and considered honest or if it is considered dishonest, respectively. The rank level is represented by an integer starting at 1 and does not have a maximum level for the \textit{"Trusted"} rank. However, for the other ranks it is fixed at 1. This derives from the fact that when a developer is \textit{"Unknown"}, it is just because the developer is new in the network and the goal is that the developer leaves the rank to become \textit{"Trusted"}. On the other hand, being a \textit{"Critical"} developer means the developer is dishonest and we do not intent to have different levels of dishonesty in the network. Figure \ref{fig:approval_state_diagram} shows the different ranks a developer can have and how to move from one rank to another. \\
 
@@ -230,31 +229,6 @@ In order to join a dispute, a user needs to put an amount of tokens into stake. 
 The dispute mechanism transfers power back to the community, which can also include the app stores. Since it is the community deciding whether a developer and the corresponding apps are to trusted or not, the developers reputation and the reasons for it are public to everyone. If there is a change in the reputation of a developer, the community knows when it happened and knows it was a decision made by them, instead of being obscurely made by one app store. This mitigates the risks \textsf{R3.3} and \textsf{R3.4}. \\
 
 Risk \textsf{R3.2} is similar to risks \textsf{R1.4} and \textsf{R2.1} and the reason why it is avoided by the protocol is the same.
-
-
-
-
-
-%Regarding the risks of presented in Section \ref{subsec:intro_approval}, risk \textsf{R3.2} is very similar to risks \textsf{R1.4} and \textsf{R2.1} and we do not present again the reasons why the protocol avoids user data leaks.
-
-
-
-
-
-
-
-%The Advertising block has 3 functions that interact with three data structures stored in the blockchain: 
-%\textsf{Ad.CreateBid}, \textsf{Ad.ValidateBid} and \textsf{Ad.SetAttribution}. Together, those functions 
-%perform the desired behaviour in the Advertising model, ensuring trust and transparency.
-%
-%The Developer's Reputation block consists in functions related with the potential dispute. The 
-%blockchain stores three different data structures: the Dispute Intent, the Dispute and the Dispute 
-%Ledger.
-%
-%The IAB has only two functions related with the purchase: \textsf{IAB.CreateCatalog} and 
-%\textsf{IAB.Create Transaction}. \\
-%
-%In the next section, we will present in detail each of them.
 
 
 % a diagram that integrates all the players
