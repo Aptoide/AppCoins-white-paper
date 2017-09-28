@@ -126,6 +126,7 @@ These risks in the Advertising flow will be considered in a section ahead in the
 
 
 \subsection{In-App Billing}
+\label{subsec:intro_iab}
 
 % Description of In-App Billing inside the stores
 
@@ -139,7 +140,7 @@ In-App Billing (IAB), also called In-App Purchase, consists in the possibility f
 \end{figure}
 
 
-The need for the transactions for go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's app to be distributed is that all the financial transactions have to be managed by the app store. 
+The need for the transactions to go through the app store were introduced as mandatory by Apple App Store and then by Google Play. The conditions for the developer's app to be distributed is that all the financial transactions have to be managed by the app store. 
 
 The app store adds some value to this flow: 1) it may know the customer already and have their payment data, thus easing the entrance hurdles for the user and providing a better user experience, 2) it has the trust of the user when the developer may not have it yet and 3) it develops the necessary technology, allowing the developer to focus on the app development.
 
@@ -159,13 +160,13 @@ Providing the user has a proper payment method, there are still some risks that 
 
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 
-The {\bf\em R2.1: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences are aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
+The {\bf\em R2.1: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user preferences are aggregated in DMP platforms and later used by advertisers in programmatic / RTB targeting.
 
 %XXX R2.1 is copy and paste of R1.4!
 
 The {\bf\em R2.2: Risk of digital goods lost} may happen when a user buys a digital good inside the game or app but it is not delivered. Often, the user does not have a way to recover the payment or claim the digital good.
 
-The {\bf\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that they payed twice.
+The {\bf\em R2.3: Risk of double payment} occurs when the user pays twice for the same in-app item purchase. Also in this case, the user may not have a proof that they paid twice.
 
 The {\bf\em R2.4: Risk of digital items cloning} when the user is able to duplicate and transfer the digital good to another user, leading to losses for the developer that charge once for a digital good that is used twice.
 
@@ -175,6 +176,7 @@ A platform that handles the IAB transactions has to deal with those risks.
 
 
 \subsection{App Approval}
+\label{subsec:intro_approval}
 
 % Description of today state: central approval, manual QA, automatic QA, time taken, arbitrary approval
 
@@ -198,7 +200,7 @@ The app screening may be performed through manual and/or automatic processes and
 
 Google's Play Store and Apple's App Store, the current largest and most well-known app stores, use a combination of both processes. When a new app is submitted to their store, they first go through an automatic process which will automatically discard identified unwanted apps and then proceed to the manual process. However, the two stores differ in the techniques they use in their automatic processes and the amount of apps that go through manual reviewing \cite{AppleInsiderWebsite, AndroidWhitePaper}.
 
-Apple App Store approval flow is simple. All submitted apps go through an automatic static analysis process, a method which examines the app code without running it. In this process, the apps are analysed for traces of calls to Apple's private API as the company's policy only allows calls to their public API. The identified apps are discarded while all the remaining apps are passed on for manual review \cite{AppleInsiderWebsite, AppleApprovalFortune}. Apple states the following most common reasons for failing their strict manual reviewing process: crashes and bugs, broken links, placeholder content, incomplete information, inaccurate description, misleading users, substandard user interface, advertisements, web clipping, similar apps and not enough lasting value \cite{AppleReviewRejections}. According to apple, the complete review process takes on average between 24 (50\%) to 48 hours (90\% of submitted apps) \cite{AppleReviewTime}. 
+Apple App Store approval flow is simple. All submitted apps go through an automatic static analysis process, a method which examines the app code without running it. In this process, the apps are analysed for traces of calls to Apple's private API as the company's policy only allows calls to their public API. The identified apps are discarded while all the remaining apps are passed on for manual review \cite{AppleInsiderWebsite, AppleApprovalFortune}. Apple states the following most common reasons for failing their strict manual reviewing process: crashes and bugs, broken links, placeholder content, incomplete information, inaccurate description, misleading users, substandard user interface, advertisements, web clipping, similar apps and not enough lasting value \cite{AppleReviewRejections}. According to Apple, the complete review process takes on average between 24 (50\%) to 48 hours (90\% of submitted apps) \cite{AppleReviewTime}. 
 
 Google's Play Store has a more evolved reviewing system where the automatic process involves a complex machine learning engine. This engine relies on multiple technologies including static and dynamic analysis (where both code and runtime behaviour is analysed), heuristic and similarity analysis (for finding new trends of unwanted apps) and signatures (identifying known unwanted apps). The engine also includes features from external independent security research as well as the developer's behaviour (history with other apps and billing profile) as well as metadata such as ratings and downloads. The automatic process assigns to each application a risk level ranging from safe to harmful. Low risk applications are automatically accepted and high risk applications are automatically rejected. Apps with medium risk level are submitted for manual review \cite{AndroidWhitePaper}. According to publicly available information, Play Store's reviewing process takes on average between 45 minutes and 2 hours \cite{AndroidReviewTime}.
 
@@ -212,7 +214,7 @@ As described above, several risks can be found from the current centralised app 
 
 The {\bf\em R3.1: Risk of Malware} is the possibility of an app or game submitted to the app store being infected with a virus or malware that steals data or damages the user's device.
 
-The {\bf\em R3.2: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user's preferences are aggregated in DMP platforms and later used by advertising in programmatic / RTB targeting.
+The {\bf\em R3.2: Risk of user data leak} consists in the information regarding the user being leaked to third-parties for advertising purposes. Information about the user's preferences are aggregated in DMP platforms and later used by advertisers in programmatic / RTB targeting.
 
 %XXX again, R3.2 is just a copy and paste of R1.4
 
