@@ -130,6 +130,8 @@ The weak points include:
     \item As a result of coupling with Ethereum the white paper recommends to validate transactions simultaneously on the Ethereum blockchain for maximum security.
 \end{itemize}
 
+%XXX leave this subsection out?
+
 \subsection{Independent blockchains}
 The second solution to achieve global consensus (blockchain) with some scalability is the use of a proof-of-work as block minting algorithm. For Ethereum this would be the Casper protocol which has been talked about a lot in the past years in the Ethereum community but which is not implemented yet. As Casper is not in use yet we will examine here other projects that have implemented minting instead of mining blocks.
 
@@ -186,3 +188,20 @@ To have scalability, Raiden is being evaluated for the first Beta version of the
 
 The choice for Raiden is because - at the time of writing - it is the only platform that has a test network and can be used. Yet OmiseGO has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
 
+\subsection{Temporal purpose-bound blockchains}
+
+Another scalability problem comes from the idea to use the blockchain as a place to store the attributions for an advertising campaign. 
+
+The original idea of a blockchain is to store data starting from its creation without and end in time. From a certain point of view one could say that it seems to store its data “eternally”. While this is welcome and allows us to have a place for public verification it harbours a downside as well. The data will only grow in size and it needs to be replicated on all the (full-) nodes of a blockchain network. This comes with increased costs that might prohibit the use of a blockchain in a situations where otherwise the usage of one would be advantageous.
+
+There are situations where “eternal” storage of data is not needed i.e. during a certain limited period of time the properties of a blockchain (immutable publicly veritable ledger) are advantageous and after that time not necessary. Once the work is accomplished only the essence of it needs to be stored. Just like a huge tree stores its essence in a seed. Or like in the case of a project. During it’s execution there is many tools and approaches that lose their validity after the project is over. One of such use cases is the “Advertising” use case from this paper. 
+
+\subsubsection{Advertising use case solution}
+
+When a developer creates an advertising campaign, he defines the basic properties e.g.: budget, start date, end date, target app etc. Thereafter the app stores are free to compete for attributions until the budget or the duration of the campaign is over. A blockchain is an ideal tool to synchronize their activities and made openly verifiable who claimed what attribution. This way double attributions from the same user with several App Stores can be easily prevented and everybody is allowed to verify the work. Once the advertising campaign is over the use of a blockchain loses its purpose. A summary as a result of its enough to be stored. 
+
+Therefore in the App Coins Protocol an advertising campaign is a smart contract on the main Ethereum blockchain. The developer sets its attributes and app stores start participating in it. The condition for an app store to participate it that it has to take part in creating validating a custom blockchain defined it the smart contract. In this custom blockchain all the attributions from all the app stores for this campaign are written to. During the duration everybody in the Internet can see the content of the custom blockchain. Afterwards its results. 
+
+There is two open things left. One is how to make sure only valid App Stores can take place and to define what makes an app store – how to identify one. The other is to define the implementation details of this general idea.
+
+This idea has been inspired by the Plasma\cite{plasma} project.
