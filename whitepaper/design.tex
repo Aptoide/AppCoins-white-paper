@@ -45,8 +45,7 @@ platform. However, many of the constraints and solutions are applicable to other
 
 This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
 member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
-register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (PoA) is issued using through a server-side platform and stored in the 
-blockchain.
+register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (\textsf{PoA}) is issued using through a server-side platform and stored in the blockchain.
  
 When designing a solution, two main factors should be taken into account: reliability and availability. 
 Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of 
@@ -109,7 +108,7 @@ Developer's Reputation (Rank) and IAB.
 
 Inside each block we see the interactions between the ecosystem players and the blockchain. The 
 rounded squares represent functions / methods of smart contracts that implement business logic. The 
-cylinders represent data stored in smart contracts' own storage or event logs.
+cylinders represent data stored in smart contracts' own storage or event logs. \\
 
 {\bf Advertising}
 
@@ -117,17 +116,13 @@ The protocol was defined such that most risks in Section \ref{subsec:intro_ads} 
 
 As explained in Section \ref{sec: introduction}, there are three moments in an advertising model: campaign creation, impression and attribution (which can be an installation, opening of the app, etc). 
 
-In AppCoins protocol, attibution doesn't happen when the user installs the app or game, but after he plays for 2 minutes.  This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. 
-
-Since the smartphone is an untrusted environment, there is not a total guarantee that the user is real or that the app store stub installed in the phone was not tampered. However, identity is checked server side by the app store using network fingerprint (IP, routing information, ...) as it is done today by the tracking platforms.
-
-Similar challenges to \textsf{PoA} are addressed in BAT \cite{BAT}. \\
+In AppCoins protocol, attribution does not happen when the user installs the app or game, but after the app has been opened for 2 minutes. This poses the problem of how can the app store prove that a user did indeed open the app and had it opened for the required period of time. Our protocol introduces a \textit{proof-of-attention} \textsf{PoA}, which allows the developers to verify that users did actually paid attention to the app for the required time. Since the smartphone is an untrusted environment, there is not a way to ensure that the user is real or that the app store stub installed in the phone was not tampered. However, identity is server-side checked by the app store using network fingerprint (IP, routing information, etc) as it is done today by the tracking platforms. Similar challenges to \textsf{PoA} are addressed in BAT \cite{BAT}. \\
 
 From the requirement of privacy, the protocol itself does not expose any user information at any time and interaction with app stores. The only information that can be seen by others are the wallet addresses when a transaction occurs. Concerning risk \textsf{R1.4}, since the addresses are not linked to any sensitive user information (e.g. email), there is no leakage of user data. \\
 
 Regarding risk \textsf{R1.6}, developers can claim that a certain user did not actually do the required action to be given the attribution, i.e. that either the app store, the user or both are being dishonest. By providing a \textsf{PoA} and storing the transactions in the blockchain, they become verifiable by anyone, including the developer. Since the developer can verify the proof, it becomes clear that the protocol avoids the risk of repudiation. \\
 
-Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.
+Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}. \\
 
 {\bf IAB}
 
@@ -137,8 +132,7 @@ As in the Advertising use case, since the protocol follows the requirements of b
 
 The protocol is built to allow for transparency between users, developers and app stores. Transparency means that transactions between parties are public and verifiable, but only regarding token exchange. This means that the protocol is not intended to store items or any other form of goods/value. This tracking, as it is today, is to be done directly by users and developers, i.e. when the user pays for an in-app item, it is the user's responsibility to check if the item is transferred or not. The store, retrieve, and exchange of digital items between users is out of the scope of the AppCoins solution. Nonetheless, having the transactions publicly available mitigates this problem, which is referred to as risk \textsf{R2.2}, but does not completely avoid it. However, because of having the transactions publicly available, the protocol avoids risk \textsf{R2.3} because the user only sends more tokens in exchange for an in-app item if wanted. \\
 
-Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version.
-
+Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version. \\
 
 {\bf Developer Reputation}
 
