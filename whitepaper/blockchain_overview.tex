@@ -59,6 +59,7 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 
 \noindent \textbf{Create bid}. When a bid is submitted to the app store, the \textsf{CreateBid} method creates the bid $B$ containing the mapping $M$ between the developer $D$ and the set of users $U$ of the app store that match the filters, as well as all the parameters describing the bid as the funds $F$, duration $\Delta t$, etc. The inverted bids $IB_{i...n}$ of the app store containing the mapping between users and the bids they are in are created or updated, if they already exist. In addition, the funds $F$ the developer wishes to allocate to the campaign are sent from the developer's wallet $W_D$ to the bid's contract wallet $W_B$. Since the created bid is in the blockchain accessible to every user, it is used to overcome the \textit{bid refutation} problem.\\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{AD.CreateBid}
 \begin{itemize}
 	\item INPUTS:
@@ -71,13 +72,16 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 			\item Filters (geolocation, app name, app version,...)
 		\end{itemize}
 		\item Developer $D$
-		\item App Store $AS$ %App Store was AP in previous definitions
+		\item App Store $AS$ 
 	\end{itemize}
 	\item OUTPUTS: Bid $B$ and inverted bid $IB$
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Validate bid}. When a bid is to be shown to the user $u$, \textsf{ValidateBid} validates that bid in the blockchain to confirm if it is a valid bid and if the user $u$ matches its filters. In order to avoid the scenario where there are not enough funds available in the bid for the user, the tokens per attribution $T$ defined in the bid are sent to the bid's captivation wallet $W_C$ for a period of time. The method is used to overcome the problem of \textit{bid validation}. \\
 
+$\left[\begin{tabular}{p{.5\textwidth}}
 \textsf{AD.ValidateBid}
 \begin{itemize}
 	\item INPUTS:
@@ -87,9 +91,12 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\end{itemize}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textsf{Set attribution}. When a user has been attributed to a bid $B$, i.e. the user performed the required action (e.g. had the app open for at least 2 minutes), \textsf{SetAttribution} checks the advertising ledger $L_{Ad}$ to make sure the user $u$ has not yet been attributed to the bid $B$ and if so, the attribution is written in the ledger and each participant receives the correspondent tokens, i.e. the user, OEM and app store receive $T_u$, $T_{OEM}$ and $T_{AS}$, respectively. Since the method is constructed in a way such that the same user is unable to be attributed the same bid in different app stores, it avoids the \textit{double attribution problem}. \\
 
+$\left[\begin{tabular}{p{.5\textwidth}}
 \textbf{AD.SetAttribution}
 \begin{itemize}
 	\item INPUTS:
@@ -99,6 +106,8 @@ Table \ref{table: ads_use_case} presents in pseudo-code a more in-depth definiti
 	\end{itemize}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \begin{table}[H]
 \scriptsize
@@ -251,6 +260,7 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 
 \noindent \textbf{Create catalog}. When a developer $D$ wants to integrate in-app purchases, a catalog $C$ is created containing the mapping between the items $I_N$ that are to be available in the app $A$ and their respective prices $P_N$. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{IAB.CreateCatalog}
 \begin{itemize}
 	\item INPUTS:
@@ -263,9 +273,12 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 	\end{itemize}
 	\item OUTPUTS: Catalog $C$
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textsf{Create transaction}. When a user $u$ wants to buy a certain amount $Q$ of items $I$, a transaction is created stating that the user $u$ bought a quantity $Q$ of an item $I$ for a price $P$ in a app $A$ that integrated the IAB solution from app store $AS$. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{IAB.CreateTransaction}
 \begin{itemize}
 	\item INPUTS:
@@ -278,6 +291,8 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 	\end{itemize}
 	\item OUTPUTS: Result $R$ (0 or 1)
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \begin{table}[H]
 \scriptsize
@@ -374,22 +389,9 @@ S_l = \log_2 \frac{\sum\limits_{t=0}^{T} \sum\limits_{i=1}^{N} TX_{A_{ij},t}}{TX
 
 Because of the use of the logarithm function in Equation \ref{eq: rank_level}, it becomes harder to gain higher rank levels as the rank level increases.
 
-
-
-
 \subsubsection{Developer Reputation}
 
 A known developer is more trustable than a developer recently arrived to the apps' distribution business.
-
-%In Figure \ref{fig:approval_state_diagram}, the different states that the developer can have are presented.
-%
-%\begin{figure}[!ht]
-%\centering
-%\includegraphics[width=0.5\textwidth]{diagrams/approval_state_diagram.eps}
-%\caption{Approval state changes.}
-%\label{fig:approval_state_diagram}
-%\end{figure}
-
 
 \subsubsection{Data Structures}
 
@@ -450,6 +452,7 @@ rank ledger $L_{R} : (E_1..E_n)$
 %what are i,j,z,x ans 0
 \noindent \textbf{Create dispute intent}. When a user $C_i$ claims a developer $D_j$ is dishonest, an intent of dispute is created, which may result in a dispute being opened, depending on whether someone answers the \textit{dispute intent} within 7 days or not. The user answering the dispute may not be the developer. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.CreateDisputeIntent}
 \begin{itemize}
 	\item INPUTS:
@@ -459,9 +462,12 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: Dispute intent $K^{0}_{x}$
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Create dispute}. When a dispute intent is answered, a disputed is created. Within the following 30 days, any user may join the contestants side, which is composed by users claiming the developer $D_j$ is dishonest, or the pleaders side, which contains users stating that the developer $D_j$ is honest. The dispute intent that originated the new dispute is closed.\\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.CreateDispute}
 \begin{itemize}
 	\item INPUTS:
@@ -472,9 +478,12 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: Dispute $K_x$
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Close dispute}. When the dispute is over (after 30 days), the winning side has its stakes refunded, while also receiving 10\% of each pledge from the losing side, with each winning member getting a winning stake proportional to their stake in the overall winning side pledge. Each member from the losing side gets a refund from the respective pledge subtracted by 10\%. Please refer to Table \ref{table: dr_protocol} for more details. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.CloseDispute}
 \begin{itemize}
 	\item INPUTS:
@@ -483,9 +492,12 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Compute rank}. The rank of the developer is periodically checked to assess changes in its value. For example, the rank can change from \textit{"Unknown"} to \textit{"Trusted"} or the \textit{"Trusted"} level can increase. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.ComputeRank}
 \begin{itemize}
 	\item INPUTS:
@@ -497,9 +509,12 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Record dispute}. When a user joins a side on a dispute, the event is recorded in the dispute ledger and can later be used to settle the dispute. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.RecordDispute}
 \begin{itemize}
 	\item INPUTS:
@@ -511,9 +526,12 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \noindent \textbf{Record rank change}. When there is a developer's rank change, it is recorded in the rank ledger. \\
 
+$\left[\begin{tabular}{p{.7\textwidth}}
 \textsf{DR.RecordRank}
 \begin{itemize}
 	\item INPUTS:
@@ -524,6 +542,8 @@ rank ledger $L_{R} : (E_1..E_n)$
 	\end{itemize}
 	\item OUTPUTS: None
 \end{itemize}
+\vspace{-0.8cm}
+\end{tabular}\right.$ \\
 
 \begin{table}[H]
 \scriptsize
