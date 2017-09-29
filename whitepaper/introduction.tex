@@ -3,37 +3,35 @@
 
 \subsection{Motivation}
 
-Aptoide app store was used, in 2016, to install 1.1 billion of apps in 142 million unique devices\footnote{Aptoide web site is considered the \#692 most visited site in the world by SimilarWeb (Sept 2017).}. Although the Aptoide brand may - or not - be familiar to you before reading this white paper, every one in five young people in the world between the ages of 16 and 25 uses Aptoide. In certain countries - like Brazil or Mexico\footnote{Aptoide Top 5 countries: Brazil, Mexico, US, India, Italy} - that is one in three kids using it. 
-
-Over this incredible journey to earn the trust of Aptoide users, without any payed acquisition, we discovered that app stores can be much more. The app discovery can be much better. The financial transactions - like advertising and in-app purchases - can be much more efficient. The sharing can be much more powerful. 
-
-The current state does not benefit the developers or the user. It only benefits Google and Apple. In a closed market, they can impose margins and their own distribution rules.
+In 2016, Aptoide app store was used to install 1.1 billion of apps in 142 million unique devices\footnote{Aptoide web site is considered the \#692 most visited site in the world by SimilarWeb (Sept 2017).}. Although the Aptoide brand may - or not - be familiar to the reader before reading this white paper, one out of five people between the ages of 16 and 25 worldwide uses Aptoide. In certain countries - like Brazil or Mexico\footnote{Aptoide Top 5 countries: Brazil, Mexico, US, India, Italy} - that number increases to one out of three.
 
 \medskip
 
-The proposed protocol in this document is a call to the community. Is a call to developers, to other app stores, and to users. Is a call to work together towards a free-entry app store market. A market that unlocks the world of in-app purchases to billions of users. A market that benefits the talented developers providing them significant revenue and transparent ways to reach their users. AppCoins proposes a world where app stores compete by innovation and service level.
+Over this incredible journey to earn the trust of Aptoide users, without any paid acquisition, we discovered that app stores can be much more. The app discovery can be much better. The financial transactions - like advertising and in-app purchases - can be much more efficient. The sharing can be much more powerful. The current state does not benefit the developers or the user. It only benefits Google and Apple. In a closed market, they can impose margins and their own distribution rules.
 
-The same way open source and community helped Aptoide to reach 100 million users in 4 years, we are certain that {\em blockchain} is the technology that will enable this revolution, provinding trust and transparency.
+\medskip
 
-If you share this vision, join us in this journey\cite{lucas}, collaborating in the protocol, developing open source software and spreading the word. 
+The proposed protocol in this document is a call to the community. It is a call to developers, to other app stores, and to users. It is a call to work together towards a free-entry app store market. A market that unlocks the world of in-app purchases to billions of users. A market that benefits the talented developers providing them significant revenue and transparent ways to reach their users. AppCoins envisions a world where app stores compete by innovation and service level.
 
-Changing the app store ecosystem and breaking monopolies.
+\medskip
 
-
+The same way open source and community helped Aptoide to reach 100 million users in 4 years, we are certain that {\em blockchain} is the technology that will enable this revolution, providing trust and transparency. If you share this vision, join us in this journey \cite{lucas}, collaborating in the protocol, developing open source software and spreading the word. Changing the app store ecosystem and breaking monopolies.
 
 \medskip
 
 \subsection{Historical perspective}
 
-App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple's App Store in July 2008 and with its pre-load in iPhone 3G.
+App stores are a distribution channel between the developer and the end user. Although software distribution exists since there is software development, the current model of smartphone became popular with the launch of Apple's App Store in July 2008 and with its pre-load in iPhone 3G. In the same year, but later in August 2008, Google announced the launch of Android Market \cite{wiki:market}, the app store for Android.
 
-In the same year, but later in August 2008, Google announced the launch of Android Market \cite{wiki:market}, the app store for Android.
+\medskip
 
 These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions and app approval. Centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: a lack of trust and economical efficiency.
 
-Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes.
+\medskip
 
-By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users and OEM manufacturers. By being centralised, they cannot benefit from a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
+Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes. By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users and OEM manufacturers. By being centralised, they cannot benefit from a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
+
+\medskip
 
 The AppCoins protocol covers three core app store use cases:
 
@@ -59,12 +57,12 @@ In the next sub-sections, we'll analyse each of the above flows and the main pro
 \label{subsec:intro_ads}
 
 
-Currently, the three flows presented in Figure \ref{fig:exist_flows} do not have any interaction among them. They are isolated and handled by different app store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  
+Currently, the three flows presented in Figure \ref{fig:exist_flows} do not have any interaction among them. They are isolated and handled by different app store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  In the next sub-sections, we will analyse each of the flows individually and the main problems faced today.
 
 % XXX which flows: the flows cannot be easily identified
 % XXX The resources ... sentence seems to be redundant.
 
-In the next sub-sections, we will analyse each of the flows individually and the main problems faced today.
+\medskip
 
 For a developer or a publisher, the most natural place to advertise an application or game is where the users are looking for that kind of content: the app store.
 
