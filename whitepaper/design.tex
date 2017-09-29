@@ -111,6 +111,8 @@ Inside each block we see the interactions between the ecosystem players and the 
 rounded squares represent functions / methods of smart contracts that implement business logic. The 
 cylinders represent data stored in smart contracts' own storage or event logs.
 
+\medskip
+
 {\bf Advertising}
 
 The protocol was defined such that most risks in Section \ref{subsec:intro_ads} are avoided or at least mitigated. By leveraging blockchain technology and its requirements of transparency, accountability and verifiability of processes, we avoid creating a middlemen-dependent economy and add value both for the advertisers/developers and the users. \\
@@ -129,6 +131,8 @@ Regarding risk \textsf{R1.6}, developers can claim that a certain user did not a
 
 Since our solution proposes that no middlemen is needed within the advertising model, there is the need to have the protocol being able to enforce the payments between the developer and the other parties, which are the user, the app store and the OEM. The only way to make sure the entirety of the funds that the developer wants to put available for the campaign exist is to lock them in a different wallet, which is where the smart contract for the campaign will be running. Since they are locked, the developer cannot spend them before the campaign is over and there is no possibility for the developer to be in default. In addition, when there is an impression, the amount of tokens to be paid for that conversion need to be locked as well. This serves to avoid race conditions, which can occur when the funds still available in the campaign are for $X$ attributions but $Y$ users are getting impressions for the campaign (with $X < Y$). If this would be possible, some of the $X$ users would install the app but when they opened it and paid attention to it for the required time, thus being eligible for the attribution, they would not get the attributed because there would be no more funds available. This means that different wallets need to exist that serve to lock funds for the already made impressions. If the attribution for a certain impression does not occur after some designated amount of time, then the funds would be unlocked and placed back in the campaign wallet. This funds captivation scheme is exemplified in Figure \ref{fig:wallet_cpi_flow} and avoids the risk \textsf{R1.5}.
 
+\medskip
+
 {\bf IAB}
 
 The IAB use case has the risks outlined in Section \ref{subsec:intro_iab}, which the protocol needs to either avoid or mitigate. \\
@@ -139,6 +143,8 @@ The protocol is built to allow for transparency between users, developers and ap
 
 Regarding item cloning, as it has been said, the protocol itself does not deal with in-app items or their exchange, only with the token transfers in the scope of in-app purchases. Hence, there is no possibility within the protocol to clone items and neither to send them to other users. Therefore, risk \textsf{R2.4} is not addressed by the protocol at this version.
 
+
+\medskip
 
 {\bf Developer Reputation}
 
