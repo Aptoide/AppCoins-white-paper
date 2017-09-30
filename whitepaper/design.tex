@@ -34,6 +34,8 @@ app stores have the option to hide the app to avoid zero-day attacks.
 
 \subsection{Client side support}
 
+\label{sec:clientside}
+
 Besides the blockchain technology, the environment where the user is running the app store should 
 also support the AppCoins protocol to be able to monitor if the advertised app is really used during two minutes.
 
@@ -43,8 +45,7 @@ also support the AppCoins protocol to be able to monitor if the advertised app i
 As Android represents 86\% of the smartphones market, we focus an implementation analysis in this
 platform. However, many of the constraints and solutions are applicable to other smartphone operating systems.
 
-This subsection\footnote{This section was contributed by Marcelo Benites, Aptoide Android team 
-member} aims to describe a client-side method, running in the smartphone's untrusted environment, to 
+This subsection aims to describe a client-side method, running in the smartphone's untrusted environment, to 
 register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (\textsf{PoA}) is issued using through a server-side platform and stored in the blockchain.
  
 When designing a solution, two main factors should be taken into account: reliability and availability. 
