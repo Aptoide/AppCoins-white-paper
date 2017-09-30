@@ -92,6 +92,22 @@ insecure environment - and Android API availability - due to Android's version f
 store permission level. The use of several different Android APIs can help harden the solution 
 against an attacker but can not assure full protection against fraud on the client side. The AppCoins protocol aims to find a balance between the effort of breaking and the incentives of doing it.
 
+\subsection{Fraud}
+
+One important concern is naturally the possibility of fraud by a (fake) user to earn more tokens. The only certainty is that is not possible to avoid totally fraud. The mobile phone is an untrusted environment that can be tampered. Today, fraud in installation attribution exists, like seen oo videos of farms of smartphones in a rack where clicks in banners are done automatically.
+
+AppCoins protocol deals with fraud in CPI advertising with the following design: 
+
+\begin{itemize}
+\item {\bf Thresholds}: the app store sets a lower limit, e.g. one install a day and three per week, for unknown users. As the user has more transactions in blockchain the level of trust increases and the threshold is slightly raised. The user would never be able to do more than two installations per day in any case. 
+\item {\bf Cash out}: as mentioned before, the user is not able to cash out tokens. He has to use the AppCoin tokens in in-app purchases. A fraudulent user could try to register as a developer and to buy items inside his own app, but it would loose 15\% of the transaction volume (app store and OEM margin) and would be easier to detect a fraudulent pattern for that user. 
+\item {\bf User Fingerprint}: the fingerprint of the user (a unique identification to detect double attribution) is not done only at smartphone level but, more important, at networking level. The  {\em IP} of the user smartphone, as well as rounting information, is used in the fingerprint.
+\item {\bf Shared information}: the existent transactions with the fingerprint information will persist in the blockchain, allowing the different app stores to access and avoiding cross-store fraud. The partial anonimity of the user is accomplished by using hash functions (like SHA256) in the fingerprint. 
+\item {\bf Targetting}: is the store that send the Ads for the user, trying to do an intelligent matching between the user and the campaigns running. The client cannot try to install an advertised app that was not targeted to him.
+\end{itemize}
+
+As mentioned before, it is impossible to erradicate totally fraud since the smartphone is an untrusted environment. The goal is to create enough difficulties for the attacker beyond the point that the effort and resources needed to explore the attack vector do not compensate the benefits extracted from that attack.
+
 
 \subsection{Protocol Overview and sketch}
 
