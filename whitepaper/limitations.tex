@@ -2,9 +2,7 @@
 \label{sec:limitations}
 
 
-The current status of blockchain developments, both Bitcoin and Ethereum, can limit the development of projects that depend on the technology to support the required business use cases. %missing citation?
- 
-There are three use cases which the AppCoin protocol tries to solve in order to enable a fully working AppCoin economy:
+The current status of blockchain developments, both Bitcoin and Ethereum, can limit the development of projects that depend on the technology to support the required business use cases. There are three use cases which the AppCoin protocol tries to solve in order to enable a fully working AppCoin economy:
 
 % \subsection{Use Cases}
 
@@ -24,16 +22,18 @@ From the above-mentioned use cases a list of requirements on the technology can 
 
 The first requirement is solved by using a blockchain technology. Both Bitcoin or Ethereum work for this. For the second requirement only a blockchain technology supporting smart contracts will work, i.e. Ethereum, Nxt or Tezos.
 
+\medskip
+
 Unfortunately, bare Ethereum nor any other current blockchain for that matter are able to scale for the needs of an app marketplace. This problem is even more aggravated considering a platform potentially working for all the app marketplaces.
+
+\medskip
 
 First let us have a detailed look at the challenges in question.
 
 \subsection{Blockchain limits}
 
 
-Let's try to imagine a scenario of a working AppCoins economy using a bare blockchain technology like Ethereum.
-
-At the present there are about 2 billion Android users. The average Ethereum transaction is around 160 bytes \cite{EthereumTransactions}. If we wanted to create an AppCoin economy directly on Ethereum using these numbers, we would get a system with the characteristics shown in Table \ref{table:ethereumscalability}.
+Let's try to imagine a scenario of a working AppCoins economy using a bare blockchain technology like Ethereum. At the present there are about 2 billion Android users. The average Ethereum transaction is around 160 bytes \cite{EthereumTransactions}. If we wanted to create an AppCoin economy directly on Ethereum using these numbers, we would get a system with the characteristics shown in Table \ref{table:ethereumscalability}.
 
 \begin{table}[!htbp]
 \centering
@@ -84,6 +84,8 @@ Basically there is one possibility how to tackle the scalability problem with Bi
 \subsection{Lightning Network}
 In brief the Lightning Network allows for creation of bidirectional payment channels that are off-chain \cite{LighthingNetwork}. Using such a channel two parties agree to deposit money into a common entity called channel and this information is stored on the blockchain. There is a 2-signature entry for the channel with the total sum of the deposit saved. From this moment on the two parties can exchange between them any number of payments in the form of signed receipts. The only condition is that the balance for one party doesn't exceed the total of the deposit. Should a case like this happen, the parties can increase the deposit. These off-chain transactions are signed and sent direct. They are not broadcast. In contrast all the transactions on the main blockchain need to be broadcast to all participants. 
 
+\medskip
+
 This approach solves the blockchain scalability problem, such as:
 
 \begin{itemize}
@@ -99,21 +101,29 @@ Thus the original blockchain scalability limitations are resolved for the case o
 \subsubsection{Raiden}
 Raiden network is an early implementation of the Lightning Network protocol for Ethereum. Therefore, it is an off-chain scaling solution for Ethereum. It promises near-instant, low-fee and scalable payments and enables micro transactions \cite{Raiden}. Raiden runs as a network of nodes establishing payment channels among users. It uses locked funds in a smart contract in Ethereum and payments happen inside of Raiden until one party chooses to settle. Raiden will work for any Ethereum tokens implementing the ERC20 standard.
 
+\medskip
+
 One of the key characteristics of Raiden is its maturity. Currently it is the only known technology for Ethereum with existing implementation (i.e. beyond white paper stage) enabling a working App Coin economy. It has been under development for the past two years and it is reaching a Minimal Viable Product stage, currently being in a developer preview stage.
 
+\medskip
+
 Privacy is another key characteristic of Raiden.  All the transactions are known only to the involved parties and not public knowledge like in Ethereum.
+
+\medskip
 
 Finally the maturity can also be seen as a weak point for Raiden. Even though it is beyond proof-of-concept stage it is not recommended to be used on the live Ethereum network by its creators.
 
 \subsubsection{Plasma}
 Plasma is defined as "scalable autonomous smart contracts" \cite{Plasma} and it is another attempt to bring the Lightning Network technology from Bitcoin to the Ethereum world. This is envisioned by means of a tree of hierarchical chains where most of the transactions can be settled in the sub-chains and do not need to go to the expensive and slow main chain. The main chain will be needed only to settle disputes coming from sub chains and would serve as final validation.
 
-A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another aspect supporting Plasma it that is has been endorsed by OmiseGO to be used for their decentralised exchange and payment platform\cite{omisego_plasma}.
+\medskip
 
-What speaks against Plasma at this time is the fact that the project has only a white paper, without any working code base yet.
+A strong point for Plasma is that it is backed by key people from both Ethereum and Lightning Network, i.e. Vitalik Buterin and Joseph Poon. Another aspect supporting Plasma it that is has been endorsed by OmiseGO to be used for their decentralised exchange and payment platform\cite{omisego_plasma}. What speaks against Plasma at this time is the fact that the project has only a white paper, without any working code base yet.
 
 \subsubsection{OmiseGO}
 OmiseGO is an Asian payment gateway. It plans to use Ethereum and Plasma as a foundation for creating a decentralised exchange and payment platform \cite{OMG} and intends to launch their own blockchain called OMG that will be complementary to Ethereum. Ether will be then used as a medium of interchange for various asset being exchanged on their blockchain.
+
+\medskip
 
 Here are some of the strong points of OmiseGO:
 \begin{itemize}
@@ -124,25 +134,20 @@ Here are some of the strong points of OmiseGO:
 \end{itemize}
 
 The weak points include:
-
 \begin{itemize}
     \item The project is in a very early stage. It has been announced in the beginning of August 2017. Currently, there is only a white paper available.
     \item As a result of coupling with Ethereum the white paper recommends to validate transactions simultaneously on the Ethereum blockchain for maximum security.
 \end{itemize}
 
 \subsection{Independent blockchains}
-The second solution to achieve global consensus (blockchain) with some scalability is the use of a proof-of-work as block minting algorithm. For Ethereum this would be the Casper protocol which has been talked about a lot in the past years in the Ethereum community but which is not implemented yet. As Casper is not in use yet we will examine here other projects that have implemented minting instead of mining blocks.
-
-A brief look will be also thrown at IOTA that solves the scalability problem by using not a blockchain, but a directed acyclic graph called Tangle.
+The second solution to achieve global consensus (blockchain) with some scalability is the use of a proof-of-work as block minting algorithm. For Ethereum this would be the Casper protocol which has been talked about a lot in the past years in the Ethereum community but which is not implemented yet. As Casper is not in use yet we will examine here other projects that have implemented minting instead of mining blocks. A brief look will be also thrown at IOTA that solves the scalability problem by using not a blockchain, but a directed acyclic graph called Tangle.
 
 \subsubsection{Nxt}
-One of solutions not based upon Ethereum is Nxt. It is described as "an open source cryptocurrency and payment network launched in November 2013 by anonymous software developer BCNext" \cite{Nxt}. Compared to Ethereum one can see Nxt as a monolith trying to include major features from all coins. It describes itself as an modern economic system based on cryptography and blockchain technology. On the other hand Ethereum built a low platform and programming language in which one can program generic contracts.
+One of solutions not based upon Ethereum is Nxt. It is described as "an open source cryptocurrency and payment network launched in November 2013 by anonymous software developer BCNext" \cite{Nxt}. Compared to Ethereum one can see Nxt as a monolith trying to include major features from all coins. It describes itself as an modern economic system based on cryptography and blockchain technology. On the other hand Ethereum built a low platform and programming language in which one can program generic contracts. Other major differentiation of Nxt to Ethereum is the fact that it is based on proof-of-stake for creating new blocks.
 
-Other major differentiation of Nxt to Ethereum is the fact that it is based on proof-of-stake for creating new blocks.
+\medskip
 
-Nxt is unsuitable for creating an App Coin Economy as it targets a different scenario. Focusing on managing your business, assets and customers and interaction between them in a secure way. Not as a blockchain backed technology enabling to create generic decentralised Apps.
-
-Another point speaking against Nxt is the fact that its beginning was obscure. 73 anonymous accounts received stakes in exchange for bitcoin accounts and it is these people who can mint new blocks. And also that there has not been much buzz around and development for Nxt recently.
+Nxt is unsuitable for creating an App Coin Economy as it targets a different scenario. Focusing on managing your business, assets and customers and interaction between them in a secure way. Not as a blockchain backed technology enabling to create generic decentralised Apps. Another point speaking against Nxt is the fact that its beginning was obscure. 73 anonymous accounts received stakes in exchange for bitcoin accounts and it is these people who can mint new blocks. And also that there has not been much buzz around and development for Nxt recently.
 
 \subsubsection{Tezos}
 Compared to Nxt the next examined project has received a lot of attention recently and finished its ICO by raising more than \$200 million.
@@ -172,17 +177,25 @@ The goal of IOTA is to create a lightweight network that allows a machine econom
 
 As seen in the previous section, there are blockchain currencies that can securely store digital value. But as we have seen, doing transactions over them does not scale, is slow and requires fees. Therefore alternatives like direct payment channels have to be evaluated.
 
+\medskip
+
 In general terms, the App Store acts as the gateway to the digital payment world for the user. He deposits his valuables (preferably Ether) with the store in a payment channel using a smart contract. The same happens for developers. And from this moment on they can utilise the micro-payments within the App Infrastructure. The payments are instant, cheap and there can be any number of them.
 
+\medskip
+
 The user has to pay fees on each Ether deposit to his account with the App Store and on checking out i.e. settling his payment channel. Further fees may be the taxation done by the App Store used to pay for its infrastructure.  If there are several App Stores in the same ecosystem like we envision, there might be further (minimal) fees to forward the payments from one to another.
+
+\medskip
 
 Figure \ref{fig:offchain} depicts what is on-chain a vision of the wallets on-chain (Ethereum network) and the wallets off-chain using Raiden or OmiseGO.
 
 % TODO explain better the division
 
-Returning to the requirements from the beginning of this chapter, we plan to use Ethereum for storing value and smart contracts. 
+\medskip
 
-To have scalability, Raiden is being evaluated for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
+Returning to the requirements from the beginning of this chapter, we plan to use Ethereum for storing value and smart contracts. To have scalability, Raiden is being evaluated for the first Beta version of the reference implementation of the protocol that is due six months after the ICO. %could not understand sentence
+
+\medskip
 
 The choice for Raiden is because - at the time of writing - it is the only platform that has a test network and can be used. Yet OmiseGO has a promising outlook and in the future can be adopted depending on their progress. They will be kept under close look as they might develop the potential to substitute Raiden.
 
