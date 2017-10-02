@@ -39,7 +39,6 @@ app stores have the option to hide the app to avoid zero-day attacks.
 Besides the blockchain technology, the environment where the user is running the app store should 
 also support the AppCoins protocol to be able to monitor if the advertised app is really used during two minutes.
 
-\medskip
 
 % TODO }: include quote
 %missing context and connection to previous sentence?
@@ -51,15 +50,11 @@ platform. However, many of the constraints and solutions are applicable to other
 
 This subsection aims to describe a client-side method, running in the smartphone's untrusted environment, to register that a user is paying attention to an app (installed from an app store) for a certain amount of time. Once those requirements are met, a \textit{proof-of-attention} (\textsf{PoA}) is issued using through a server-side platform and stored in the blockchain.
  
-\medskip
- 
 When designing a solution, two main factors should be taken into account: reliability and availability. 
 Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of 
 confidence that a user paid attention to an app installed from an app store. Availability consists in 
 making sure that whenever a user pays attention to an app installed from an app store, the app store 
 will be aware of that and will request the \textsf{PoA} once the requirements are met. %requirements?
-
-\medskip
 
 The app store process has to be running when the user is paying attention to an app in order to request  
 the issue of \textsf{PoA}. Latest releases of the Android operating system (Android OS) - from Lollipop (API level 21) onwards - have been limiting the ability of app processes to run while the app is in the 
@@ -81,26 +76,18 @@ services or with other apps through the Android Java API Framework. The Binder f
 provide information regarding the app process, which will positively contribute to the app store 
 \textsf{PoA} reliability.
 
-\medskip
-
 Once the app and the app store's processes are bound, the app store will periodically verify whether 
 the app is in the foreground and the user is actively interacting with the device. In order to certify that 
 the user is paying attention to the app, the following conditions should be met: the app's process must be bound to the app store's process, the app must be in foreground, the device screen must be on, the device must not be locked, and the signature of the app must be verified on the app store's servers.
-
-\medskip
 
 To assure that the app's process is bound to app store, Binder and PackageManager APIs can be used. 
 To verify whether an app process is in the foreground, both ActivityManager, UserStatsManager and  PackageManager APIs can be used. To check whether the device screen is on, the PowerManager 
 and Display APIs can be used. Regarding the state of the lock screen, the KeyguardManager API can 
 be used. 
 
-\medskip
-
 Every application has to be signed by the developer before being installed on an Android device. App 
 stores have access to the apps' signatures and can validate by confirming whether they match with the 
 signature on their servers. If the signature does not match, the app may have been tampered with. To obtain the app's signature, the Binder and PackageManager APIs can be used.
-
-\medskip
 
 The proposed solution has some limitations regarding reliability - imposed by Android's inherently 
 insecure environment - and Android API availability - due to Android's version fragmentation and app 
