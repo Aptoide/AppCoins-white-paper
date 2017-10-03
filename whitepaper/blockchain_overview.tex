@@ -1,22 +1,22 @@
 \section{AppCoins: Protocol Definition}
 \label{sec:protocol}
 
-As we have seen before, AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within app stores by leveraging the blockchain construction to create value for the different participants.\\
+As we have seen before, the AppCoins protocol addresses the use cases of Advertising, In-App Billing (IAB) and Developer Reputation within app stores by leveraging the blockchain construction to create value for the different participants.\\
 
 In this section, we present the data structures and algorithms used to solve each of the aforementioned use cases. It will be organised as follows: a section for each core flow and subsections explaining the data structures, algorithms and wallets flows.
 
 \subsection{Advertising}
 
-Advertising campaigns in the context of a blockchain construction must be constructed in a way to overcome the risks ellaborated before.
+Advertising campaigns in the context of a blockchain must be constructed in a way as to overcome the risks elaborated before.
 
 \subsubsection{Data Structures}
 \label{sssec:ads_ds}
 
-\noindent \textbf{Bid}. A \textit{bid} is a statement of intent to pay for the attention of users. Developers create \textit{bids} and submit them to app stores, which in turn match and propagate them to users. Bids are composed by an amount of funds, a duration, the amount of tokens per attribution, the filters (app name, app version, geolocation,...). and a mapping between developers and the users in an app store that match specific filters set by the developers. Please refer to Table \ref{table: data_structures_ad} for more details. \\
+\noindent \textbf{Bid}. A \textit{bid} is a statement of intent to pay for the attention of users. Developers create \textit{bids} and submit them to app stores, which in turn match and propagate them to users. Bids are composed of an amount of funds, a duration, the amount of tokens per attribution, the filters (app name, app version, geolocation,...), and a mapping between developers and the users in an app store that match specific filters set by the developers. Please refer to Table \ref{table: data_structures_ad} for more details. \\
 
 \noindent \textbf{Inverted bid}. An \textit{inverted bid} is a mapping between users and the bids they are participating in for a specific app store. See Table \ref{table: data_structures_ad} for more details.\\
 
-\noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that did the required action (e.g. having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different app stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
+\noindent \textbf{Advertising Ledger}. The \textit{advertising ledger} is the record of attributions, i.e. users that completed the required action (e.g. having an app open for at least 2 minutes) for a bid. The ledger is populated in a way that avoids the \textit{double attribution problem}, i.e. bids in different app stores for the same apps in similar time intervals need to be identifiable across all the stores, as well as the users.
 
 \begin{table}[H]
 \footnotesize
@@ -211,7 +211,7 @@ $\left[\begin{tabular}{p{.5\textwidth}}
 
 The transfers between wallets in the Advertising flow have to address some risks that were previously described in Chapter \ref{subsec:intro_ads}.
 
-There is a wallet that contains the budget of the created campaign, which is meant to lock the budget, addressing the risk of default (R1.5) by the developer. To address the same risk, there is also a wallet temporarily storing the value of the impression, to make sure that if the attribution occurs within a certain time, i.e. the user installs and opens the app within a certain time interval, there are funds available to pay for the conversion. Otherwise, there could be the scenario of giving the impression to many users but the campaign only had enough funds for one more attribution. The users would try to get attribution, creating a race condition, but only one would get it. An example of this schema is shown in Figure \ref{fig:wallet_cpi_flow}.
+There is a wallet that contains the budget of the created campaign, which is meant to lock the budget, addressing the risk of default (R1.5) by the developer. To address the same risk, there is also a wallet that will temporarily store the value of the impression, to make sure that if the attribution occurs within a certain time, i.e. the user installs and opens the app within a certain time interval, there are funds available to pay for the conversion. Otherwise, there could be a scenario of serving an impression to many users but the campaign only had enough funds for one more attribution. The users would try to get attribution, creating a race condition, but only one would get it. An example of this schema is shown in Figure \ref{fig:wallet_cpi_flow}.
 
 \begin{figure}[!ht]
 \centering
@@ -367,7 +367,7 @@ In In-App Billing the transactions between wallets occur off-chain. The main tra
 
 There is the need to create trust between the different players in the app economy, namely between users, the developers and their apps. \\
 
-In the AppCoins protocol, trust is characterised by a developer's rank, which is then propagated to all his apps. This rank can have the values of $\{"Unknown", "Trusted", "Critical"\}$. A user has the rank \textit{"Unknown"} only when joining the network for the first time, i.e. once the rank is changed from \textit{"Unknown"}, it can never have this value again. Changes in rank happen by either disputes, where the rank of the developer can change to \textit{"Critical"} in case of loss or remain the same in case of win, or by promotions, where the rank of the developer can change to \textit{"Trusted"}.
+In the AppCoins protocol, trust is characterised by a developer's rank, which is then propagated to all his apps. This rank can have the values of $\{"Unknown", "Trusted", "Critical"\}$. A user has the rank \textit{"Unknown"} only when joining the network for the first time, i.e. once the rank is changed from \textit{"Unknown"}, it can never have this value again. Changes in rank happen either through disputes, where the rank of the developer can change to \textit{"Critical"} in case of loss or remain the same in case of win, or by promotions, where the rank of the developer can change to \textit{"Trusted"}.
 
 Promotions depend on the number of transactions in each of the developer's apps compared to the number of transactions in other popular apps. Promotions are automatic and depend on the following condition:
 
@@ -391,7 +391,8 @@ Because of the use of the logarithm function in Equation \ref{eq: rank_level}, i
 
 \subsubsection{Developer Reputation}
 
-A known developer is more trustable than a developer recently arrived to the apps' distribution business.
+%A known developer is more trustable than a developer recently arrived to the apps' distribution business.
+It is assumed that a known developer is more trustworthy than a developer who recently joined the apps distribution business.
 
 \subsubsection{Data Structures}
 
@@ -673,7 +674,7 @@ $\left[\begin{tabular}{p{.7\textwidth}}
 
 \subsubsection{Wallet Transactions}
 
-The reputation of a developer is built based on blockchain transactions that can be associated to him. However, when there is a dispute, like presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of tokens that each side has. Figure \ref{fig:wallet_developers_approval} shows how users create disputes and join sides by placing tokens on the dispute.
+The reputation of a developer is built based on blockchain transactions that can be associated to him. However, when there is a dispute, as presented in the previous section, the dispute mechanism is solved by receiving positive / negative endorsements of the community members to the developer. The final decision is based on the total sum of tokens that each side has. Figure \ref{fig:wallet_developers_approval} shows how users create disputes and join sides by placing tokens on the dispute.
 %how many tokens each user and developer puts? Is it a fixed value? If variable, can rich malware developers or users takeover the system?
 
 \begin{figure}[!ht]

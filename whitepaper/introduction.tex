@@ -3,7 +3,7 @@
 
 \subsection{Motivation}
 
-In 2016, the Aptoide app store was used to install 1.1 billion of apps in 142 million unique devices\footnote{Aptoide web site is considered the \#692 most visited site in the world by SimilarWeb (Sept 2017).}. Although the Aptoide brand may - or not - be familiar to the reader before reading this white paper, one out of five young people between the ages of 16 and 25 worldwide uses Aptoide. In certain countries - like Brazil or Mexico\footnote{Aptoide Top 5 countries: Brazil, Mexico, US, India, Italy} - that number increases to one out of three.
+In 2016, the Aptoide app store was used to install 1.1 bn apps in 200 million unique devices\footnote{Aptoide web site is considered the \#692 most visited site in the world by SimilarWeb (Sept 2017).}. Although the Aptoide brand may - or not - be familiar to the reader before reading this white paper, one out of five young people between the ages of 16 and 25 worldwide uses Aptoide. In certain countries - like Brazil or Mexico\footnote{Aptoide Top 5 countries: Brazil, Mexico, US, India, Italy} - that number increases to one out of three.
 
 \medskip
 
@@ -25,20 +25,26 @@ App stores are a distribution channel between the developer and the end user. Al
 
 \medskip
 
-These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions and app approval. Centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: a lack of trust and economical efficiency.
+%These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions and app approval. This centralisation in the context of app stores means no transparency and being closed source. As the smartphone user base grew, the centralised model started to show severe flaws. The flaws and problems identified are strongly related with the existent model: a lack of trust and economical efficiency.
+These initial app stores followed a centralised model where one entity is responsible for assuring the core features of software distribution: file delivery, app discovery, financial transactions and app approval. This centralisation comes with its inherent drawbacks such as little to none transparency and being closed source. As the smartphone user base grew, the centralised model started to reveal additional flaws: a lack of trust and economic inefficiencies.
 
 \medskip
 
-Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes. By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users and OEM manufacturers. By being centralised, they cannot benefit from a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
+%Non-transparency means app stores can avoid disclosing the reasoning behind their decisions. An example is censoring apps that are seen by them as competitors or that do not follow the rules set by them. On the other hand, being closed source creates the possibility to hide processes from users, such as collecting user data (e.g. user age, preferences, apps installed, etc) for other purposes. By not being transparent, app stores do not earn the trust among the different stakeholders: developers, advertisers, users and OEM manufacturers. By being centralised, they cannot benefit from a shared and crowdsourcing economy. Being closed source and hiding data, they do not promote competition and innovation.
+Another weakness of the centralised app economy is the intransparency behind rule-making and enforcement. For instance, apps are commonly censored if they compete with the app store owner's economic interests. In addition, collected personal user data (e.g. user age, preferences, apps installed, etc) can be exploited for other purposes. A lack of transparency erodes trust among the participating stakeholders: developers, advertisers, users and Original Equipment Manufacturers (OEM). Moreover, the central authority behind the app store reaps a disproportional high share of the created revenue in the smartphone value chain. Further, centralisation also stifles competition and innovation.
 
 \medskip
 
-The AppCoins protocol covers three core app store use cases:
+%The AppCoins protocol covers three core app store use cases:
+The AppCoins network redefines the following three app store core processes:
 
 \begin{itemize}
-\item {\bf Advertising inside the app store}: The transactional flow where a developer pays for a user to install their app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per Thousand Impressions) and others. There are different technologies and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
-\item {\bf In-App Purchase}: When there is something that the user wants to buy inside the app or game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions, the developer has to integrate the SDK from the app store or to use the app store API.
-\item {\bf App approval}: In order for the app to be available, the developer has to go through an approval process where the app store screens the app through automatic tools like anti-virus, anti-malware tools and static and dynamic code analysis platforms. Some app stores also manually test the app.
+%\item {\bf Advertising inside the app store}: The transactional flow where a developer pays for a user to install their app or game. There are different advertising models depending on the action that triggers the actual payment of the Ad: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per Thousand Impressions) and others. There are different technologies and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
+\item {\bf Advertising inside the app store}: Developers advertising to users to install their app or game. There are different advertising models depending on the intended action: CPI (Cost per Installation), CPA (Cost per Action), CPM (Cost per Thousand Impressions) and others. There are different technologies and platforms to support it: Ad networks, Exchanges and RTB (Real Time Bidding).
+%\item {\bf In-App Purchase}: When there is something that the user wants to buy inside the app or game, like gems or unlock levels, the purchase mechanism is done through the app store. To enable those transactions, the developer has to integrate the SDK from the app store or to use the app store API.
+\item {\bf In-App Purchase (IAP)}: When users want to unlock premium features inside the app or game, the purchase mechanism is tied to the respective app store. To enable payment transactions, the developer has to either integrate the SDK from the app store or use its API.
+%\item {\bf App approval}: In order for the app to be available, the developer has to go through an approval process where the app store screens the app through automatic tools like anti-virus, anti-malware tools and static and dynamic code analysis platforms. Some app stores also manually test the app.
+\item {\bf App approval}: To offer the app in the store, developers have to go through a stringent approval process in which the submitted app is screened by anti-virus and anti-malware tools, as well as static and dynamic code analysis platforms. Some app stores also rely on manual app testing.
 \end{itemize}
 
 
@@ -51,13 +57,15 @@ The AppCoins protocol covers three core app store use cases:
 \end{figure}
 
 
-In the next sub-sections, we'll analyse each of the above flows and the main problems faced today.
+%In the next sub-sections, we'll analyse each of the above flows and the main problems faced today.
+In the next subsections, each of the above flows and problems are analysed.
 
 \subsection{Advertising}
 \label{subsec:intro_ads}
 
 
-Currently, the three flows presented in Figure \ref{fig:exist_flows} do not have any interaction among them. They are isolated and handled by different app store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  In the next sub-sections, we will analyse each of the flows individually and the main problems faced today.
+%Currently, the three flows presented in Figure \ref{fig:exist_flows} do not have any interaction among them. They are isolated and handled by different app store teams. The resources and information generated by one flow are not reused by the others. The intermediaries are many and were introduced to solve the lack of trust and the need to integrate with different players in a fragmented market.  In the next sub-sections, we will analyse each of the flows individually and the main problems faced today.
+The three flows presented in Figure \ref{fig:exist_flows} are not interacting with each other. Resources and information generated by each flow are siloed from each other. The numerous intermediaries mushroomed to address the lack of trust and integrate the various players in the fragmented market. In the following subsections, we will analyse each of the flows individually and the main problems faced today.
 
 % XXX which flows: the flows cannot be easily identified
 % XXX The resources ... sentence seems to be redundant.
