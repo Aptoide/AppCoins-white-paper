@@ -7,8 +7,8 @@
 
 % A table 
 
-Building a model always depends on assuming certain assumptions. The generalisations taken in the 
-assumptions allows one to focus on the global mechanics and do not take corner cases into account. 
+Building a model always depends on making certain assumptions. The generalisations taken in the 
+assumptions allows one to focus on the global mechanics and do not take extreme/corner cases into account. 
 As exceptions, they are part of the reality but they do not have material importance to change the result 
 of the model.
 
@@ -19,8 +19,8 @@ The design of the AppCoins platform was made having the following eight assumpti
 \begin{itemize}
 \item {\bf\em A1 Crowdsourcing}: Community wisdom works for big numbers better than individual 
 wisdom \cite{Surowiecki:2005:WC:1095645};
-\item {\bf\em A2 Incentives}: If there are enough incentives, community contributes;
-\item {\bf\em A3 New}: A new developer is always an unknown developer;
+\item {\bf\em A2 Incentives}: If there are enough incentives, the community contributes;
+\item {\bf\em A3 New}: A new developer is always an unknown developer accurately;
 \item {\bf\em A4 Trusted:} The Apps from a Trusted Developer are Trusted Apps;
 %chose between how to use capitals: Developer vs developer in A3 and A4
 \item {\bf\em A5 Dispute}: - In a dispute, if 50\% + 1 of the community is honest, the right side wins;
@@ -45,7 +45,7 @@ also support the AppCoins protocol to be able to monitor if the advertised app i
 % TODO }: include quote
 %missing context and connection to previous sentence?
 
-As Android represents 86\% of the smartphones market, we focus an implementation analysis in this
+As Android represents 86\% of the smartphones market, we have focused our implementation analysis in this
 platform. However, many of the constraints and solutions are applicable to other smartphone operating systems.
 
 \medskip
@@ -55,10 +55,10 @@ This subsection aims to describe a client-side method, running in the smartphone
 \medskip
 
 When designing a solution, two main factors should be taken into account: reliability and availability. 
-Reliability consists in avoiding fraud. Once a \textsf{PoA} is generated, it has to have a high level of 
-confidence that a user paid attention to an app installed from an app store. Availability consists in 
-making sure that whenever a user pays attention to an app installed from an app store, the app store 
-will be aware of that and will request the \textsf{PoA} once the requirements are met. %requirements?
+Reliability consists of avoiding fraud. Once a \textsf{PoA} is generated, the solution needs to have a high level of 
+confidence that a user paid attention to an app installed from an app store. Availability consists of 
+making sure that whenever a user pays attention to an installed app, the app store 
+will recognise the event and will request the \textsf{PoA} once the requirements are met. %requirements?
 
 \medskip
 
