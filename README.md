@@ -1,2 +1,2 @@
 # blockchain
-Documents related with Aptoide blockchain
+AppCoins based repos in Github
