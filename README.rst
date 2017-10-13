@@ -10,7 +10,7 @@ AppCoins is a blockchain-based protocol for the App Economy supported by the Apt
 Aptoide Development:
 ------------
 
-  *  _Commits in the last 30 days: https://github.com/Aptoide/aptoide-client-v8/graphs/contributors
+  *  Commits in the last 30 days: https://github.com/Aptoide/aptoide-client-v8/graphs/contributors
 
 
 
