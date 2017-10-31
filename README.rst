@@ -1,3 +1,16 @@
+
+AppCoins - other repositories: 
+==============
+
+   * AppCoins - White paper
+      https://github.com/Aptoide/AppCoins-white-paper
+
+   * AppCoins-ethereumj - Java implementation of the Ethereum yellowpaper
+      https://github.com/Aptoide/AppCoins-ethereumj
+      
+   * AppCoins-proof-of-attention - Android project to evaluate Proof-of-Attention API availability.
+      https://github.com/Aptoide/AppCoins-proof-of-attention
+
 AppCoins Protocol
 ==============
 
@@ -16,19 +29,6 @@ Aptoide Development:
 ------------
 
    *  Commits in the last 30 days: https://github.com/Aptoide/aptoide-client-v8/graphs/contributors
-
-
-AppCoins - other repositories: 
-------------
-
-   * AppCoins - White paper
-      https://github.com/Aptoide/AppCoins-white-paper
-
-   * AppCoins-ethereumj - Java implementation of the Ethereum yellowpaper
-      https://github.com/Aptoide/AppCoins-ethereumj
-      
-   * AppCoins-proof-of-attention - Android project to evaluate Proof-of-Attention API availability.
-      https://github.com/Aptoide/AppCoins-proof-of-attention
 
 
 AppCoins-white-paper:
