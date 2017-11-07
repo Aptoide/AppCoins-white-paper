@@ -1,5 +1,5 @@
-AppCoins - other repositories: 
-==============
+AppCoins - other repositories:
+==============================
 
    * AppCoins - White paper
       https://github.com/Aptoide/AppCoins-white-paper
