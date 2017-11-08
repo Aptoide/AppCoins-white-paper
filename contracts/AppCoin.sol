@@ -20,13 +20,14 @@ contract ERC20Interface {
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
 }
 contract AppCoin is ERC20Interface {
-    string public constant symbol = "APPCOIN";
-    string public constant name = "AppCoin";
+    string public constant symbol = "APPC";
+    string public constant name = "AppCoins";
     uint8 public constant decimals = 2;
-    uint256 _totalSupply = 1000000;
+    uint256 _totalSupply = 1000000 * 10 ** decimals;
     address public owner;
     mapping(address => uint256) balances;
     mapping(address => mapping (address => uint256)) allowed;
+    
     modifier onlyOwner () {
         if (msg.sender != owner) {
             throw;
@@ -37,29 +38,44 @@ contract AppCoin is ERC20Interface {
         owner = msg.sender;
         balances[owner] = _totalSupply;
     }
+
     function totalSupply () constant returns(uint256 totalSupply) {
         totalSupply = _totalSupply;
     }
+
     function balanceOf (address _owner) constant returns(uint256 balance) {
         return balances[_owner];
     }
+
+    function percent(uint numerator, uint denominator, uint precision) public constant returns(uint quotient) {
+         // caution, check safe-to-multiply here
+        uint _numerator  = numerator * 10 ** (precision);
+        // with rounding of last digit
+        uint _quotient =  _numerator / denominator;
+        return _quotient;
+    }
+
     function transfer (address _to, uint256 _amount) returns (bool success) {
         if (balances[msg.sender] >= _amount
                 && _amount > 0
                 && balances[_to] + _amount > balances[_to]) {
+            uint _amount_dev = percent(_amount*85, 100, 0);
+            uint _amount_store = percent(_amount*10, 100, 0);
+            uint _amount_oem = percent(_amount*5, 100, 0);
             balances[msg.sender] -= _amount;
-            balances[_to] += _amount;
-            Transfer(msg.sender, _to, _amount);
+            balances[_to] += _amount_dev;
+            balances[store] += _amount_store;
+            balances[oem] += _amount_oem;
+            Transfer(msg.sender, _to, _amount_dev);
+            Transfer(msg.sender, store, _amount_store);
+            Transfer(msg.sender, oem, _amount_oem);
             return true;
         } else {
             return false;
         }
     }
-    function transferFrom (
-            address _from,
-    address _to,
-    uint256 _amount
-    ) returns(bool success) {
+
+    function transferFrom (address _from, address _to, uint256 _amount) returns(bool success) {
         if (balances[_from] >= _amount
                 && allowed[_from][msg.sender] >= _amount
                 && _amount > 0
@@ -73,11 +89,13 @@ contract AppCoin is ERC20Interface {
             return false;
         }
     }
+
     function approve (address _spender, uint256 _amount) returns (bool success) {
         allowed[msg.sender][_spender] = _amount;
         Approval(msg.sender, _spender, _amount);
         return true;
     }
+
     function allowance (address _owner, address _spender) constant returns (uint256 remaining) {
         return allowed[_owner][_spender];
     }
