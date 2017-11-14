@@ -13,12 +13,6 @@ AppCoins - other repositories:
 AppCoins Protocol
 =================
 
-.. image:: https://appcoins.io/img/icon-SocialSlack.svg
-    :target: https://join.slack.com/t/appcoinsofficial/shared_invite/enQtMjU1MTM5NzY4ODU1LTMxMjg5YmZhNjVhYjZkM2QxOWFhNTAyMDQyYzRhMjIwNGY3MWIxMDYwZTZmZDJmZGZiMWE2OWNkNWFhMjZiZGU 
-    :alt: Join us on Slack
-    :width: 53pt
-    :height: 53pt
-
 .. image:: https://appcoins.io/img/icon-SocialTelegram.svg
    :target: https://t.me/joinchat/G337zg6z0ACm6QTvUU9_Yw
    :alt: Join us on Telegram
