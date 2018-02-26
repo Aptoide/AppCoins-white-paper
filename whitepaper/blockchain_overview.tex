@@ -224,6 +224,50 @@ There is a wallet that contains the budget of the created campaign, which is mea
 \subsection{In-App Billing}
 %missing intro?
 
+\subsubsection{Use Case Flows}
+
+Figure \ref{fig:iab_sequence_diagram} shows how the different parties taking part in the IAB use case interact.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{diagrams/iab_sequence_diagram.png}
+\caption{Sequence diagram of the IAB use case.}
+\label{fig:iab_sequence_diagram}
+\end{figure}
+
+There are several interactions taking place in the IAB use case, although only interactions \textsf{4}, \textsf{5} and \textsf{6} are expected to occur several times during the lifecycle of an app. \\
+
+\noindent \textbf{Integration (1)}. This refers to the integration of the SDK in the app by the developer. During the SDK integration, the developer specifies the SKUs and related information, as well as the ETH account that shall receive the payments when users by in-app items. Therefore, the integration is very simple and does not require much implementation from the developer. \\
+
+\noindent \textbf{Upload (2) \& Installation (3)}. When the developer finishes the integration of the SDK, the resulting APK needs to be uploaded to the app store, since the distribution of apps is done by the several app stores that integrate the AppCoins protocol. Users then install the apps from the app stores. At the moment of the installation, the app store communicates that the app was installed by it. This communication is key to make the app store eligible to take part in the IAB revenue share model and is done either by having the app store broadcasting this data to the SDK or by having it inform the OS of the device that it installed the app. From the app store ID now stored in the SDK, the mapping between this app store ID and the correspondent ETH account can be made by the wallet, since it stores a file with a mapping between the several AppCoins compliant app stores IDs and their ETH accounts. The file is a JSON file of the form:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}
+{
+  "stores": {
+    "cm.aptoide.pt": "aptoide_address",
+    "com.google.vending": "google_address"
+  },
+  "oems": {
+    "xiaomi_oem_id": "xiaomi_address",
+    "google_oem_id": "google_address"
+  },
+  "default_address": "default_address"
+}
+\end{lstlisting}
+\end{tcolorbox} 
+
+\vspace{0.2cm} \noindent \textbf{Payment (4)}. Whenever a user wants to buy an in-app item, the SDK triggers the payment flow. This payment flow is composed by a verification step to ensure an AppCoins compliant wallet is installed in the user's device and by a payment intent that should be caught by an AppCoins compliant wallet. If the no such wallet is installed, then user is directed to a place where it is possible to download one. An AppCoins compliant wallet is characterised by the implementation of the EIP-618 \footnote{https://github.com/ethereum/EIPs/pull/681} with the format:
+\begin{lstlisting}
+ethereum:target_address?function=iab_pay(args)
+args := (amount, prod_id, dev_addr, store_addr, oem_addr)
+\end{lstlisting}
+
+If there is a wallet installed that is listening to intents with the above format, the payment request is sent to it. The wallet is then responsible to process the intent and trigger the actual Ethereum transaction following the IAB revenue share model. \\
+
+\noindent \textbf{Transaction (5)}. When the wallet receives the payment intent, the intent contains the amount of APPC the in-app item costs and its ID, and the ETH addresses of the developer of the app, the app store that distributed the app and the OEM that pre-loaded the app store. The wallet calls the smart contract that computes the revenue share for each of the players involved, triggers an event to store in the blockchain that the payment of the in-app item and then triggers the transfers for the developer, the app store and the OEM. \\
+
+\noindent \textbf{Feedback (6)}. When the wallet triggers the payments, it then checks if they were accepted by the Ethereum network in order to give feedback to the app that the transactions are done. It then sends back the status of the transactions and their ID to the SDK in the app for further verification and acceptance.
+
 \subsubsection{Data Structures}
 
 \noindent \textbf{Catalog}. A \textit{catalog} is a mapping between items available in an app and their prices. Each item has only one price and the mapping is bonded to an app store, i.e. the price can be set differently for different app stores. \\
@@ -256,7 +300,6 @@ IAB ledger $L_{IAB} : (TX_1..TX_n)$
 
 
 \subsubsection{Algorithms' Pseudo-code}
-
 
 \noindent \textbf{Create catalog}. When a developer $D$ wants to integrate in-app purchases, a catalog $C$ is created containing the mapping between the items $I_N$ that are to be available in the app $A$ and their respective prices $P_N$. \\
 
@@ -349,6 +392,7 @@ $\left[\begin{tabular}{p{.7\textwidth}}
 \caption{IAB Use Case. In \textsf{CreateTransaction}, the issuing of items in certain app $A$ is purely done in the app based on the result of the method, since the items are not in the blockchain and there is no real blockchain transaction happening.}
 \label{table: iab_protocol}
 \end{table}
+
 
 \subsubsection{Wallet Transactions}
 
