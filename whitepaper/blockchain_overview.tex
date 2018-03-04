@@ -20,7 +20,7 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 \label{fig:ads_sequence_diagram}
 \end{figure}
 
-\noindent \textbf{Create Campaign (1)}. When developers want to create a campaign, they do so by creating an entry in the blockchain with all the required data to identify that campaign and the users that will be eligible to convert it. This data will contain information about the advertised package, the countries targeted by the campaign, the budget allocated by the developer to the campaign, the amount of APPC to be paid by attribution, the start and end dates of the campaign, and the IP validator of the users IPs. An example of a campaign is the following object:
+\noindent \textbf{Create Campaign (1)}. When developers (advertiser) want to create a campaign, they do so by creating an entry in the blockchain with all the required data to identify that campaign and the users that will be eligible to convert it. This data will contain information about the advertised package, the countries targeted by the campaign, the budget allocated by the developer to the campaign, the amount of APPC to be paid by attribution, the start and end dates of the campaign, and the IP validator of the users IPs. An example of a campaign is the following object:
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 \begin{lstlisting}[xleftmargin=0.05\textwidth]
 {
@@ -38,16 +38,20 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 \end{lstlisting}
 \end{tcolorbox}
 
-\noindent \textbf{Gather Campaign (2) \& Impressions (3)}. When campaigns are saved in the blockchain, they will then be gathered by the app stores that match the filters of the campaign with their users. Upon matching, app stores then present the available campaigns to each user. It is important to mention that an app store should only show a campaign to a given user if and only if the user matches the campaign filters. If a user provides a \textsf{PoA} to a campaign with filters not matching the user's profile, the user will spend APPC to provide the \textsf{PoA} but will not be entitled to the attribution and the correspondent APPC because the provided \textsf{PoA} will be considered invalid by the protocol. In this case, the app store will see its earnings from the Advertising revenue share model lowered because users will realise the app store shows campaigns to users only with the intent of maximum profit. Users will then be compelled to move to other app stores to avoid the risk of losing the required amount of APPC when registering the campaigns \textsf{PoAs}.\\
+At the same time, the budget allocated to the campaign is transferred. That value is decreased by the ammounts attributed to successful attributions. 
 
-\noindent \textbf{Trigger \textsf{PoA} (4)}. After the installation of an app by a user with a campaign associated with it, the SDK integrated in the app will trigger the wallet to compute the components of the \textsf{PoA}. It will trigger the wallet every 10 seconds during the 2 minutes needed to compute a valid \textsf{PoA}. Each of the required 12 components should contain the same fields and values, and is composed by the following:
+The campaign will remain active until there is no budget or the {\em end\_date} is reached. The way for a developer to cancel a campaign is to withdraw the existent funds. 
+
+
+\noindent \textbf{Gather Campaign (2) \& Install (3)}. When campaigns are saved in the blockchain, they will then be gathered by the app stores that match the filters of the campaign with their users. Upon matching, app stores then present the available campaigns to each user. It is important to mention that an app store should only show a campaign to a given user if and only if the user matches the campaign filters. If a user provides a \textsf{PoA} to a campaign with filters not matching the user's profile, the user will spend APPC to provide the \textsf{PoA} but will not be entitled to the attribution and the correspondent APPC because the provided \textsf{PoA} will be considered invalid by the protocol. In this case, the app store will see its earnings from the Advertising revenue share model lowered because users will realise the app store shows campaigns to users only with the intent of maximum profit. Users will then be compelled to move to other app stores to avoid the risk of losing the required amount of APPC when registering the campaigns \textsf{PoAs}.\\
+
+\noindent \textbf{Trigger \textsf{PoA} (4)}. After the installation of an app by a user with a campaign associated with it, the SDK integrated in the app will trigger an AppCoins compliant wallet to compute the components of the \textsf{PoA}. It will trigger the wallet every 10 seconds during the 2 minutes needed to compute a valid \textsf{PoA}. Each of the required 12 components should contain the same fields and values, and is composed by the following:
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 \begin{lstlisting}[xleftmargin=0.05\textwidth]
 {
     "ts": "2018-04-23 16:21:19.533089+00:00",
-    "ip_signed": "signedip",
-    "randomstring": "asa12asj19sanc9",
-    "nonce": 1
+    "ip_validator": "whoami.developer.com"
+    "randomstring": "asa12asj19sanc9"
 }
 \end{lstlisting}
 \end{tcolorbox}
@@ -58,16 +62,16 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 {
     "bid_id": "fd6dfabfb2d26b0ef3cfbabc16f4553baa2ffb7c",
     "PoA_hashid": "x1g45gbhb2d26b0ef3cfbabc16f4553baa267byu",
-    "ipvalidation": "signedip",
+    "ipvalidation": "signed_ip",
     "PoA": [{"ts": "2018-04-24 16:21:19.533089+00:00",
              "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
+             "nonce": "iddwd8j2ssasa9e"},
             {"ts": "2018-04-24 16:21:29.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
+             "randomstring": "uasn3s2ws22w",
+             "nonce": "8dm2mdi2sasas2"},
             {"ts": "2018-04-24 16:21:39.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
+             "randomstring": "12akka2sj19sanc9",
+             "nonce": "as2sjk0a2"},
             {"ts": "2018-04-24 16:21:49.533089+00:00",
              "randomstring": "asa12asj19sanc9",
              "nonce": 1},
@@ -100,7 +104,7 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 \end{tcolorbox}
 \pagebreak
 
-\noindent \textbf{Validate \textsf{PoA} (7)}. The validation of the \textsf{PoAs} is an optional part of the protocol where it is defined that a \textsf{PoA} is valid if there is an active validation within 7 days by the developer responsible by the creation of the campaign or if there is no validation whatsoever. However, if the developer consideres the \textsf{PoA} to be invalid within 7 days of its creation, the user will not be entitle to the defined share of the attribution.
+\noindent \textbf{Validate \textsf{PoA} (7)}. The validation / invalidation of the \textsf{PoAs} is an optional part of the protocol where it is defined that a \textsf{PoA} is valid. If there is not an invalidation within 60 (sixty) minutes by the developer responsible by the creation of the campaign, the \textsf{PoA} is considered valid and the user is payed by the smart contract. Although it may carries a cost of the transaction fee, a quick validation by the developer would create a better user experience for the userthat would get the reward sooner. 
 
 \subsubsection{Data Structures}
 \label{sssec:ads_ds}
