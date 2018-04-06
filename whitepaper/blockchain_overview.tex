@@ -20,88 +20,128 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 \label{fig:ads_sequence_diagram}
 \end{figure}
 
-\noindent \textbf{Create Campaign (1)}. When developers (advertisers) want to create a campaign, they do so by creating an entry in the blockchain with all the required data to identify that campaign and the users that will be eligible to convert it. This data will contain information about the advertised package, the countries targeted by the campaign, the budget allocated by the developer to the campaign, the amount of \textsf{APPC} to be paid by attribution, the start and end dates of the campaign, and the IP validator of the users IPs. An example of a campaign is the following object:
-\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
-\begin{lstlisting}[xleftmargin=0.05\textwidth]
-{
-    "bid_id": "9e850e4ce590f20dc03568f144543741",
-    "filters": {
-        "country": ["US", "ES", "CA"],
-	"package": "cm.aptoide.pt"
-    },
-    "price": 1,
-    "budget": 10,
-    "start_date": "2018-04-23 15:21:19.533089+00:00",
-    "end_date": "2018-04-25 15:21:19.533089+00:00",
-    "ip_validator": "whoami.developer.com"
-}
-\end{lstlisting}
-\end{tcolorbox}
-
-At the same time, the budget allocated to the campaign is transferred. That value is decreased by the amounts attributed to successful attributions. The campaign will remain active until there is no budget or the {\em end\_date} is reached. The way for a developer to cancel a campaign is to withdraw the existent funds. \\
+\noindent \textbf{Create Campaign (1)}. When developers (advertisers) want to create a campaign, they do so by creating an entry in the blockchain with all the required data to identify that campaign and the users that will be eligible to convert it. This data will contain information about the advertised package, the countries targeted by the campaign, the budget allocated by the developer to the campaign, the amount of \textsf{APPC} to be paid by attribution, the start and end dates of the campaign, and the IP validator of the users IPs. In addition, a campaign also contains information about the rules to be used in order to validate attributions to users. Also, when a campaign is created, the budget allocated to the campaign is transferred. That value is decreased by the amount of \textsf{APPC} sent to successful attributions. The campaign will remain active until there is no budget or the {\em end\_date} is reached. The way for a developer to cancel a campaign is to withdraw the existent funds. \\
 
 \noindent \textbf{Gather Campaign (2) \& Install (3)}. When campaigns are saved in the blockchain, they will then be gathered by the app stores that match the filters of the campaign with their users. Upon matching, app stores then present the available campaigns to each user. It is important to mention that an app store should only show a campaign to a given user if and only if the user matches the campaign filters. If a user provides a \textsf{PoA} to a campaign with filters not matching the user's profile, the user will spend \textsf{APPC} to provide the \textsf{PoA} but will not be entitled to the attribution and the correspondent \textsf{APPC} because the provided \textsf{PoA} will be considered invalid by the protocol. In this case, the app store will see its earnings from the Advertising revenue share model lowered because users will realise the app store shows campaigns to users only with the intent of maximum profit. Users will then be compelled to move to other app stores to avoid the risk of losing the required amount of \textsf{APPC} when registering the campaigns \textsf{PoAs}.\\
 
-\noindent \textbf{Trigger \textsf{PoA} (4)}. After the installation of an app by a user with a campaign associated with it, the SDK integrated in the app will trigger an AppCoins compliant wallet to compute the components of the \textsf{PoA}. It will trigger the wallet every 10 seconds during the 2 minutes needed to compute a valid \textsf{PoA}. Each of the required 12 components should contain the same fields and values, and is composed by the following:
-\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
-\begin{lstlisting}[xleftmargin=0.05\textwidth]
-{
-    "ts": "2018-04-23 16:21:19.533089+00:00",
-    "ip_validator": "whoami.developer.com"
-    "randomstring": "asa12asj19sanc9"
-}
-\end{lstlisting}
-\end{tcolorbox}
+\noindent \textbf{Trigger \textsf{PoA} (4)}. After the installation of an app by a user with a campaign associated with it, the SDK integrated in the app will trigger an AppCoins compliant wallet to compute the components of the \textsf{PoA}. It will trigger the wallet every 10 seconds during the 2 minutes needed to compute a valid \textsf{PoA}. For each trigger and for each consequent \textsf{PoA} component sent by the SDK, the wallet computes a \textit{nonce} in a Bitcoin-style proof-of-work (PoW) that serves to validate the component and help avoiding click spoofing. This process is detailed in Section \ref{sssec:ads_fd}. \\
 
-\noindent \textbf{Compute \textsf{PoA} (5) \& Write \textsf{PoA} (6)}. After there are 12 components of a \textsf{PoA} for the same campaign computed within 2 minutes, the complete \textsf{PoA} is computed and written in the blockchain for registration and further validation. The complete proof is of the form:
-\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
-\begin{lstlisting}[xleftmargin=0.05\textwidth]
-{
-    "bid_id": "fd6dfabfb2d26b0ef3cfbabc16f4553baa2ffb7c",
-    "PoA_hashid": "x1g45gbhb2d26b0ef3cfbabc16f4553baa267byu",
-    "ipvalidation": "signed_ip",
-    "PoA": [{"ts": "2018-04-24 16:21:19.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": "iddwd8j2ssasa9e"},
-            {"ts": "2018-04-24 16:21:29.533089+00:00",
-             "randomstring": "uasn3s2ws22w",
-             "nonce": "8dm2mdi2sasas2"},
-            {"ts": "2018-04-24 16:21:39.533089+00:00",
-             "randomstring": "12akka2sj19sanc9",
-             "nonce": "as2sjk0a2"},
-            {"ts": "2018-04-24 16:21:49.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:21:59.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:09.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:19.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:29.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:39.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:49.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:22:59.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1},
-            {"ts": "2018-04-24 16:23:09.533089+00:00",
-             "randomstring": "asa12asj19sanc9",
-             "nonce": 1}]
-}
-\end{lstlisting}
-\end{tcolorbox}
-\pagebreak
+\noindent \textbf{Compute \textsf{PoA} (5) \& Write \textsf{PoA} (6)}. After there are 12 components of a \textsf{PoA} for the same campaign computed within 2 minutes, the complete \textsf{PoA} is computed and written in the blockchain for registration and further validation. \\
 
 \noindent \textbf{Validate \textsf{PoA} (7)}. The validation / invalidation of the \textsf{PoAs} is an optional part of the protocol where it is defined that a \textsf{PoA} is valid. If there is not an invalidation within 60 (sixty) minutes by the developer responsible by the creation of the campaign, the \textsf{PoA} is considered valid and the user is paid by the smart contract. Although it may carry a cost of the transaction fee, a quick validation by the developer would create a better user experience for the user, sine the reward would be attributed sooner.
+
+\subsubsection{Use Case Format Definition}
+\label{sssec:ads_fd}
+
+This section details the format of the objects needed for the Advertising use case. \\
+
+When creating a campaign in step \textsf{(1)} from Figure \ref{fig:ads_sequence_diagram}, the advertiser (developer) specifies the filters that should be used by app stores to select users matching the defined criteria, as well as the validation rules that should be used when a \textsf{PoA} is submitted to verify if it complies with the campaign rules. Therefore, the campaign object has following format:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}[xleftmargin=0.05\textwidth]
+{
+    "campaign_id": "9e850e4ce590f20dc03568f144543741",
+    "filters": {
+        "country": ["US", "ES", "CA"],
+	"package": "cm.aptoide.pt",
+	"vercode": [4283,4284]
+    },
+    "attribution_validation_rules": {
+        "vercode": "false",
+        "IP_validation_required":"true",
+        "country": "true",
+        "IP_daily_conversions": 2,
+        "wallet_daily_conversions":1
+    },
+    "price": 1,
+    "budget": 10,
+    "start_date": "2018-04-23 15:21:19+00:00",
+    "end_date": "2018-04-25 15:21:19+00:00",
+    "ip_validator": "whoami.developer.com",
+    "dev_wallet": "0x59dc842b64c7229af88f8b0b02fdf04ff6f083ad"
+}
+\end{lstlisting}
+\end{tcolorbox}
+
+Regarding the definition of the \textsf{PoA} components sent by the SDK to the wallet in step \textsf{(4)}, they hold data that enable the wallet to aggregate components by package. The format of each component is the following:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}[xleftmargin=0.05\textwidth]
+{
+    "ts": "2018-04-04 12:34:33+00:00",
+    "package_name": "com.asfoundation.wallet"
+}
+\end{lstlisting}
+\end{tcolorbox}
+
+As said in step \textsf{(4)}, for each \textsf{PoA} component the wallet should compute a \textit{nonce} in a Bitcoin-style \textsf{PoW} that helps avoiding click spoofing by introducing a computation step that takes a certain amount of time. Given a \textsf{PoA} component as the one above, a \textsf{SHA256} hash $h_C$ is computed and the goal is to find an integer $nonce$ that when concatenated with the hash $h_C$ outputs another \textsf{SHA256} hash $pow$ with a certain number of leading zeros. As an example, assuming the \textsf{PoA} component above and denoting it as $C$:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{align*}
+h_C &= sha256(C) \\
+	    &= 2de1a25b781dda30fae45cb34495501c9fe3fb83f464e46c6d6e19b48f09b440 \\
+n_{zeros} &= 5 \\
+nonce &= 959928 \\
+pow &= sha256(nonce + h_C) \\
+		       &= 0000051232895be3f3a541907bcb5e69a87a4b39ebc3c43ee4d1f256b71c8364
+\end{align*}
+\end{tcolorbox}
+
+After validating 12 \textsf{PoA} components, the wallet computes a full \textsf{PoA}, which is of the form:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}[xleftmargin=0.05\textwidth]
+{
+    "campaign_id": "9e850e4ce590f20dc03568f144543741",
+    "poa_id": "x1g45gbhb2d26b0ef3cfbabc16f4553baa267byu",
+    "ipvalidation": "signed_ip",
+    "package_name": "com.asfoundation.wallet"
+    "components": [
+                    {"ts": "2018-04-03 16:39:27+00:00",
+                     "nonce": 421},
+                    {"ts": "2018-04-03 16:39:37+00:00",
+                     "nonce": 1345},
+                    {"ts": "2018-04-03 16:39:47+00:00",
+                     "nonce": 5985},
+                    {"ts": "2018-04-03 16:39:57+00:00",
+                     "nonce": 3568},
+                    {"ts": "2018-04-03 16:40:07+00:00",
+                     "nonce": 7030},
+                    {"ts": "2018-04-03 16:40:17+00:00",
+                     "nonce": 6110},
+                    {"ts": "2018-04-03 16:40:27+00:00",
+                     "nonce": 2215},
+                    {"ts": "2018-04-03 16:40:37+00:00",
+                     "nonce": 1793},
+                    {"ts": "2018-04-03 16:40:47+00:00",
+                     "nonce": 6077},
+                    {"ts": "2018-04-03 16:40:57+00:00",
+                     "nonce": 1391},
+                    {"ts": "2018-04-03 16:41:07+00:00",
+                     "nonce": 149},
+                    {"ts": "2018-04-03 16:41:17+00:00",
+                     "nonce": 3688}
+                  ]
+}
+\end{lstlisting}
+\end{tcolorbox}
+Note that each component in the full \textsf{PoA} includes the value of its corresponding \textit{nonce} for posterior validation, if needed. The \textit{package\_name} field is passed to the first level fields of the object since it is appears in every component. \\
+
+Regarding the attribution scheme, i.e. the mechanisms by which the SDK knows the wallet addresses of the app store and the OEM that should receive the revenue share attributed to app stores and OEMs for a given attribution, the protocol defines 3 different ways, with different degrees of priority, for the SDK to know the app store and the OEM that should receive the correspondent shares when a valid \textsf{PoA} is produced and sent to the blockchain. For all the 3 possibilities, there is a common component which is a JSON file stored by the wallet consisting of a mapping between app stores and OEM IDs and their respective Ethereum wallet addresses. This file has the following format:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}
+{
+  "stores": {
+    "cm.aptoide.pt": "aptoide_address",
+    "com.google.vending": "google_address",
+    "default_address": "default_address"
+  },
+  "oems": {
+    "xiaomi_oem_id": "xiaomi_address",
+    "google_oem_id": "google_address",
+    "default_address": "default_address"
+  }
+}
+\end{lstlisting}
+\end{tcolorbox} 
+
+Regarding the first possibility, and the one with the highest level of priority, it consists in having the SDK asking the Android Operating System (Android OS) which app installed the one where the SDK is integrated. If the Android OS does not know because the app store, upon installing the app that integrates the SDK, did not inform it, then the second possibility is to have the app store broadcasting its ID and the OEM ID to the SDK. For these two options, when the SDK sends the \textsf{PoA} components to the wallet, it also sends the app store and OEM IDs, which should be mapped to the corresponding Ethereum wallet addresses using the aforementioned JSON file. Lastly, if the app store does not inform the Android OS that it installed the app nor this it send a broadcast upon installation, then the wallet should consider the default addresses for both the app store and the OEM that shall be attributed the share. 
 
 \subsubsection{Data Structures}
 \label{sssec:ads_ds}
@@ -287,7 +327,7 @@ There are several interactions taking place in the IAB use case, although only i
 \end{lstlisting}
 \end{tcolorbox} 
 
-\vspace{0.2cm} \noindent \textbf{Payment (4)}. Whenever a user wants to buy an in-app item, the SDK triggers the payment flow. This payment flow is composed by a verification step to ensure an AppCoins compliant wallet is installed in the user's device and by a payment intent that should be caught by an AppCoins compliant wallet. If the no such wallet is installed, then user is directed to a place where it is possible to download one. An AppCoins compliant wallet is characterised by the implementation of the EIP-618 \footnote{https://github.com/ethereum/EIPs/pull/681} with the format:
+\vspace{0.2cm} \noindent \textbf{Payment (4)}. Whenever a user wants to buy an in-app item, the SDK triggers the payment flow. This payment flow is composed by a verification step to ensure an AppCoins compliant wallet is installed in the user's device and by a payment intent that should be caught by an AppCoins compliant wallet. If the no such wallet is installed, then user is directed to a place where it is possible to download one. An AppCoins compliant wallet is characterised by the implementation of the ERC-681\footnote{https://github.com/ethereum/EIPs/blob/master/EIPS/eip-681.md} with the format:
 \begin{lstlisting}
 ethereum:target_address?function=iab_pay(args)
 args := (amount, prod_id, dev_addr, store_addr, oem_addr)
@@ -298,6 +338,9 @@ If there is a wallet installed that is listening to intents with the above forma
 \noindent \textbf{Transaction (5)}. When the wallet receives the payment intent, the intent contains the amount of APPC the in-app item costs and its ID, and the ETH addresses of the developer of the app, the app store that distributed the app and the OEM that pre-loaded the app store. The wallet calls the smart contract that computes the revenue share for each of the players involved, triggers an event to store in the blockchain that the payment of the in-app item and then triggers the transfers for the developer, the app store and the OEM. \\
 
 \noindent \textbf{Feedback (6)}. When the wallet triggers the payments, it then checks if they were accepted by the Ethereum network in order to give feedback to the app that the transactions are done. It then sends back the status of the transactions and their ID to the SDK in the app for further verification and acceptance.
+
+\subsubsection{Use Case Format Definition}
+\label{sssec:iab_fd}
 
 \subsubsection{Data Structures}
 
