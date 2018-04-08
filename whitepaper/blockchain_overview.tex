@@ -184,7 +184,7 @@ There is a wallet that contains the budget of the created campaign, which is mea
 \subsubsection{Messages Format Definition}
 \label{sssec:ads_fd}
 
-This section details the format of the objects needed for the Advertising use case. \\
+This section details the format of the objects needed for the Advertising use case. To implement the protocol one needs to be compliant with these messages to assure interoperability of the different components.
 
 The messages and data structures exchanged are:
 
@@ -197,7 +197,15 @@ The messages and data structures exchanged are:
 \end{figure}
 
 
-Figure \ref{fig:ads_sequence_diagram}  
+Figure \ref{fig:ads_sequence_diagram} presents five different objects (data structures and interfaces):
+
+\begin{itemize}
+\item \[1\] Campaign definition (in the blockchain)
+\item \[2\] Attribution methods interfaces 
+\item \[3\] PoA Trigger
+\item \[4\] PoA definition (in the blockchain) 
+\item \[5\] PoA validation / invalidation definition (in the blockchain)
+\end{itemize}
 
 
 When creating a campaign in step \textsf{(1)} from Figure \ref{fig:ads_sequence_diagram}, the advertiser (developer) specifies the filters that should be used by app stores to select users matching the defined criteria, as well as the validation rules that should be used when a \textsf{PoA} is submitted to verify if it complies with the campaign rules. Therefore, the campaign object has following format:
