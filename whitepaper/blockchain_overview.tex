@@ -199,14 +199,17 @@ The messages and data structures exchanged are:
 
 Figure \ref{fig:ads_sequence_diagram} presents five different objects (data structures and interfaces):
 
-\begin{itemize}
-\item \[1\] Campaign definition (in the blockchain)
-\item \[2\] Attribution methods interfaces 
-\item \[3\] PoA Trigger
-\item \[4\] PoA definition (in the blockchain) 
-\item \[5\] PoA validation / invalidation definition (in the blockchain)
-\end{itemize}
+\begin{enumerate}
+\item Campaign definition (in the blockchain)
+\item Attribution methods interfaces
+\item PoA Trigger
+\item PoA definition (in the blockchain)
+\item PoA validation / invalidation definition (in the blockchain)
+\end{enumerate}
 
+\medskip
+
+{\bf [1] Campaign definition (in the blockchain) }
 
 When creating a campaign in step \textsf{(1)} from Figure \ref{fig:ads_sequence_diagram}, the advertiser (developer) specifies the filters that should be used by app stores to select users matching the defined criteria, as well as the validation rules that should be used when a \textsf{PoA} is submitted to verify if it complies with the campaign rules. Therefore, the campaign object has following format:
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
@@ -234,6 +237,42 @@ When creating a campaign in step \textsf{(1)} from Figure \ref{fig:ads_sequence_
 }
 \end{lstlisting}
 \end{tcolorbox}
+
+\medskip
+
+{\bf [2] Attribution methods interfaces}
+
+Regarding the attribution scheme, i.e. the mechanisms by which the SDK knows the wallet addresses of the app store and the OEM that should receive the revenue share attributed to app stores and OEMs for a given attribution, the protocol defines 3 different ways, with different degrees of priority, for the SDK to know the app store and the OEM that should receive the correspondent shares when a valid \textsf{PoA} is produced and sent to the blockchain. For all the 3 possibilities, there is a common component which is a JSON file stored by the wallet consisting of a mapping between app stores and OEM IDs and their respective Ethereum wallet addresses. This file has the following format:
+\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
+\begin{lstlisting}
+{
+  "stores": {
+    "cm.aptoide.pt": "aptoide_address",
+    "com.google.vending": "google_address",
+    "default_address": "default_address"
+  },
+  "oems": {
+    "xiaomi_oem_id": "xiaomi_address",
+    "google_oem_id": "google_address",
+    "default_address": "default_address"
+  }
+}
+\end{lstlisting}
+\end{tcolorbox} 
+
+Regarding the first possibility, and the one with the highest level of priority, it consists in having the SDK asking the Android Operating System (Android OS) which app installed the one where the SDK is integrated. If the Android OS does not know because the app store, upon installing the app that integrates the SDK, did not inform it, then the second possibility is to have the app store broadcasting its ID and the OEM ID to the SDK. For these two options, when the SDK sends the \textsf{PoA} components to the wallet, it also sends the app store and OEM IDs, which should be mapped to the corresponding Ethereum wallet addresses using the aforementioned JSON file. Lastly, if the app store does not inform the Android OS that it installed the app nor this it send a broadcast upon installation, then the wallet should consider the default addresses for both the app store and the OEM that shall be attributed the share. 
+
+
+\medskip
+
+{\bf [3] PoA Trigger}
+
+
+%%  This part is missing. We need to define the intent 
+
+\medskip
+
+{\bf [4] PoA definition}
 
 Regarding the definition of the \textsf{PoA} components sent by the SDK to the wallet in step \textsf{(4)}, they hold data that enable the wallet to aggregate components by package. The format of each component is the following:
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
@@ -296,25 +335,15 @@ After validating 12 \textsf{PoA} components, the wallet computes a full \textsf{
 \end{tcolorbox}
 Note that each component in the full \textsf{PoA} includes the value of its corresponding \textit{nonce} for posterior validation, if needed. The \textit{package\_name} field is passed to the first level fields of the object since it is appears in every component. \\
 
-Regarding the attribution scheme, i.e. the mechanisms by which the SDK knows the wallet addresses of the app store and the OEM that should receive the revenue share attributed to app stores and OEMs for a given attribution, the protocol defines 3 different ways, with different degrees of priority, for the SDK to know the app store and the OEM that should receive the correspondent shares when a valid \textsf{PoA} is produced and sent to the blockchain. For all the 3 possibilities, there is a common component which is a JSON file stored by the wallet consisting of a mapping between app stores and OEM IDs and their respective Ethereum wallet addresses. This file has the following format:
-\begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
-\begin{lstlisting}
-{
-  "stores": {
-    "cm.aptoide.pt": "aptoide_address",
-    "com.google.vending": "google_address",
-    "default_address": "default_address"
-  },
-  "oems": {
-    "xiaomi_oem_id": "xiaomi_address",
-    "google_oem_id": "google_address",
-    "default_address": "default_address"
-  }
-}
-\end{lstlisting}
-\end{tcolorbox} 
 
-Regarding the first possibility, and the one with the highest level of priority, it consists in having the SDK asking the Android Operating System (Android OS) which app installed the one where the SDK is integrated. If the Android OS does not know because the app store, upon installing the app that integrates the SDK, did not inform it, then the second possibility is to have the app store broadcasting its ID and the OEM ID to the SDK. For these two options, when the SDK sends the \textsf{PoA} components to the wallet, it also sends the app store and OEM IDs, which should be mapped to the corresponding Ethereum wallet addresses using the aforementioned JSON file. Lastly, if the app store does not inform the Android OS that it installed the app nor this it send a broadcast upon installation, then the wallet should consider the default addresses for both the app store and the OEM that shall be attributed the share. 
+\medskip
+
+{\bf [5] PoA validation / invalidation definition}
+
+%% This section is missing. Is very similar but it has to state what are the format for the invalidation messages in the blockchain
+
+%% The invalidation has to be very clear about while rule was not match and identify why the attribution failed
+
 
 
 \subsection{In-App Billing}
