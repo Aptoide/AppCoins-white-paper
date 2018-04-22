@@ -16,10 +16,9 @@ Figure \ref{fig:ads_sequence_diagram} shows the interactions between the several
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{diagrams/ads_sequence_diagram.png}
-\caption{Sequence diagram of the Advetising use case.}
+\caption{Sequence diagram of the Advertising use case.}
 \label{fig:ads_sequence_diagram}
 \end{figure}
-
 
 
 \noindent \textbf{Create Campaign (1)}. When developers (advertisers) want to create a campaign, they do so by creating an entry in the blockchain with all the required data to identify that campaign and the users that will be eligible to convert it. This data will contain information about the advertised package, the countries targeted by the campaign, the budget allocated by the developer to the campaign, the amount of \textsf{APPC} to be paid by attribution, the start and end dates of the campaign, and the IP validator of the users IPs. In addition, a campaign also contains information about the rules to be used in order to validate attributions to users. Also, when a campaign is created, the budget allocated to the campaign is transferred. That value is decreased by the amount of \textsf{APPC} sent to successful attributions. The campaign will remain active until there is no budget or the {\em end\_date} is reached. The way for a developer to cancel a campaign is to withdraw the existent funds. \\
@@ -184,7 +183,7 @@ There is a wallet that contains the budget of the created campaign, which is mea
 \subsubsection{Messages Format Definition}
 \label{sssec:ads_fd}
 
-This section details the format of the objects needed for the Advertising use case. To implement the protocol one needs to be compliant with these messages to assure interoperability of the different components.
+This section details the format of the objects needed for the Advertising use case. To implement the protocol one needs to be compliant with these messages to assure interoperability of the different components. \\
 
 The messages and data structures exchanged are:
 
@@ -192,7 +191,7 @@ The messages and data structures exchanged are:
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{diagrams/messages_exchanged_diagram.png}
-\caption{Messages exchanged in Advertising usecase diagram.}
+\caption{Messages exchanged in the Advertising use case diagram.}
 \label{fig:messages_diagram}
 \end{figure}
 
