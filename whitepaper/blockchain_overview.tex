@@ -242,7 +242,17 @@ When creating a campaign in step \textsf{(1)} from Figure \ref{fig:ads_sequence_
 
 {\bf [2] Attribution methods interfaces}
 
-Regarding the attribution scheme, i.e. the mechanisms by which the SDK knows the wallet addresses of the app store and the OEM that should receive the revenue share attributed to app stores and OEMs for a given attribution, the protocol defines 3 different ways, with different degrees of priority, for the SDK to know the app store and the OEM that should receive the correspondent shares when a valid \textsf{PoA} is produced and sent to the blockchain. For all the 3 possibilities, there is a common component which is a JSON file stored by the wallet consisting of a mapping between app stores and OEM IDs and their respective Ethereum wallet addresses. This file has the following format:
+Regarding the attribution scheme, i.e. the mechanisms by which the SDK knows the wallet addresses of the app store and the OEM that should receive the revenue share attributed to app stores and OEMs for a given attribution, the protocol defines three different ways, with different degrees of priority, for the SDK to know the app store and the OEM that should receive the correspondent shares when a valid \textsf{PoA} is produced and sent to the blockchain. 
+
+The three attribution methods are:
+
+\begin{itemize}
+\item Operating system (top priority): ask the operating who installed the specific package ID.
+\item Broadcast (intermediate priority): in the installation, the app store broadcasts the OEM and app Store wallet addresses.
+\item XML file (low priority): information about the App Store and OEM wallet addresses are available in a file pre-loaded in the device and readable by any app.  
+\end{itemize}
+
+For all the 3 possibilities, there is a common component which is a JSON file stored by the wallet consisting of a mapping between app stores and OEM IDs and their respective Ethereum wallet addresses. This file has the following format:
 \begin{tcolorbox}[enhanced jigsaw,sharp corners, drop fuzzy shadow=ShadowColor]
 \begin{lstlisting}
 {
